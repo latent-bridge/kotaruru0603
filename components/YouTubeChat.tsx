@@ -138,22 +138,24 @@ export function YouTubeChat({ videoId }: Props) {
             minWidth: 0,
           }}
         >
-          {accessState === "granted" ? (
-            "Cookie 許可済み。YouTube にログインしていれば送信できます。"
-          ) : (
-            <>
-              {accessState === "denied" && "許可されませんでした。"}
-              送信には YouTube ログインが必要 /{" "}
-              <a
-                href={`https://www.youtube.com/watch?v=${videoId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: TOKENS.mint, textDecoration: "none" }}
-              >
-                YOUTUBE で開く ↗
-              </a>
-            </>
-          )}
+          {accessState === "granted"
+            ? "Cookie 許可済み。YouTube にログイン済みなら送信できます。"
+            : showEnableButton
+            ? "サイト内チャット送信を有効にできます →"
+            : (
+                <>
+                  {accessState === "denied" && "許可されませんでした。"}
+                  送信は{" "}
+                  <a
+                    href={`https://www.youtube.com/watch?v=${videoId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: TOKENS.mint, textDecoration: "none" }}
+                  >
+                    YOUTUBE で開く ↗
+                  </a>
+                </>
+              )}
         </div>
         {showEnableButton && (
           <button
