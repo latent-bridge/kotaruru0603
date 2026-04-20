@@ -1,6 +1,7 @@
 import { TOKENS } from "@/lib/data";
 import { YouTubePlayer } from "@/components/YouTubePlayer";
-import { Chat } from "@/components/Chat";
+import { YouTubeChat } from "@/components/YouTubeChat";
+import { LiveBadge } from "@/components/LiveBadge";
 import { streamerConfig } from "@/config/streamer.config";
 
 const panel = {
@@ -13,14 +14,57 @@ export default function StreamPage() {
   const videoId = streamerConfig.platforms.youtube.liveVideoId;
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 max-w-[1200px] mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-3 lg:gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 lg:gap-4">
         <div>
           <YouTubePlayer videoId={videoId} />
+
+          {/* Status strip — sits below the player, NOT overlaid on it */}
+          <div
+            className="flex items-center gap-3 flex-wrap"
+            style={{
+              ...panel,
+              padding: "10px 14px",
+              marginTop: 10,
+              borderColor: TOKENS.mintDim,
+            }}
+          >
+            <LiveBadge liveOn />
+            <span
+              className="font-mono"
+              style={{
+                fontSize: 10,
+                color: TOKENS.textMuted,
+                letterSpacing: "0.18em",
+              }}
+            >
+              SOURCE / YOUTUBE
+            </span>
+            <span style={{ flex: 1 }} />
+            <a
+              href={`https://www.youtube.com/watch?v=${videoId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono"
+              style={{
+                fontSize: 10,
+                color: TOKENS.mint,
+                letterSpacing: "0.16em",
+                textDecoration: "none",
+                border: `1px solid ${TOKENS.mintDim}`,
+                padding: "4px 8px",
+                borderRadius: 4,
+              }}
+            >
+              YOUTUBE で開く ↗
+            </a>
+          </div>
+
+          {/* Editorial "now playing" card — clearly our own UI, not YouTube data */}
           <div
             style={{
               ...panel,
               padding: 16,
-              marginTop: 14,
+              marginTop: 10,
               borderColor: TOKENS.mintDim,
             }}
           >
@@ -64,8 +108,22 @@ export default function StreamPage() {
               ))}
             </div>
           </div>
+
+          <p
+            className="font-mono"
+            style={{
+              marginTop: 8,
+              fontSize: 9,
+              color: TOKENS.textFaint,
+              letterSpacing: "0.14em",
+            }}
+          >
+            LIVE PLAYBACK & CHAT POWERED BY YOUTUBE.
+            視聴者数・チャットの一次情報は YouTube プレイヤー側を参照してください。
+          </p>
         </div>
-        <Chat />
+
+        <YouTubeChat videoId={videoId} />
       </div>
     </div>
   );
