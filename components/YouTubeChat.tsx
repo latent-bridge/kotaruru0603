@@ -87,6 +87,27 @@ export function YouTubeChat({ videoId }: Props) {
           </div>
         )}
       </div>
+      <div
+        className="font-mono"
+        style={{
+          padding: "8px 12px",
+          borderTop: `1px solid ${TOKENS.panelBorder}`,
+          fontSize: 9,
+          color: TOKENS.textFaint,
+          letterSpacing: "0.14em",
+          lineHeight: 1.5,
+        }}
+      >
+        送信には YouTube ログインが必要 / 入力できない場合は{" "}
+        <a
+          href={`https://www.youtube.com/watch?v=${videoId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: TOKENS.mint, textDecoration: "none" }}
+        >
+          YOUTUBE で開く ↗
+        </a>
+      </div>
     </div>
   );
 }
