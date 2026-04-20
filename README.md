@@ -3,6 +3,9 @@
 ゲーム配信者 **ruru** ([@KOTARURU0603](https://x.com/KOTARURU0603)) のファンサイトデモ。
 デザインリファレンス `MIDNIGHT OPS` (ダーク × ネオンミント) を Next.js (App Router) + TypeScript + Tailwind CSS v4 で実装。
 
+- **公開URL**: https://latent-bridge.github.io/kotaruru0603/
+- **GitHub**: https://github.com/latent-bridge/kotaruru0603
+
 ## 構成
 
 ```
