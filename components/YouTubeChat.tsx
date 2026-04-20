@@ -141,7 +141,7 @@ export function YouTubeChat({ videoId }: Props) {
           {accessState === "granted"
             ? "Cookie 許可済み。YouTube にログイン済みなら送信できます。"
             : showEnableButton
-            ? "サイト内チャット送信を有効にできます →"
+            ? "サイト内チャット送信を有効にできます"
             : (
                 <>
                   {accessState === "denied" && "許可されませんでした。"}
@@ -174,7 +174,7 @@ export function YouTubeChat({ videoId }: Props) {
               whiteSpace: "nowrap",
             }}
           >
-            ログイン有効化 →
+            ログイン有効化
           </button>
         )}
       </div>
