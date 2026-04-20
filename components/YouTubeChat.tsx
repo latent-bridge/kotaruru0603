@@ -18,7 +18,7 @@ export function YouTubeChat({ videoId }: Props) {
   }, []);
 
   const src = host
-    ? `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}`
+    ? `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}&dark_theme=1`
     : null;
 
   return (
