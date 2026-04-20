@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { useState } from "react";
 import { TOKENS } from "@/lib/data";
@@ -10,10 +11,9 @@ type Props = {
   children: ReactNode;
   href?: string;
   onClick?: () => void;
-  as?: "button" | "a";
 };
 
-export function Button({ primary, small, children, href, onClick, as }: Props) {
+export function Button({ primary, small, children, href, onClick }: Props) {
   const [hover, setHover] = useState(false);
   const pad = small ? "8px 12px" : "12px 18px";
   const fs = small ? 11 : 12;
@@ -46,11 +46,19 @@ export function Button({ primary, small, children, href, onClick, as }: Props) {
     onMouseLeave: () => setHover(false),
   };
 
-  if (href || as === "a") {
+  if (href) {
+    const external = /^https?:\/\//.test(href);
+    if (external) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" {...common}>
+          {children}
+        </a>
+      );
+    }
     return (
-      <a href={href} {...common}>
+      <Link href={href} {...common}>
         {children}
-      </a>
+      </Link>
     );
   }
   return (
