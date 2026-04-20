@@ -172,7 +172,7 @@ export function YouTubeChat({ videoId }: Props) {
               whiteSpace: "nowrap",
             }}
           >
-            🍪 ログイン有効化
+            ログイン有効化 →
           </button>
         )}
       </div>
