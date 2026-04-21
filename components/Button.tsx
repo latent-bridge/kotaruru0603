@@ -38,6 +38,7 @@ export function Button({ primary, small, children, href, onClick }: Props) {
         : "0 4px 14px rgba(0,0,0,0.4)"
       : undefined,
     textDecoration: "none",
+    whiteSpace: "nowrap",
   };
 
   const common = {
