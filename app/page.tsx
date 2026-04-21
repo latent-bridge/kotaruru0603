@@ -13,9 +13,9 @@ export default function HomePage() {
     <div className="px-4 sm:px-6 py-4 sm:py-6 max-w-[1200px] mx-auto">
       {/* HERO */}
       <div
+        className="p-4 sm:p-7"
         style={{
           ...panel,
-          padding: "28px",
           marginBottom: 20,
           position: "relative",
           overflow: "hidden",
@@ -52,7 +52,7 @@ export default function HomePage() {
             boxShadow: `0 0 80px ${TOKENS.mint}30, inset -40px -30px 0 -10px rgba(0,0,0,0.55)`,
           }}
         />
-        <div style={{ position: "relative", maxWidth: "60%" }}>
+        <div className="relative sm:max-w-[60%]">
           <div
             className="font-mono"
             style={{
@@ -93,7 +93,7 @@ export default function HomePage() {
           >
             {STREAMER.bio}
           </p>
-          <div className="flex gap-2 mt-5">
+          <div className="flex flex-wrap gap-2 mt-5">
             <Button primary href="/stream">
               LIVE を見る →
             </Button>
