@@ -49,7 +49,7 @@ export async function generateMetadata({
   const cleanedTitle = cleanTitle(m.title);
   const desc = m.description.slice(0, 160);
   return {
-    title: `${cleanedTitle} — ruruのおへや`,
+    title: `${cleanedTitle} — ruruのポンコツ部屋`,
     description: desc,
     openGraph: {
       title: cleanedTitle,

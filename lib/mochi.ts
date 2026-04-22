@@ -36,7 +36,7 @@ export type Memory = {
 
 export const MOCHI = {
   streamer: {
-    name: "ruruのおへや",
+    name: "ruru",
     shortName: "ruru",
     handle: STREAMER.handle,
     tagline:
