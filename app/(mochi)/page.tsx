@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
+import { memories } from "@/lib/archive";
 import {
   MochiButton,
-  Fusen,
   EyebrowChip,
   SectionTitle,
-  MemoryCard,
   Onigiri,
 } from "@/components/mochi-ui";
+import { ArchiveCard } from "@/components/archive-ui";
 
 export default function HomePage() {
   return (
@@ -16,7 +16,6 @@ export default function HomePage() {
       <MiniCards />
       <WeekPreview />
       <LatestMemories />
-      <LettersPreview />
 
       <Onigiri
         size={52}
@@ -100,7 +99,6 @@ function Hero() {
         </p>
         <div className="flex gap-3 mt-6 flex-wrap">
           <MochiButton href="/schedule">みにいく →</MochiButton>
-          <MochiButton variant="outline">めんばーになる</MochiButton>
         </div>
       </div>
 
@@ -206,36 +204,20 @@ function Hero() {
             </MochiButton>
           </div>
         </div>
-
-        <Fusen
-          color={PALETTE.cream}
-          rotate={4}
-          style={{
-            position: "absolute",
-            top: -18,
-            right: -8,
-            fontSize: 12,
-            fontWeight: 700,
-            fontFamily: FONTS.body,
-          }}
-        >
-          ★ あたらしい
-          <br />
-          グッズ！
-        </Fusen>
       </div>
     </section>
   );
 }
 
 function MiniCards() {
+  // グッズ機能は未実装のため「おとどけもの」は一旦除外
+  const cards = MOCHI.bottomCards.filter((c) => c.t !== "おとどけもの");
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 py-4 md:py-6">
-      {MOCHI.bottomCards.map((card) => {
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 py-4 md:py-6">
+      {cards.map((card) => {
         const hrefMap: Record<string, string> = {
           おしゃべり: "/",
           おもいで: "/archive",
-          おとどけもの: "/",
         };
         const bgMap = {
           coral: PALETTE.coral,
@@ -412,7 +394,8 @@ function WeekPreview() {
 }
 
 function LatestMemories() {
-  const latest = MOCHI.memories.slice(0, 3);
+  // 最新 3 本の配信 (publishedAt desc で取得済み、クリップは除外)
+  const latest = memories.filter((m) => m.kind === "stream").slice(0, 3);
   return (
     <section className="py-8 md:py-12">
       <div className="flex items-baseline justify-between gap-3 flex-wrap mb-5">
@@ -432,76 +415,10 @@ function LatestMemories() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
         {latest.map((m) => (
-          <MemoryCard key={m.id} memory={m} />
+          <ArchiveCard key={m.videoId} memory={m} />
         ))}
       </div>
     </section>
   );
 }
 
-function LettersPreview() {
-  return (
-    <section className="py-8 md:py-12">
-      <SectionTitle
-        eyebrow="☁ LETTERS ☁"
-        title="みんなからの おたより"
-        note="ひとつひとつ、ちゃんと よんでます ♡"
-      />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-        {MOCHI.letters.map((l, i) => {
-          const colors = [PALETTE.cream, "#fcdde3", "#d8ecde"];
-          return (
-            <Fusen
-              key={i}
-              color={colors[i % colors.length]}
-              rotate={i % 2 === 0 ? -1.5 : 1.5}
-              style={{
-                padding: "18px 20px",
-                fontFamily: FONTS.body,
-                fontSize: 13,
-                boxShadow: `3px 3px 0 ${PALETTE.ink}`,
-                border: `2px solid ${PALETTE.ink}`,
-                borderRadius: 10,
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: 900,
-                  fontSize: 14,
-                  color: PALETTE.accent,
-                  marginBottom: 6,
-                }}
-              >
-                ♡ {l.from} さんから
-              </div>
-              <p
-                style={{
-                  fontSize: 12,
-                  lineHeight: 1.7,
-                  color: PALETTE.ink,
-                  margin: 0,
-                }}
-              >
-                {l.excerpt}
-              </p>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: PALETTE.inkDim,
-                  fontFamily: FONTS.mono,
-                  marginTop: 8,
-                  letterSpacing: 0.5,
-                }}
-              >
-                {l.date}
-              </div>
-            </Fusen>
-          );
-        })}
-      </div>
-      <div className="mt-6 text-center">
-        <MochiButton variant="cream">おたよりをかく ♡</MochiButton>
-      </div>
-    </section>
-  );
-}
