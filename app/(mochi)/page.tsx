@@ -8,6 +8,7 @@ import {
   Onigiri,
 } from "@/components/mochi-ui";
 import { ArchiveCard } from "@/components/archive-ui";
+import { TodayCard } from "@/components/today-card";
 
 export default function HomePage() {
   return (
@@ -59,32 +60,31 @@ export default function HomePage() {
 }
 
 function Hero() {
-  const { streamer, today } = MOCHI;
+  const { streamer } = MOCHI;
   return (
     <section className="pt-6 md:pt-8 pb-6 md:pb-8 grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-8 md:gap-10 items-start">
       <div>
         <EyebrowChip>☁ HELLO ☁</EyebrowChip>
         <h1
-          className="text-[48px] md:text-[72px] lg:text-[90px]"
+          className="text-[40px] md:text-[60px] lg:text-[76px]"
           style={{
             fontFamily: FONTS.body,
             fontWeight: 900,
             letterSpacing: -2,
-            lineHeight: 0.92,
+            lineHeight: 0.96,
             color: PALETTE.ink,
             margin: "14px 0 0",
           }}
         >
-          きょうも、<br />
+          ruru の<br />
           <span
             style={{
               background: `linear-gradient(180deg, transparent 60%, ${PALETTE.coral}80 60%)`,
+              whiteSpace: "nowrap",
             }}
           >
-            もちもちに
+            ぽんこつべや。
           </span>
-          <br />
-          おしゃべり。
         </h1>
         <p
           className="text-[13px] md:text-[15px] mt-5 md:mt-6"
@@ -103,107 +103,7 @@ function Hero() {
       </div>
 
       <div className="relative mt-2 md:mt-8">
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 22,
-            border: `2.5px solid ${PALETTE.ink}`,
-            boxShadow: `4px 4px 0 ${PALETTE.ink}`,
-            padding: "20px 22px",
-            position: "relative",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: -14,
-              left: 18,
-              background: PALETTE.mint,
-              color: PALETTE.ink,
-              padding: "3px 12px",
-              borderRadius: 10,
-              border: `2px solid ${PALETTE.ink}`,
-              fontSize: 11,
-              fontWeight: 900,
-            }}
-          >
-            ☀ きょうのよてい
-          </div>
-          <div
-            style={{
-              fontSize: 13,
-              marginTop: 8,
-              color: PALETTE.inkDim,
-              fontFamily: FONTS.mono,
-            }}
-          >
-            {today.dateLabel}
-          </div>
-          <div
-            style={{
-              fontSize: 22,
-              fontWeight: 900,
-              marginTop: 6,
-              lineHeight: 1.25,
-            }}
-          >
-            {today.title}
-          </div>
-          <div style={{ fontSize: 13, color: PALETTE.inkDim, marginTop: 4 }}>
-            {today.time}
-          </div>
-
-          <div
-            className="flex items-center gap-2 mt-3"
-            style={{
-              background: PALETTE.cream + "80",
-              padding: "9px 12px",
-              borderRadius: 10,
-              border: `1.5px dashed ${PALETTE.ink}`,
-            }}
-          >
-            <span style={{ fontSize: 11, color: PALETTE.inkDim }}>
-              はじまるまで
-            </span>
-            <span
-              style={{
-                fontSize: 17,
-                fontWeight: 900,
-                color: PALETTE.accent,
-                fontFamily: FONTS.mono,
-              }}
-            >
-              {today.countdown}
-            </span>
-          </div>
-
-          <div className="flex gap-1.5 mt-3 flex-wrap">
-            {today.tags.map((t) => (
-              <span
-                key={t}
-                style={{
-                  fontSize: 11,
-                  padding: "4px 9px",
-                  background: "#fdf3ea",
-                  border: `1.5px solid ${PALETTE.ink}`,
-                  borderRadius: 999,
-                  fontWeight: 700,
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-4 flex gap-2">
-            <MochiButton size="sm" href="/schedule">
-              しらせて ♡
-            </MochiButton>
-            <MochiButton size="sm" variant="outline" href="/schedule">
-              よていぜんぶ
-            </MochiButton>
-          </div>
-        </div>
+        <TodayCard />
       </div>
     </section>
   );

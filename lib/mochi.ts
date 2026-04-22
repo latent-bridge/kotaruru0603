@@ -40,17 +40,7 @@ export const MOCHI = {
     shortName: "ruru",
     handle: STREAMER.handle,
     tagline:
-      "ふぁんさいとへ ようこそ ♡\nきょうのよていや、おとどけもの、\nぜんぶ ここに おいてあります。",
-  },
-
-  today: {
-    dateLabel: "04 / 21 (tue)",
-    title: "おえかきはいしん ✎",
-    time: "よる 21:00 〜 らいぶ",
-    countdown: "06:38:12",
-    tags: ["#おえかき", "#ゆるく", "#みまもりかんげい"],
-    isLive: true,
-    liveViewers: "4,208",
+      "ふぁんさいとへ ようこそ ♡\nきょうのよていや これまでの はいしん、\nぜんぶ ここに おいてあります。",
   },
 
   bottomCards: [
@@ -60,13 +50,13 @@ export const MOCHI = {
   ],
 
   schedule: [
-    { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "おえかきはいしん", time: "よる 21:00 〜", category: "おえかき" as Category, emoji: "✎", note: "きょうは さむねをかくよ" },
-    { day: "tue", weekday: "か", dateLabel: "4.22", title: "おやすみ", time: "おやすみします", category: "おやすみ" as Category, emoji: "💤", note: "ぐっすり ねむります" },
-    { day: "wed", weekday: "すい", dateLabel: "4.23", title: "ゆるゲーム", time: "よる 20:00 〜", category: "げーむ" as Category, emoji: "🎮", note: "しんさくのほのぼのゲームをやるよ" },
-    { day: "thu", weekday: "もく", dateLabel: "4.24", title: "おしゃべり ♡", time: "よる 21:00 〜", category: "おしゃべり" as Category, emoji: "🎙", note: "あつまれて、まったりね〜" },
-    { day: "fri", weekday: "きん", dateLabel: "4.25", title: "うたわく vol.3", time: "よる 22:00 〜", category: "うた" as Category, emoji: "🎤", note: "しんきょく はつこうかい ♡" },
-    { day: "sat", weekday: "ど", dateLabel: "4.26", title: "こらぼ、ゲストさん ♡", time: "よる 20:00 〜", category: "おはなし" as Category, emoji: "🤝", note: "ひみつの ゲストさんと" },
-    { day: "sun", weekday: "にち", dateLabel: "4.27", title: "めんげん、よやすみ", time: "よる 19:00 〜", category: "めんばー" as Category, emoji: "🌷", note: "めんばーさん ありがと" },
+    { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", category: "げーむ" as Category, emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
+    { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", category: "げーむ" as Category, emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
+    { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", category: "おやすみ" as Category, emoji: "💤", note: "すこし やすませてください 🙇" },
+    { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", category: "げーむ" as Category, emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
+    { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", category: "おはなし" as Category, emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
+    { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", category: "げーむ" as Category, emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
+    { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", category: "おしゃべり" as Category, emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
   ] as ScheduleEntry[],
 
   memories: [
