@@ -1,0 +1,385 @@
+{
+  "_schema": {
+    "description": "videoId -> キュレーション層。fetch-archive.ts は触らない。",
+    "structure": {
+      "videos.<videoId>._inferred": "infer-curated.ts が自動生成。再実行で上書き。手動で編集しないこと。",
+      "videos.<videoId>.<field>": "top-level フィールドは人間が書く。_inferred より優先される。"
+    },
+    "fields": {
+      "category": "ポンコツだいぶ | ポンコツさむらい | ゆるげーむ | こらぼ",
+      "game": "Helldivers 2 | Ghost of Yotei | Dave the diver | Planet of Lana | Arise",
+      "collabWith": "string[] コラボ相手 (@handle や名前)",
+      "episode": "number シリーズ番号",
+      "tags": "string[] 自由タグ",
+      "kind": "'stream' | 'clip' (raw durationSeconds の自動判定を超える時用)",
+      "hidden": "boolean アーカイブから隠す",
+      "pinned": "boolean 上位固定",
+      "tone": "'coral' | 'lilac' | 'mint' | 'cream' カード配色",
+      "memo": "string 自分向けメモ (UI 非表示)"
+    }
+  },
+  "videos": {
+    "0R4z9o9ZjsM": {
+      "_inferred": {
+        "category": "こらぼ",
+        "game": "Helldivers 2",
+        "episode": 21,
+        "collabWith": [
+          "るるい"
+        ]
+      }
+    },
+    "AFbKEcJoOzA": {
+      "_inferred": {
+        "category": "こらぼ",
+        "game": "Ghost of Yotei",
+        "episode": 9,
+        "collabWith": [
+          "アリンお姉様"
+        ]
+      }
+    },
+    "LrelN5XajBY": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 8
+      }
+    },
+    "HzPTx_KWNRI": {
+      "_inferred": {
+        "game": "Helldivers 2"
+      }
+    },
+    "35mJn3ZYYCQ": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Arise",
+        "episode": 3
+      }
+    },
+    "8IPRWkAqG_4": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 7
+      }
+    },
+    "yZIAogfNIWI": {
+      "_inferred": {
+        "category": "こらぼ",
+        "game": "Helldivers 2",
+        "episode": 20,
+        "collabWith": [
+          "BLACKお兄さん"
+        ]
+      }
+    },
+    "v_7IWVdy-JU": {
+      "_inferred": {
+        "game": "Helldivers 2"
+      }
+    },
+    "ViYOwASlC5o": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 6
+      }
+    },
+    "g3ZBCnWcnzk": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 19
+      }
+    },
+    "ohP0vVw-aPQ": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 19
+      }
+    },
+    "Y12vVyhodNc": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Arise",
+        "episode": 2
+      }
+    },
+    "RGU8QKdv2Mg": {
+      "_inferred": {
+        "game": "Planet of Lana"
+      }
+    },
+    "-zu_tByhlrE": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 18
+      }
+    },
+    "HZif06uHO9w": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 4
+      }
+    },
+    "bSqn5vg1y4c": {
+      "_inferred": {
+        "game": "Helldivers 2"
+      }
+    },
+    "PMEEkr1YFzs": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Arise",
+        "episode": 1
+      }
+    },
+    "gioqSY3xTQ0": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 4
+      }
+    },
+    "JkI2Bq6ZdLo": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 17
+      }
+    },
+    "F6qB6Oepckc": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 16
+      }
+    },
+    "9Z_5_PZWEnk": {
+      "_inferred": {
+        "category": "こらぼ",
+        "game": "Ghost of Yotei",
+        "collabWith": [
+          "アリンお姉様"
+        ]
+      }
+    },
+    "K7a46USwzL8": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 6
+      }
+    },
+    "QDPELr9VAk8": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 15
+      }
+    },
+    "Ci3a6S8UlSs": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 3
+      }
+    },
+    "PVhkpGGjS9c": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 14
+      }
+    },
+    "Pa0xh4BLtEw": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 2
+      }
+    },
+    "Zn9s4yFBETU": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 13
+      }
+    },
+    "p-aKsKkDZAs": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 1
+      }
+    },
+    "OGpmWz5KkIA": {
+      "_inferred": {
+        "category": "ポンコツさむらい",
+        "game": "Ghost of Yotei",
+        "episode": 1
+      }
+    },
+    "6srBE7Ux7zs": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 12
+      }
+    },
+    "2l0YC9lvFxQ": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 5
+      }
+    },
+    "9aiK2WKGi6w": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 11
+      }
+    },
+    "JqOQVqPMwj8": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 4
+      }
+    },
+    "1jTTeuHX5I8": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 10
+      }
+    },
+    "jfAYG-_7IHY": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 3
+      }
+    },
+    "W8c23eW4fpU": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 9
+      }
+    },
+    "R0QiJB5YbNc": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 8
+      }
+    },
+    "KLg1VeQvLLk": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 2
+      }
+    },
+    "Ve_-PY2daq0": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 1.5
+      }
+    },
+    "hiXvugSNV_Y": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Dave the diver",
+        "episode": 1
+      }
+    },
+    "qVuTf1s6lpQ": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2"
+      }
+    },
+    "hgXDipaOmtI": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Planet of Lana",
+        "episode": 3
+      }
+    },
+    "lrwaKy1efeU": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Planet of Lana",
+        "episode": 2
+      }
+    },
+    "W5PtU2WQ_e0": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 7
+      }
+    },
+    "5e2MP1P-ACM": {
+      "_inferred": {
+        "category": "ゆるげーむ",
+        "game": "Planet of Lana",
+        "episode": 1
+      }
+    },
+    "4I1OrjeAHrE": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 6
+      }
+    },
+    "INtchhQ51iY": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 5
+      }
+    },
+    "CT6k75yNPNw": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 4
+      }
+    },
+    "NDSYpv6pADM": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 3
+      }
+    },
+    "PDJQsYvzg8E": {
+      "_inferred": {}
+    },
+    "fFfguv2ILm8": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 2
+      }
+    },
+    "3DHm-Pr7_-A": {
+      "_inferred": {
+        "category": "ポンコツだいぶ",
+        "game": "Helldivers 2",
+        "episode": 1
+      }
+    }
+  }
+}

@@ -6,8 +6,8 @@ export const streamerConfig = {
 
   platforms: {
     youtube: {
-      // ruru の YouTube チャンネル(運用中の本物のチャンネルに差し替え想定)
-      channelId: "UCSJ4gkVC6NrvII8umztf0Ow",
+      // ruru の YouTube チャンネル (@ruru-s2w)
+      channelId: "UCeBVt3YhxXAPqLM7fQT6qRw",
       // 配信中の動画ID。Phase 1.5 のスクリプトで上書き想定。
       // 現状はデモとして Lofi Girl の常時ライブを利用。
       liveVideoId: "jfKfPfyJRdk",

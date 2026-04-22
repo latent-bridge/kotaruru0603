@@ -1,0 +1,357 @@
+/**
+ * アーカイブ merge 層。
+ *
+ *   data/archive.raw.json      (スクリプト生成、YouTube 客観データ)
+ *   data/archive.curated.json  (人間が育てる、videoId → タグ)
+ *        ↓ join (videoId)
+ *   Memory[]                   (UI が使う型)
+ *
+ * raw/curated はどちらも videoId を primary key に使う。
+ */
+
+import rawJson from "@/data/archive.raw.json";
+import curatedJson from "@/data/archive.curated.json";
+
+// --- 列挙定義 -----------------------------------------------------------
+
+export const GAMES = [
+  "Helldivers 2",
+  "Ghost of Yotei",
+  "Dave the diver",
+  "Planet of Lana",
+  "Arise",
+] as const;
+export type Game = (typeof GAMES)[number];
+
+export const CATEGORIES = [
+  "ポンコツだいぶ",
+  "ポンコツさむらい",
+  "ゆるげーむ",
+  "こらぼ",
+] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export type Kind = "stream" | "clip";
+
+export type Tone = "coral" | "lilac" | "mint" | "cream";
+
+// --- 生データ型 (raw json の shape) -------------------------------------
+
+type RawThumbnails = {
+  default: string;
+  medium: string;
+  high: string;
+  maxres: string | null;
+};
+
+type RawVideo = {
+  videoId: string;
+  title: string;
+  description: string;
+  publishedAt: string;
+  durationSeconds: number;
+  viewCount: number;
+  likeCount: number | null;
+  thumbnails: RawThumbnails;
+  youtubeTags: string[];
+  youtubeCategoryId: string;
+  liveBroadcast: "none" | "live" | "upcoming" | "was_live";
+  liveDetails: {
+    scheduledStartTime: string | null;
+    actualStartTime: string | null;
+    actualEndTime: string | null;
+  } | null;
+};
+
+type RawArchive = {
+  meta: { channelId: string; lastFetchedAt: string; videoCount: number };
+  videos: RawVideo[];
+};
+
+// --- キュレーション型 --------------------------------------------------
+
+/**
+ * infer-curated.ts が自動生成する部分。ここのフィールドは再実行で上書きされる。
+ * 人間はこの層を直接編集しないこと (上書きしたい場合は top-level に書く)。
+ */
+export type InferredFields = {
+  category?: Category;
+  game?: Game;
+  collabWith?: string[];
+  episode?: number;
+  tags?: string[];
+};
+
+export type CuratedVideo = {
+  _inferred?: InferredFields;
+
+  // 以下は人間が書くフィールド。_inferred より優先される。
+  // 「infer 推論を打ち消したい」場合も top-level に値を書く (例: category を別の値に変える)。
+  category?: Category;
+  game?: Game;
+  collabWith?: string[];
+  episode?: number;
+  tags?: string[];
+  kind?: Kind; // clip/stream 手動上書き
+  hidden?: boolean;
+  pinned?: boolean;
+  tone?: Tone;
+  memo?: string;
+};
+
+type CuratedArchive = {
+  _schema?: unknown;
+  videos: Record<string, CuratedVideo>;
+};
+
+function effective(c: CuratedVideo | undefined) {
+  const inferred = c?._inferred ?? {};
+  return {
+    category: c?.category ?? inferred.category,
+    game: c?.game ?? inferred.game,
+    collabWith: c?.collabWith ?? inferred.collabWith ?? [],
+    episode: c?.episode ?? inferred.episode,
+    tags: c?.tags ?? inferred.tags ?? [],
+    kind: c?.kind,
+    pinned: c?.pinned === true,
+    tone: c?.tone,
+  };
+}
+
+// --- UI が使う merged 型 -----------------------------------------------
+
+export type Memory = {
+  videoId: string;
+  title: string;
+  description: string; // YouTube の動画説明 (改行含む)
+  publishedAt: string; // ISO
+  date: string; // "2026.04.20"
+  duration: string; // "4:11:00" or "3:28"
+  durationSeconds: number;
+  views: string; // "312" or "2.3K"
+  viewCount: number;
+  likeCount: number | null;
+  thumbnailUrl: string;
+  thumbnailUrlHigh: string; // 詳細ページ用の大きいサムネ
+  youtubeUrl: string;
+  youtubeEmbedUrl: string; // iframe の src
+  kind: Kind;
+  category: Category | null;
+  game: Game | null;
+  collabWith: string[];
+  episode: number | null;
+  tags: string[];
+  pinned: boolean;
+  tone: Tone;
+};
+
+// --- 導出ヘルパ --------------------------------------------------------
+
+const CLIP_MAX_SECONDS = 180;
+
+function deriveKind(raw: RawVideo, overrideKind: Kind | undefined): Kind {
+  if (overrideKind) return overrideKind;
+  if (raw.durationSeconds < CLIP_MAX_SECONDS && raw.liveBroadcast === "none") {
+    return "clip";
+  }
+  return "stream";
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}.${m}.${day}`;
+}
+
+function formatDuration(totalSeconds: number): string {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function formatViews(n: number): string {
+  if (n < 1000) return String(n);
+  if (n < 10000) return `${(n / 1000).toFixed(1)}K`;
+  if (n < 1_000_000) return `${Math.floor(n / 1000)}K`;
+  return `${(n / 1_000_000).toFixed(1)}M`;
+}
+
+const TONES: readonly Tone[] = ["coral", "lilac", "mint", "cream"];
+
+function hashTone(videoId: string): Tone {
+  let h = 0;
+  for (let i = 0; i < videoId.length; i += 1) {
+    h = (h * 31 + videoId.charCodeAt(i)) >>> 0;
+  }
+  return TONES[h % TONES.length];
+}
+
+function toMemory(raw: RawVideo, curated: CuratedVideo | undefined): Memory {
+  const eff = effective(curated);
+  return {
+    videoId: raw.videoId,
+    title: raw.title,
+    description: raw.description,
+    publishedAt: raw.publishedAt,
+    date: formatDate(raw.publishedAt),
+    duration: formatDuration(raw.durationSeconds),
+    durationSeconds: raw.durationSeconds,
+    views: formatViews(raw.viewCount),
+    viewCount: raw.viewCount,
+    likeCount: raw.likeCount,
+    thumbnailUrl:
+      raw.thumbnails.medium || raw.thumbnails.high || raw.thumbnails.default,
+    thumbnailUrlHigh:
+      raw.thumbnails.maxres ||
+      raw.thumbnails.high ||
+      raw.thumbnails.medium ||
+      raw.thumbnails.default,
+    youtubeUrl: `https://www.youtube.com/watch?v=${raw.videoId}`,
+    youtubeEmbedUrl: `https://www.youtube.com/embed/${raw.videoId}`,
+    kind: deriveKind(raw, eff.kind),
+    category: eff.category ?? null,
+    game: eff.game ?? null,
+    collabWith: eff.collabWith,
+    episode: eff.episode ?? null,
+    tags: eff.tags,
+    pinned: eff.pinned,
+    tone: eff.tone ?? hashTone(raw.videoId),
+  };
+}
+
+// --- エクスポート: メモリ配列 ------------------------------------------
+
+const rawArchive = rawJson as RawArchive;
+const curatedArchive = curatedJson as CuratedArchive;
+
+export const memories: Memory[] = rawArchive.videos
+  .filter((v) => curatedArchive.videos[v.videoId]?.hidden !== true)
+  .map((v) => toMemory(v, curatedArchive.videos[v.videoId]));
+
+// --- クエリヘルパ (page 側 useMemo 用) ---------------------------------
+
+export type ArchiveQuery = {
+  kind?: Kind;
+  category?: Category | null; // null = すべて
+  game?: Game | null; // null = すべて
+  search?: string;
+  sort?: "newest" | "oldest" | "popular" | "series";
+};
+
+export function queryMemories(
+  base: readonly Memory[],
+  q: ArchiveQuery,
+): Memory[] {
+  let out = base.slice();
+
+  if (q.kind) out = out.filter((m) => m.kind === q.kind);
+  if (q.category) out = out.filter((m) => m.category === q.category);
+  if (q.game) out = out.filter((m) => m.game === q.game);
+
+  const s = q.search?.trim().toLowerCase();
+  if (s) {
+    out = out.filter((m) => {
+      if (m.title.toLowerCase().includes(s)) return true;
+      if (m.tags.some((t) => t.toLowerCase().includes(s))) return true;
+      if (m.collabWith.some((c) => c.toLowerCase().includes(s))) return true;
+      if (m.game?.toLowerCase().includes(s)) return true;
+      return false;
+    });
+  }
+
+  const sort = q.sort ?? "newest";
+  out.sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    if (sort === "newest") return b.publishedAt.localeCompare(a.publishedAt);
+    if (sort === "oldest") return a.publishedAt.localeCompare(b.publishedAt);
+    if (sort === "popular") return b.viewCount - a.viewCount;
+    // series: game でグルーピング、内部は episode 昇順
+    const ga = a.game ?? "￿";
+    const gb = b.game ?? "￿";
+    if (ga !== gb) return ga.localeCompare(gb);
+    return (a.episode ?? Number.MAX_SAFE_INTEGER) - (b.episode ?? Number.MAX_SAFE_INTEGER);
+  });
+
+  return out;
+}
+
+// --- 詳細ページ用ヘルパ ------------------------------------------------
+
+export function findMemory(videoId: string): Memory | undefined {
+  return memories.find((m) => m.videoId === videoId);
+}
+
+/**
+ * 同じゲームの配信を episode / publishedAt 昇順で返す。
+ * (番外編や episode 不明なものは末尾に publishedAt 順)
+ */
+export function sameSeries(memory: Memory): Memory[] {
+  if (!memory.game) return [];
+  return memories
+    .filter((m) => m.kind === "stream" && m.game === memory.game)
+    .sort((a, b) => {
+      if (a.episode !== null && b.episode !== null) return a.episode - b.episode;
+      if (a.episode !== null) return -1;
+      if (b.episode !== null) return 1;
+      return a.publishedAt.localeCompare(b.publishedAt);
+    });
+}
+
+export function seriesNeighbors(memory: Memory): {
+  prev: Memory | null;
+  next: Memory | null;
+} {
+  const series = sameSeries(memory);
+  const idx = series.findIndex((m) => m.videoId === memory.videoId);
+  if (idx === -1) return { prev: null, next: null };
+  return {
+    prev: idx > 0 ? series[idx - 1] : null,
+    next: idx < series.length - 1 ? series[idx + 1] : null,
+  };
+}
+
+/**
+ * 関連動画を score 順に返す。同じ kind (stream/clip) の中でのみ探す。
+ *  +100: 同じ game
+ *  + 50: collabWith が重なる
+ *  + 20: 同じ category
+ * 候補がゼロの場合は、同じ kind の最新を publishedAt 降順で詰める。
+ */
+export function relatedMemories(memory: Memory, limit = 6): Memory[] {
+  const pool = memories.filter(
+    (m) => m.videoId !== memory.videoId && m.kind === memory.kind,
+  );
+
+  const scored = pool.map((m) => {
+    let score = 0;
+    if (memory.game && m.game === memory.game) score += 100;
+    if (memory.category && m.category === memory.category) score += 20;
+    for (const c of memory.collabWith) {
+      if (m.collabWith.includes(c)) score += 50;
+    }
+    return { m, score };
+  });
+
+  const ranked = scored
+    .filter((x) => x.score > 0)
+    .sort((a, b) => {
+      if (a.score !== b.score) return b.score - a.score;
+      return b.m.publishedAt.localeCompare(a.m.publishedAt);
+    })
+    .map((x) => x.m);
+
+  if (ranked.length >= limit) return ranked.slice(0, limit);
+
+  // fallback: kind が合う最新で残りを埋める
+  const usedIds = new Set(ranked.map((m) => m.videoId));
+  const fillers = pool
+    .filter((m) => !usedIds.has(m.videoId))
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  return [...ranked, ...fillers].slice(0, limit);
+}

@@ -1,32 +1,61 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { MOCHI, PALETTE, FONTS, CATEGORY_COLOR, type Category } from "@/lib/mochi";
-import { MemoryCard, EyebrowChip, Kumo, Onigiri } from "@/components/mochi-ui";
+import { PALETTE, FONTS } from "@/lib/mochi";
+import {
+  memories,
+  queryMemories,
+  CATEGORIES,
+  GAMES,
+  type Category,
+  type Game,
+  type Kind,
+} from "@/lib/archive";
+import { EyebrowChip, Kumo, Onigiri } from "@/components/mochi-ui";
+import {
+  ArchiveCard,
+  ClipCard,
+  CATEGORY_COLORS,
+} from "@/components/archive-ui";
 
-type Filter = "ぜんぶ" | Category;
+type SortKey = "newest" | "oldest" | "popular" | "series";
 
-const FILTERS: Filter[] = [
-  "ぜんぶ",
-  "おしゃべり",
-  "げーむ",
-  "おえかき",
-  "うた",
-  "おはなし",
-  "めんばー",
-];
+const SORT_LABELS: Record<SortKey, string> = {
+  newest: "あたらしい順",
+  oldest: "ふるい順",
+  popular: "にんき順",
+  series: "シリーズ順",
+};
 
 export default function ArchivePage() {
-  const [active, setActive] = useState<Filter>("ぜんぶ");
+  const [kind, setKind] = useState<Kind>("stream");
+  const [category, setCategory] = useState<Category | null>(null);
+  const [game, setGame] = useState<Game | null>(null);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<SortKey>("newest");
+
+  const streamTotal = useMemo(
+    () => memories.filter((m) => m.kind === "stream").length,
+    [],
+  );
+  const clipTotal = useMemo(
+    () => memories.filter((m) => m.kind === "clip").length,
+    [],
+  );
 
   const filtered = useMemo(() => {
-    if (active === "ぜんぶ") return MOCHI.memories;
-    return MOCHI.memories.filter((m) => m.category === active);
-  }, [active]);
+    return queryMemories(memories, {
+      kind,
+      category: kind === "stream" ? category : null,
+      game: kind === "stream" ? game : null,
+      search,
+      sort,
+    });
+  }, [kind, category, game, search, sort]);
 
   return (
     <main className="max-w-[1200px] mx-auto px-5 md:px-10 relative">
-      <header className="pt-6 md:pt-8 pb-6 md:pb-8">
+      <header className="pt-6 md:pt-8 pb-5 md:pb-6">
         <EyebrowChip>☁ MEMORY BOX ☁</EyebrowChip>
         <h1
           className="text-[40px] md:text-[56px]"
@@ -51,8 +80,8 @@ export default function ArchivePage() {
           className="text-[13px] md:text-[14px] mt-4 md:mt-5 max-w-[520px]"
           style={{ color: PALETTE.inkDim, lineHeight: 1.9 }}
         >
-          これまでの はいしんが ぜんぶ ここに。<br />
-          すきな しゅるいで しぼって、きになるやつだけ みれるよ ♡
+          これまでの はいしんや くりっぷ、ぜんぶ ここに。<br />
+          タブで きりかえて、すきなやつを さがしてね ♡
         </p>
       </header>
 
@@ -60,7 +89,7 @@ export default function ArchivePage() {
         size={70}
         style={{
           position: "absolute",
-          top: 80,
+          top: 60,
           right: 20,
           opacity: 0.65,
           transform: "rotate(-6deg)",
@@ -68,51 +97,52 @@ export default function ArchivePage() {
         }}
       />
 
-      <nav
-        className="flex flex-wrap gap-2 items-center py-3 mb-8"
-        style={{
-          borderTop: `2px dashed ${PALETTE.inkSoft}`,
-          borderBottom: `2px dashed ${PALETTE.inkSoft}`,
+      <KindTabs
+        value={kind}
+        onChange={(k) => {
+          setKind(k);
+          setSearch("");
         }}
-      >
-        <span
-          style={{
-            fontSize: 11,
-            fontFamily: FONTS.mono,
-            color: PALETTE.inkDim,
-            letterSpacing: 1,
-            marginRight: 4,
-          }}
-        >
-          しゅるい:
-        </span>
-        {FILTERS.map((f) => (
-          <FilterChip
-            key={f}
-            filter={f}
-            active={active === f}
-            onClick={() => setActive(f)}
-          />
-        ))}
-        <span
-          className="ml-auto"
-          style={{
-            fontSize: 11,
-            fontFamily: FONTS.mono,
-            color: PALETTE.inkDim,
-            letterSpacing: 1,
-          }}
-        >
-          {filtered.length} / {MOCHI.memories.length}
-        </span>
-      </nav>
+        streamTotal={streamTotal}
+        clipTotal={clipTotal}
+      />
+
+      {kind === "stream" ? (
+        <StreamFilters
+          search={search}
+          setSearch={setSearch}
+          category={category}
+          setCategory={setCategory}
+          game={game}
+          setGame={setGame}
+          sort={sort}
+          setSort={setSort}
+          shown={filtered.length}
+          total={streamTotal}
+        />
+      ) : (
+        <ClipFilters
+          search={search}
+          setSearch={setSearch}
+          sort={sort}
+          setSort={setSort}
+          shown={filtered.length}
+          total={clipTotal}
+        />
+      )}
 
       {filtered.length === 0 ? (
         <EmptyState />
-      ) : (
+      ) : kind === "stream" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {filtered.map((m) => (
-            <MemoryCard key={m.id} memory={m} />
+            <ArchiveCard key={m.videoId} memory={m} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          {filtered.map((m) => (
+            <ClipCard key={m.videoId} memory={m} />
           ))}
         </div>
       )}
@@ -128,26 +158,352 @@ export default function ArchivePage() {
           zIndex: 0,
         }}
       />
+
+      <div className="h-16" />
     </main>
   );
 }
 
-function FilterChip({
-  filter,
+// --- KindTabs ---------------------------------------------------------
+
+function KindTabs({
+  value,
+  onChange,
+  streamTotal,
+  clipTotal,
+}: {
+  value: Kind;
+  onChange: (v: Kind) => void;
+  streamTotal: number;
+  clipTotal: number;
+}) {
+  const tabs: { v: Kind; label: string; count: number }[] = [
+    { v: "stream", label: "はいしん", count: streamTotal },
+    { v: "clip", label: "くりっぷ", count: clipTotal },
+  ];
+  return (
+    <nav
+      style={{
+        display: "flex",
+        gap: 2,
+        marginBottom: 18,
+        borderBottom: `2px solid ${PALETTE.inkSoft}`,
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
+      {tabs.map((t) => {
+        const active = value === t.v;
+        return (
+          <button
+            key={t.v}
+            type="button"
+            onClick={() => onChange(t.v)}
+            style={{
+              padding: "12px 20px",
+              background: "transparent",
+              border: "none",
+              borderBottom: active
+                ? `3px solid ${PALETTE.coral}`
+                : `3px solid transparent`,
+              color: active ? PALETTE.ink : PALETTE.inkDim,
+              fontWeight: active ? 900 : 700,
+              fontFamily: FONTS.body,
+              fontSize: 15,
+              cursor: "pointer",
+              marginBottom: -2,
+              display: "flex",
+              alignItems: "baseline",
+              gap: 6,
+            }}
+          >
+            {t.label}
+            <span
+              style={{
+                fontSize: 11,
+                fontFamily: FONTS.mono,
+                color: PALETTE.inkDim,
+                fontWeight: 700,
+              }}
+            >
+              {t.count}
+            </span>
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+// --- StreamFilters ---------------------------------------------------
+
+function StreamFilters({
+  search,
+  setSearch,
+  category,
+  setCategory,
+  game,
+  setGame,
+  sort,
+  setSort,
+  shown,
+  total,
+}: {
+  search: string;
+  setSearch: (v: string) => void;
+  category: Category | null;
+  setCategory: (v: Category | null) => void;
+  game: Game | null;
+  setGame: (v: Game | null) => void;
+  sort: SortKey;
+  setSort: (v: SortKey) => void;
+  shown: number;
+  total: number;
+}) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <SearchBox value={search} onChange={setSearch} />
+
+      <div
+        className="flex flex-wrap gap-2 items-center py-3"
+        style={{
+          borderTop: `2px dashed ${PALETTE.inkSoft}`,
+          borderBottom: `2px dashed ${PALETTE.inkSoft}`,
+          marginTop: 10,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 11,
+            fontFamily: FONTS.mono,
+            color: PALETTE.inkDim,
+            letterSpacing: 1,
+            marginRight: 4,
+          }}
+        >
+          しゅるい:
+        </span>
+        <CategoryChipButton
+          active={category === null}
+          onClick={() => setCategory(null)}
+          label="ぜんぶ"
+        />
+        {CATEGORIES.map((c) => (
+          <CategoryChipButton
+            key={c}
+            active={category === c}
+            onClick={() => setCategory(c)}
+            label={c}
+            color={CATEGORY_COLORS[c]}
+          />
+        ))}
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3 mt-3">
+        <SelectField
+          label="げーむ"
+          value={game ?? ""}
+          onChange={(v) => setGame(v === "" ? null : (v as Game))}
+          options={[{ value: "", label: "ぜんぶ" }, ...GAMES.map((g) => ({ value: g, label: g }))]}
+        />
+        <SelectField
+          label="ならび"
+          value={sort}
+          onChange={(v) => setSort(v as SortKey)}
+          options={(Object.keys(SORT_LABELS) as SortKey[]).map((k) => ({
+            value: k,
+            label: SORT_LABELS[k],
+          }))}
+        />
+        <span
+          className="ml-auto"
+          style={{
+            fontSize: 11,
+            fontFamily: FONTS.mono,
+            color: PALETTE.inkDim,
+            letterSpacing: 1,
+          }}
+        >
+          {shown} / {total}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// --- ClipFilters -----------------------------------------------------
+
+function ClipFilters({
+  search,
+  setSearch,
+  sort,
+  setSort,
+  shown,
+  total,
+}: {
+  search: string;
+  setSearch: (v: string) => void;
+  sort: SortKey;
+  setSort: (v: SortKey) => void;
+  shown: number;
+  total: number;
+}) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <SearchBox value={search} onChange={setSearch} />
+      <div className="flex flex-wrap items-center gap-3 mt-3">
+        <SelectField
+          label="ならび"
+          value={sort}
+          onChange={(v) => setSort(v as SortKey)}
+          options={(["newest", "oldest", "popular"] as SortKey[]).map((k) => ({
+            value: k,
+            label: SORT_LABELS[k],
+          }))}
+        />
+        <span
+          className="ml-auto"
+          style={{
+            fontSize: 11,
+            fontFamily: FONTS.mono,
+            color: PALETTE.inkDim,
+            letterSpacing: 1,
+          }}
+        >
+          {shown} / {total}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// --- SearchBox -------------------------------------------------------
+
+function SearchBox({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div style={{ position: "relative" }}>
+      <span
+        style={{
+          position: "absolute",
+          left: 14,
+          top: "50%",
+          transform: "translateY(-50%)",
+          fontSize: 14,
+          color: PALETTE.inkDim,
+          pointerEvents: "none",
+        }}
+      >
+        🔍
+      </span>
+      <input
+        type="search"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="タイトル・ゲーム・コラボ相手で さがす"
+        style={{
+          width: "100%",
+          padding: "11px 14px 11px 40px",
+          background: "#fff",
+          border: `2px solid ${PALETTE.ink}`,
+          borderRadius: 14,
+          fontSize: 14,
+          fontFamily: FONTS.body,
+          color: PALETTE.ink,
+          boxShadow: `2px 2px 0 ${PALETTE.inkSoft}`,
+          outline: "none",
+        }}
+      />
+    </div>
+  );
+}
+
+// --- SelectField -----------------------------------------------------
+
+function SelectField({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { value: string; label: string }[];
+}) {
+  return (
+    <label
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        fontSize: 12,
+        fontFamily: FONTS.body,
+        color: PALETTE.ink,
+        fontWeight: 700,
+      }}
+    >
+      <span
+        style={{
+          fontSize: 11,
+          fontFamily: FONTS.mono,
+          color: PALETTE.inkDim,
+          letterSpacing: 1,
+        }}
+      >
+        {label}:
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          padding: "6px 28px 6px 12px",
+          background: "#fff",
+          border: `2px solid ${PALETTE.ink}`,
+          borderRadius: 10,
+          fontSize: 12,
+          fontWeight: 700,
+          fontFamily: FONTS.body,
+          color: PALETTE.ink,
+          cursor: "pointer",
+          appearance: "none",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1 L5 5 L9 1' stroke='%233a2e2a' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right 10px center",
+        }}
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+// --- CategoryChipButton ----------------------------------------------
+
+function CategoryChipButton({
+  label,
   active,
   onClick,
+  color,
 }: {
-  filter: Filter;
+  label: string;
   active: boolean;
   onClick: () => void;
+  color?: { color: string; bg: string };
 }) {
-  const isAll = filter === "ぜんぶ";
-  const c = isAll
-    ? { color: PALETTE.ink, bg: PALETTE.cream }
-    : CATEGORY_COLOR[filter as Category];
-
+  const c = color ?? { color: PALETTE.ink, bg: PALETTE.cream };
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         padding: "6px 14px",
@@ -162,10 +518,12 @@ function FilterChip({
         boxShadow: active ? `2px 2px 0 ${PALETTE.inkSoft}` : "none",
       }}
     >
-      {filter}
+      {label}
     </button>
   );
 }
+
+// --- EmptyState ------------------------------------------------------
 
 function EmptyState() {
   return (
@@ -186,15 +544,10 @@ function EmptyState() {
           marginBottom: 6,
         }}
       >
-        まだ ないみたい
+        みつからなかった
       </div>
-      <div
-        style={{
-          fontSize: 12,
-          color: PALETTE.inkDim,
-        }}
-      >
-        ほかの しゅるいを みてみてね ♡
+      <div style={{ fontSize: 12, color: PALETTE.inkDim }}>
+        べつの しゅるいや けんさくごで ためしてみてね ♡
       </div>
     </div>
   );

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fetch:archive": "tsx scripts/fetch-archive.ts",
+    "infer:curated": "tsx scripts/infer-curated.ts"
   },
   "dependencies": {
     "next": "16.2.1",
@@ -21,6 +23,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
