@@ -168,10 +168,12 @@ export function StreamChat({
     }
   };
 
+  // dark_theme=0 でライトテーマ強制 (省略すると OS/ブラウザの設定に追従し
+  // ダークモード環境で真っ黒表示になる)
   const src = host
     ? replayContinuation
-      ? `https://www.youtube.com/live_chat_replay?continuation=${encodeURIComponent(replayContinuation)}&embed_domain=${host}`
-      : `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}`
+      ? `https://www.youtube.com/live_chat_replay?continuation=${encodeURIComponent(replayContinuation)}&embed_domain=${host}&dark_theme=0`
+      : `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}&dark_theme=0`
     : null;
 
   const showEnableButton = supportsAccessFor && accessState !== "granted";
