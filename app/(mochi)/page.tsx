@@ -84,12 +84,24 @@ function Hero() {
               color: PALETTE.accent,
               letterSpacing: -1,
               marginRight: "0.08em",
-              verticalAlign: "-0.1em",
+              display: "inline-block",
+              verticalAlign: "bottom",
+              lineHeight: 0.85,
             }}
           >
             ruru
           </span>
-          の<br />
+          <span
+            style={{
+              display: "inline-block",
+              verticalAlign: "top",
+              lineHeight: 1,
+              paddingTop: "0.15em",
+            }}
+          >
+            の
+          </span>
+          <br />
           <span
             style={{
               background: `linear-gradient(180deg, transparent 60%, ${PALETTE.coral}80 60%)`,
