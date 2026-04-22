@@ -79,12 +79,12 @@ function Hero() {
           <span
             style={{
               fontFamily: FONTS.hand,
-              fontSize: "1.35em",
+              fontSize: "1.7em",
               fontWeight: 700,
               color: PALETTE.accent,
               letterSpacing: -1,
-              marginRight: "0.05em",
-              verticalAlign: "-0.05em",
+              marginRight: "0.08em",
+              verticalAlign: "-0.1em",
             }}
           >
             ruru
