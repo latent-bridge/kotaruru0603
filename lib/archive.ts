@@ -316,6 +316,82 @@ export function seriesNeighbors(memory: Memory): {
   };
 }
 
+// --- live / upcoming 判別 ----------------------------------------------
+
+export type StreamState =
+  | { kind: "live"; memory: Memory; actualStartAt: Date | null; videoId: string }
+  | { kind: "upcoming"; memory: Memory | null; scheduledAt: Date; videoId: string }
+  | { kind: "none" };
+
+/**
+ * 予定時刻を過ぎた upcoming は「たぶん始まってる」とみなして live 扱いにする猶予時間。
+ * YouTube のラベル更新 (upcoming → live) には 1-2 分遅延があるので、6時間あれば
+ * 実用上十分。これ以上古い upcoming は放置配信とみなして候補から外す。
+ */
+const UPCOMING_GRACE_MS = 6 * 60 * 60 * 1000;
+
+export function getStreamState(now: Date = new Date()): StreamState {
+  // 1. 明示的に liveBroadcast === "live"
+  for (const raw of rawArchive.videos) {
+    if (raw.liveBroadcast !== "live") continue;
+    const memory = findMemory(raw.videoId) ?? null;
+    if (!memory) continue;
+    return {
+      kind: "live",
+      memory,
+      actualStartAt: raw.liveDetails?.actualStartTime
+        ? new Date(raw.liveDetails.actualStartTime)
+        : null,
+      videoId: raw.videoId,
+    };
+  }
+
+  // 2. upcoming 候補 を scheduledAt 昇順で集める
+  const upcomingList = rawArchive.videos
+    .filter(
+      (v) =>
+        v.liveBroadcast === "upcoming" && v.liveDetails?.scheduledStartTime,
+    )
+    .map((v) => ({
+      raw: v,
+      at: new Date(v.liveDetails!.scheduledStartTime!),
+    }))
+    .sort((a, b) => a.at.getTime() - b.at.getTime());
+
+  // 3. 予定時刻を過ぎた直近 upcoming → たぶん配信中扱い
+  const pastWithinGrace = upcomingList.find((x) => {
+    const diff = now.getTime() - x.at.getTime();
+    return diff >= 0 && diff < UPCOMING_GRACE_MS;
+  });
+  if (pastWithinGrace) {
+    const memory = findMemory(pastWithinGrace.raw.videoId) ?? null;
+    if (memory) {
+      return {
+        kind: "live",
+        memory,
+        actualStartAt: pastWithinGrace.at,
+        videoId: pastWithinGrace.raw.videoId,
+      };
+    }
+  }
+
+  // 4. 未来の upcoming が 1 件でもあれば最も近いものを返す
+  const futureUpcoming = upcomingList.find(
+    (x) => x.at.getTime() > now.getTime(),
+  );
+  if (futureUpcoming) {
+    const memory = findMemory(futureUpcoming.raw.videoId);
+    return {
+      kind: "upcoming",
+      memory: memory ?? null,
+      scheduledAt: futureUpcoming.at,
+      videoId: futureUpcoming.raw.videoId,
+    };
+  }
+
+  return { kind: "none" };
+}
+
 /**
  * 関連動画を score 順に返す。同じ kind (stream/clip) の中でのみ探す。
  *  +100: 同じ game

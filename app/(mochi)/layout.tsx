@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa, Kumo } from "@/components/mochi-ui";
+import { LiveBadge } from "@/components/live-badge";
 
 export default function MochiLayout({
   children,
@@ -64,7 +65,7 @@ export default function MochiLayout({
 }
 
 function TopBar() {
-  const { today, streamer } = MOCHI;
+  const { streamer } = MOCHI;
   return (
     <header
       className="flex flex-wrap items-center justify-between gap-3 px-5 md:px-10 pt-5 md:pt-6 pb-3 max-w-[1280px] mx-auto"
@@ -100,33 +101,8 @@ function TopBar() {
         <NavPill href="/" label="おうち" />
         <NavPill href="/schedule" label="よてい" />
         <NavPill href="/archive" label="おもいで" />
-        {today.isLive && (
-          <span
-            className="flex items-center gap-1.5"
-            style={{
-              padding: "6px 12px",
-              borderRadius: 999,
-              background: PALETTE.coral,
-              color: "#fff",
-              fontSize: 11,
-              fontWeight: 900,
-              letterSpacing: 1,
-              border: `2px solid ${PALETTE.ink}`,
-              boxShadow: `2px 2px 0 ${PALETTE.ink}`,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#fff",
-                animation: "pulse 1.2s ease-in-out infinite",
-              }}
-            />
-            らいぶちゅう ♡
-          </span>
-        )}
+        <NavPill href="/stream" label="らいぶ" />
+        <LiveBadge />
       </div>
     </header>
   );
