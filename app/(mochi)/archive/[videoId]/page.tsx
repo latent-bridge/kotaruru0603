@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -9,6 +11,12 @@ import {
   relatedMemories,
   type Memory,
 } from "@/lib/archive";
+
+/** public/chats/{videoId}.json が存在するかを build 時に確認 */
+function hasChatReplay(videoId: string): boolean {
+  const p = path.resolve(process.cwd(), "public/chats", `${videoId}.json`);
+  return fs.existsSync(p);
+}
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { EyebrowChip, Kumo } from "@/components/mochi-ui";
 import {
@@ -85,7 +93,7 @@ function StreamDetail({ memory }: { memory: Memory }) {
         <ArchivePlayerWithChatToggle
           videoId={memory.videoId}
           title={memory.title}
-          replayContinuation={memory.chatReplayContinuation}
+          hasChatReplay={hasChatReplay(memory.videoId)}
         />
       </div>
 

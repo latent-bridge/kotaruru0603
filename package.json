@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "fetch:archive": "tsx scripts/fetch-archive.ts",
+    "fetch:chats": "tsx scripts/fetch-chats.ts",
     "infer:curated": "tsx scripts/infer-curated.ts"
   },
   "dependencies": {
