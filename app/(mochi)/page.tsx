@@ -76,7 +76,20 @@ function Hero() {
             margin: "14px 0 0",
           }}
         >
-          ruru の<br />
+          <span
+            style={{
+              fontFamily: FONTS.hand,
+              fontSize: "1.35em",
+              fontWeight: 700,
+              color: PALETTE.accent,
+              letterSpacing: -1,
+              marginRight: "0.05em",
+              verticalAlign: "-0.05em",
+            }}
+          >
+            ruru
+          </span>
+          の<br />
           <span
             style={{
               background: `linear-gradient(180deg, transparent 60%, ${PALETTE.coral}80 60%)`,
