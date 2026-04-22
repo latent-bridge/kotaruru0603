@@ -287,10 +287,16 @@ function findBalancedJsonEnd(s: string, start: number): number {
   return -1;
 }
 
+/**
+ * チャットリプレイ用の continuation トークンを取り出す。
+ *
+ * 重要: sub menu 由来の短い token ("op2w0wQOGgBA..." のような) は YouTube 本体
+ * 内部用で、外部 iframe embed では "Something went wrong" になる。
+ * 外部 embed で使えるのは renderer.continuations[0] の長い token のみ。
+ * ドロップダウンの「チャットのリプレイ」への切替は iframe 内 UI から可能。
+ */
 function extractReplayContinuation(data: unknown): string | null {
   try {
-    // contents.twoColumnWatchNextResults.conversationBar.liveChatRenderer.continuations[].reloadContinuationData.continuation
-    // YouTube の HTML 変更に備えて defensive に掘る
     const d = data as Record<string, unknown>;
     const contents = d?.contents as Record<string, unknown> | undefined;
     const twoCol = contents?.twoColumnWatchNextResults as

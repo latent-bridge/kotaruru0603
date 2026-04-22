@@ -177,6 +177,7 @@ export function StreamChat({
     : null;
 
   const showEnableButton = supportsAccessFor && accessState !== "granted";
+  const isReplay = Boolean(replayContinuation);
 
   return (
     <div
@@ -228,6 +229,22 @@ export function StreamChat({
           YouTube で ひらく ↗
         </a>
       </div>
+
+      {isReplay && (
+        <div
+          style={{
+            padding: "6px 12px",
+            borderBottom: `2px dashed ${PALETTE.inkSoft}`,
+            background: PALETTE.cream + "40",
+            fontSize: 10,
+            lineHeight: 1.5,
+            color: PALETTE.inkDim,
+            fontFamily: FONTS.body,
+          }}
+        >
+          ▶ ここの「上位のチャット ⯆」を「チャットのリプレイ」にきりかえると ぜんぶ みえるよ ♡
+        </div>
+      )}
 
       <div style={{ flex: 1, position: "relative", background: "#fff" }}>
         {src ? (
