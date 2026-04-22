@@ -17,6 +17,7 @@ import {
   CategoryChip,
   CollabChip,
 } from "@/components/archive-ui";
+import { ArchivePlayerWithChatToggle } from "@/components/stream-ui";
 
 export const dynamicParams = false;
 
@@ -80,7 +81,13 @@ function StreamDetail({ memory }: { memory: Memory }) {
     >
       <BackLink />
 
-      <StreamPlayer memory={memory} />
+      <div style={{ marginBottom: 18 }}>
+        <ArchivePlayerWithChatToggle
+          videoId={memory.videoId}
+          title={memory.title}
+          chatAvailable={memory.wasLive}
+        />
+      </div>
 
       <Kumo
         size={60}
@@ -206,46 +213,6 @@ function BackLink() {
       >
         ← おもいでばこへ もどる
       </Link>
-    </div>
-  );
-}
-
-function StreamPlayer({ memory }: { memory: Memory }) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        background: "#fff",
-        borderRadius: 22,
-        border: `3px solid ${PALETTE.ink}`,
-        boxShadow: `5px 5px 0 ${PALETTE.ink}`,
-        padding: 10,
-        marginBottom: 18,
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          aspectRatio: "16 / 9",
-          borderRadius: 14,
-          overflow: "hidden",
-          background: PALETTE.ink,
-        }}
-      >
-        <iframe
-          src={memory.youtubeEmbedUrl}
-          title={memory.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            border: 0,
-          }}
-        />
-      </div>
     </div>
   );
 }

@@ -3,6 +3,70 @@
 import { useEffect, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
 
+// --- アーカイブ詳細用: チャットトグル付きプレイヤー -------------------
+
+/**
+ * アーカイブ詳細の動画プレイヤー。was_live で chat replay が取れる時だけ
+ * トグルでチャットを開ける。デフォルトは閉(プレイヤーだけ表示、幅広)。
+ */
+export function ArchivePlayerWithChatToggle({
+  videoId,
+  title,
+  chatAvailable,
+}: {
+  videoId: string;
+  title: string;
+  chatAvailable: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+
+  if (!chatAvailable) {
+    return <StreamPlayer videoId={videoId} title={title} />;
+  }
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: 8,
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "6px 14px",
+            background: open ? PALETTE.ink : "#fff",
+            color: open ? "#fff" : PALETTE.ink,
+            border: `2px solid ${PALETTE.ink}`,
+            borderRadius: 999,
+            fontSize: 12,
+            fontWeight: 900,
+            cursor: "pointer",
+            fontFamily: FONTS.body,
+            boxShadow: open ? "none" : `2px 2px 0 ${PALETTE.inkSoft}`,
+          }}
+        >
+          💬 {open ? "チャットを とじる" : "チャットを ひらく (リプレイ)"}
+        </button>
+      </div>
+      <div
+        className={
+          open ? "grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 md:gap-5" : ""
+        }
+      >
+        <StreamPlayer videoId={videoId} title={title} />
+        {open && <StreamChat videoId={videoId} />}
+      </div>
+    </div>
+  );
+}
+
 // --- プレイヤー -------------------------------------------------------
 
 export function StreamPlayer({

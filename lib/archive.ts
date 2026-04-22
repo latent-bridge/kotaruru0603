@@ -135,6 +135,7 @@ export type Memory = {
   thumbnailUrlHigh: string; // 詳細ページ用の大きいサムネ
   youtubeUrl: string;
   youtubeEmbedUrl: string; // iframe の src
+  wasLive: boolean; // 過去に live だったか (chat リプレイ表示可否の判定用)
   kind: Kind;
   category: Category | null;
   game: Game | null;
@@ -214,6 +215,7 @@ function toMemory(raw: RawVideo, curated: CuratedVideo | undefined): Memory {
       raw.thumbnails.default,
     youtubeUrl: `https://www.youtube.com/watch?v=${raw.videoId}`,
     youtubeEmbedUrl: `https://www.youtube.com/embed/${raw.videoId}`,
+    wasLive: raw.liveBroadcast === "was_live",
     kind: deriveKind(raw, eff.kind),
     category: eff.category ?? null,
     game: eff.game ?? null,
