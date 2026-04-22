@@ -85,7 +85,7 @@ function StreamDetail({ memory }: { memory: Memory }) {
         <ArchivePlayerWithChatToggle
           videoId={memory.videoId}
           title={memory.title}
-          chatAvailable={memory.wasLive}
+          replayContinuation={memory.chatReplayContinuation}
         />
       </div>
 

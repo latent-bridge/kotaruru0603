@@ -61,6 +61,7 @@ type RawVideo = {
     actualStartTime: string | null;
     actualEndTime: string | null;
   } | null;
+  liveChatReplayContinuation?: string | null;
 };
 
 type RawArchive = {
@@ -135,7 +136,8 @@ export type Memory = {
   thumbnailUrlHigh: string; // 詳細ページ用の大きいサムネ
   youtubeUrl: string;
   youtubeEmbedUrl: string; // iframe の src
-  wasLive: boolean; // 過去に live だったか (chat リプレイ表示可否の判定用)
+  wasLive: boolean; // 過去に live だったか
+  chatReplayContinuation: string | null; // チャットリプレイ iframe 用トークン (なければ null → トグル非表示)
   kind: Kind;
   category: Category | null;
   game: Game | null;
@@ -216,6 +218,7 @@ function toMemory(raw: RawVideo, curated: CuratedVideo | undefined): Memory {
     youtubeUrl: `https://www.youtube.com/watch?v=${raw.videoId}`,
     youtubeEmbedUrl: `https://www.youtube.com/embed/${raw.videoId}`,
     wasLive: raw.liveBroadcast === "was_live",
+    chatReplayContinuation: raw.liveChatReplayContinuation ?? null,
     kind: deriveKind(raw, eff.kind),
     category: eff.category ?? null,
     game: eff.game ?? null,

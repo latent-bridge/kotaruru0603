@@ -6,21 +6,25 @@ import { PALETTE, FONTS } from "@/lib/mochi";
 // --- アーカイブ詳細用: チャットトグル付きプレイヤー -------------------
 
 /**
- * アーカイブ詳細の動画プレイヤー。was_live で chat replay が取れる時だけ
- * トグルでチャットを開ける。デフォルトは閉(プレイヤーだけ表示、幅広)。
+ * アーカイブ詳細の動画プレイヤー。
+ *
+ * YouTube のチャットリプレイ iframe は `live_chat_replay?continuation=TOKEN`
+ * 方式でのみ動作するため、continuation トークンが事前取得できている動画
+ * だけトグルを出す。トークンなしの場合はトグル自体を表示しない
+ * (開いても空になるだけなので UX 的にもベスト)。
  */
 export function ArchivePlayerWithChatToggle({
   videoId,
   title,
-  chatAvailable,
+  replayContinuation,
 }: {
   videoId: string;
   title: string;
-  chatAvailable: boolean;
+  replayContinuation: string | null;
 }) {
   const [open, setOpen] = useState(false);
 
-  if (!chatAvailable) {
+  if (!replayContinuation) {
     return <StreamPlayer videoId={videoId} title={title} />;
   }
 
@@ -52,7 +56,7 @@ export function ArchivePlayerWithChatToggle({
             boxShadow: open ? "none" : `2px 2px 0 ${PALETTE.inkSoft}`,
           }}
         >
-          💬 {open ? "チャットを とじる" : "チャットを ひらく (リプレイ)"}
+          💬 {open ? "チャットを とじる" : "チャットリプレイを ひらく"}
         </button>
       </div>
       <div
@@ -61,7 +65,9 @@ export function ArchivePlayerWithChatToggle({
         }
       >
         <StreamPlayer videoId={videoId} title={title} />
-        {open && <StreamChat videoId={videoId} />}
+        {open && (
+          <StreamChat videoId={videoId} replayContinuation={replayContinuation} />
+        )}
       </div>
     </div>
   );
@@ -126,8 +132,17 @@ type DocWithStorageAccess = Document & {
  * ブロックするため iframe 内に YouTube のログイン状態が伝わらず、チャット送信
  * ができない。Chromium 系は `requestStorageAccessFor` で明示許可を取れる。
  * Safari / Firefox はサポートなし → 「YouTube で開く」導線を出す。
+ *
+ * `replayContinuation` を渡すと過去配信のチャットリプレイ表示モードになる
+ * (`live_chat_replay?continuation=TOKEN`)。
  */
-export function StreamChat({ videoId }: { videoId: string }) {
+export function StreamChat({
+  videoId,
+  replayContinuation,
+}: {
+  videoId: string;
+  replayContinuation?: string | null;
+}) {
   const [host, setHost] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [supportsAccessFor, setSupportsAccessFor] = useState(false);
@@ -154,7 +169,9 @@ export function StreamChat({ videoId }: { videoId: string }) {
   };
 
   const src = host
-    ? `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}`
+    ? replayContinuation
+      ? `https://www.youtube.com/live_chat_replay?continuation=${encodeURIComponent(replayContinuation)}&embed_domain=${host}`
+      : `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}`
     : null;
 
   const showEnableButton = supportsAccessFor && accessState !== "granted";

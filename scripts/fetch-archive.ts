@@ -59,6 +59,12 @@ type RawVideo = {
     actualStartTime: string | null;
     actualEndTime: string | null;
   } | null;
+  /**
+   * 過去 live 配信のチャットリプレイ iframe に渡す continuation トークン。
+   * was_live かつ YouTube がチャットリプレイを保存している場合のみ非 null。
+   * `live_chat_replay?continuation=TOKEN&embed_domain=...` で使用。
+   */
+  liveChatReplayContinuation: string | null;
 };
 
 type ArchiveRaw = {
@@ -212,7 +218,151 @@ function toRawVideo(v: YTVideoItem): RawVideo {
           actualEndTime: live.actualEndTime ?? null,
         }
       : null,
+    liveChatReplayContinuation: null, // was_live ならあとで watch ページから埋める
   };
+}
+
+// --- チャットリプレイ continuation 取得 --------------------------------
+
+const WATCH_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36";
+
+/**
+ * watch ページ HTML から ytInitialData を抜き出し、チャットリプレイの
+ * reload continuation を返す。取得できなければ null。
+ */
+async function fetchReplayContinuation(videoId: string): Promise<string | null> {
+  try {
+    const res = await fetch(`https://www.youtube.com/watch?v=${videoId}&hl=en`, {
+      headers: {
+        "User-Agent": WATCH_UA,
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+
+    // "var ytInitialData = {...};" を探して JSON を取り出す
+    const marker = "var ytInitialData = ";
+    const start = html.indexOf(marker);
+    if (start < 0) return null;
+    const jsonStart = html.indexOf("{", start);
+    if (jsonStart < 0) return null;
+    const end = findBalancedJsonEnd(html, jsonStart);
+    if (end < 0) return null;
+    const data = JSON.parse(html.substring(jsonStart, end));
+    return extractReplayContinuation(data);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * JSON.parse しやすい終端位置を探す。文字列内の `{}` はエスケープと
+ * クオート状態を見て除外する。
+ */
+function findBalancedJsonEnd(s: string, start: number): number {
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = start; i < s.length; i += 1) {
+    const c = s[i];
+    if (inStr) {
+      if (esc) {
+        esc = false;
+      } else if (c === "\\") {
+        esc = true;
+      } else if (c === '"') {
+        inStr = false;
+      }
+      continue;
+    }
+    if (c === '"') inStr = true;
+    else if (c === "{") depth += 1;
+    else if (c === "}") {
+      depth -= 1;
+      if (depth === 0) return i + 1;
+    }
+  }
+  return -1;
+}
+
+function extractReplayContinuation(data: unknown): string | null {
+  try {
+    // contents.twoColumnWatchNextResults.conversationBar.liveChatRenderer.continuations[].reloadContinuationData.continuation
+    // YouTube の HTML 変更に備えて defensive に掘る
+    const d = data as Record<string, unknown>;
+    const contents = d?.contents as Record<string, unknown> | undefined;
+    const twoCol = contents?.twoColumnWatchNextResults as
+      | Record<string, unknown>
+      | undefined;
+    const bar = twoCol?.conversationBar as Record<string, unknown> | undefined;
+    const chat = bar?.liveChatRenderer as Record<string, unknown> | undefined;
+    const continuations = chat?.continuations as unknown[] | undefined;
+    if (!Array.isArray(continuations)) return null;
+    for (const c of continuations) {
+      const entry = c as Record<string, unknown>;
+      const reload = entry?.reloadContinuationData as
+        | Record<string, unknown>
+        | undefined;
+      const token = reload?.continuation;
+      if (typeof token === "string" && token.length > 0) return token;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * was_live な動画について continuation を埋める。既存 JSON に値がある
+ * ものは再利用し、未取得のものだけ並列で fetch する (最大 5 並列)。
+ */
+async function populateReplayContinuations(
+  videos: RawVideo[],
+  prior: ArchiveRaw | null,
+): Promise<{ reused: number; fetched: number; failed: number }> {
+  const prev = new Map<string, string | null>();
+  for (const v of prior?.videos ?? []) {
+    prev.set(v.videoId, v.liveChatReplayContinuation ?? null);
+  }
+
+  const stats = { reused: 0, fetched: 0, failed: 0 };
+  const toFetch: RawVideo[] = [];
+
+  for (const v of videos) {
+    if (v.liveBroadcast !== "was_live") {
+      v.liveChatReplayContinuation = null;
+      continue;
+    }
+    const cached = prev.get(v.videoId);
+    if (cached) {
+      v.liveChatReplayContinuation = cached;
+      stats.reused += 1;
+    } else {
+      toFetch.push(v);
+    }
+  }
+
+  if (toFetch.length === 0) return stats;
+
+  console.log(`fetching chat replay continuation for ${toFetch.length} videos...`);
+  const CONCURRENCY = 5;
+  for (let i = 0; i < toFetch.length; i += CONCURRENCY) {
+    const batch = toFetch.slice(i, i + CONCURRENCY);
+    await Promise.all(
+      batch.map(async (v) => {
+        const token = await fetchReplayContinuation(v.videoId);
+        v.liveChatReplayContinuation = token;
+        if (token) stats.fetched += 1;
+        else stats.failed += 1;
+      }),
+    );
+    process.stdout.write(
+      `  continuation ${Math.min(i + CONCURRENCY, toFetch.length)}/${toFetch.length}\n`,
+    );
+  }
+  return stats;
 }
 
 function loadExisting(): ArchiveRaw | null {
@@ -263,6 +413,10 @@ async function main() {
   videos.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
   const existing = loadExisting();
+
+  // was_live 動画のチャットリプレイ continuation を埋める
+  const chatStats = await populateReplayContinuations(videos, existing);
+
   const d = existing
     ? diffSummary(existing.videos, videos)
     : { added: videos.length, updated: 0, removed: 0 };
@@ -285,6 +439,7 @@ async function main() {
   console.log(`  updated: ${d.updated}`);
   console.log(`  removed: ${d.removed}`);
   console.log(`  total:   ${videos.length}`);
+  console.log(`  chat replay tokens: reused=${chatStats.reused} fetched=${chatStats.fetched} failed=${chatStats.failed}`);
 }
 
 main().catch((err) => {

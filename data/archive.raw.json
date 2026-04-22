@@ -1,7 +1,7 @@
 {
   "meta": {
     "channelId": "UCeBVt3YhxXAPqLM7fQT6qRw",
-    "lastFetchedAt": "2026-04-22T04:39:20.316Z",
+    "lastFetchedAt": "2026-04-22T05:18:50.618Z",
     "videoCount": 52
   },
   "videos": [
@@ -32,7 +32,8 @@
         "scheduledStartTime": "2026-04-20T13:01:21Z",
         "actualStartTime": "2026-04-20T13:01:41Z",
         "actualEndTime": "2026-04-20T17:12:51Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzd1VqUjZPVzg1V21welRSb1Q2cWpkdVFFTkNnc3dValI2T1c4NVdtcHpUU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "AFbKEcJoOzA",
@@ -61,7 +62,8 @@
         "scheduledStartTime": "2026-04-18T12:56:14Z",
         "actualStartTime": "2026-04-18T12:56:33Z",
         "actualEndTime": "2026-04-18T18:03:20Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0QlJtSkxSV05LYjA5NlFSb1Q2cWpkdVFFTkNndEJSbUpMUldOS2IwOTZRU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "LrelN5XajBY",
@@ -90,7 +92,8 @@
         "scheduledStartTime": "2026-04-17T13:12:29Z",
         "actualStartTime": "2026-04-17T13:12:49Z",
         "actualEndTime": "2026-04-17T18:04:48Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0TWNtVnNUalZZWVdwQ1dSb1Q2cWpkdVFFTkNndE1jbVZzVGpWWVlXcENXU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "HzPTx_KWNRI",
@@ -109,7 +112,8 @@
       "youtubeTags": [],
       "youtubeCategoryId": "20",
       "liveBroadcast": "none",
-      "liveDetails": null
+      "liveDetails": null,
+      "liveChatReplayContinuation": null
     },
     {
       "videoId": "35mJn3ZYYCQ",
@@ -138,7 +142,8 @@
         "scheduledStartTime": "2026-04-16T12:29:45Z",
         "actualStartTime": "2026-04-16T12:30:07Z",
         "actualEndTime": "2026-04-16T12:59:00Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzek5XMUtiak5hV1ZsRFVSb1Q2cWpkdVFFTkNnc3pOVzFLYmpOYVdWbERVU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "8IPRWkAqG_4",
@@ -167,7 +172,8 @@
         "scheduledStartTime": "2026-04-16T13:10:47Z",
         "actualStartTime": "2026-04-16T13:11:08Z",
         "actualEndTime": "2026-04-16T19:08:55Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzNFNWQlNWMnRCY1VkZk5Cb1Q2cWpkdVFFTkNnczRTVkJTVjJ0QmNVZGZOQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "yZIAogfNIWI",
@@ -196,7 +202,8 @@
         "scheduledStartTime": "2026-04-14T14:04:53Z",
         "actualStartTime": "2026-04-14T14:05:10Z",
         "actualEndTime": "2026-04-14T20:03:10Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0NVdrbEJiMmRtVGtsWFNSb1Q2cWpkdVFFTkNndDVXa2xCYjJkbVRrbFhTU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "v_7IWVdy-JU",
@@ -215,7 +222,8 @@
       "youtubeTags": [],
       "youtubeCategoryId": "20",
       "liveBroadcast": "none",
-      "liveDetails": null
+      "liveDetails": null,
+      "liveChatReplayContinuation": null
     },
     {
       "videoId": "ViYOwASlC5o",
@@ -244,7 +252,8 @@
         "scheduledStartTime": "2026-04-12T13:54:00Z",
         "actualStartTime": "2026-04-12T13:54:17Z",
         "actualEndTime": "2026-04-12T18:23:19Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0V2FWbFBkMEZUYkVNMWJ4b1Q2cWpkdVFFTkNndFdhVmxQZDBGVGJFTTFieUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "g3ZBCnWcnzk",
@@ -273,7 +282,8 @@
         "scheduledStartTime": "2026-04-10T16:24:38Z",
         "actualStartTime": "2026-04-10T16:24:56Z",
         "actualEndTime": "2026-04-10T18:23:51Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0bk0xcENRMjVYWTI1NmF4b1Q2cWpkdVFFTkNndG5NMXBDUTI1WFkyNTZheUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "ohP0vVw-aPQ",
@@ -302,7 +312,8 @@
         "scheduledStartTime": "2026-04-10T12:52:31Z",
         "actualStartTime": "2026-04-10T12:52:51Z",
         "actualEndTime": "2026-04-10T16:22:58Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0dmFGQXdkbFozTFdGUVVSb1Q2cWpkdVFFTkNndHZhRkF3ZGxaM0xXRlFVU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "Y12vVyhodNc",
@@ -331,7 +342,8 @@
         "scheduledStartTime": "2026-04-08T13:15:07Z",
         "actualStartTime": "2026-04-08T13:15:23Z",
         "actualEndTime": "2026-04-08T15:53:59Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0Wk1USjJWbmxvYjJST1l4b1Q2cWpkdVFFTkNndFpNVEoyVm5sb2IyUk9ZeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "RGU8QKdv2Mg",
@@ -350,7 +362,8 @@
       "youtubeTags": [],
       "youtubeCategoryId": "20",
       "liveBroadcast": "none",
-      "liveDetails": null
+      "liveDetails": null,
+      "liveChatReplayContinuation": null
     },
     {
       "videoId": "-zu_tByhlrE",
@@ -379,7 +392,8 @@
         "scheduledStartTime": "2026-04-06T15:42:49Z",
         "actualStartTime": "2026-04-06T15:43:05Z",
         "actualEndTime": "2026-04-06T19:33:37Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzdGVuVmZkRUo1YUd4eVJSb1Q2cWpkdVFFTkNnc3RlblZmZEVKNWFHeHlSU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "HZif06uHO9w",
@@ -408,7 +422,8 @@
         "scheduledStartTime": "2026-04-06T12:37:48Z",
         "actualStartTime": "2026-04-06T12:38:06Z",
         "actualEndTime": "2026-04-06T15:30:47Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0SVdtbG1NRFoxU0U4NWR4b1Q2cWpkdVFFTkNndElXbWxtTURaMVNFODVkeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "bSqn5vg1y4c",
@@ -427,7 +442,8 @@
       "youtubeTags": [],
       "youtubeCategoryId": "20",
       "liveBroadcast": "none",
-      "liveDetails": null
+      "liveDetails": null,
+      "liveChatReplayContinuation": null
     },
     {
       "videoId": "PMEEkr1YFzs",
@@ -456,7 +472,8 @@
         "scheduledStartTime": "2026-04-04T13:20:36Z",
         "actualStartTime": "2026-04-04T13:20:54Z",
         "actualEndTime": "2026-04-04T15:09:28Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0UVRVVkZhM0l4V1VaNmN4b1Q2cWpkdVFFTkNndFFUVVZGYTNJeFdVWjZjeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "gioqSY3xTQ0",
@@ -485,7 +502,8 @@
         "scheduledStartTime": "2026-04-04T15:23:58Z",
         "actualStartTime": "2026-04-04T15:24:16Z",
         "actualEndTime": "2026-04-04T18:57:24Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0bmFXOXhVMWt6ZUZSUk1Cb1Q2cWpkdVFFTkNndG5hVzl4VTFremVGUlJNQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "JkI2Bq6ZdLo",
@@ -514,7 +532,8 @@
         "scheduledStartTime": "2026-04-01T13:40:17Z",
         "actualStartTime": "2026-04-01T13:40:34Z",
         "actualEndTime": "2026-04-01T18:09:31Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0S2Ewa3lRbkUyV21STWJ4b1Q2cWpkdVFFTkNndEthMGt5UW5FMldtUk1ieUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "F6qB6Oepckc",
@@ -543,7 +562,8 @@
         "scheduledStartTime": "2026-03-30T14:22:19Z",
         "actualStartTime": "2026-03-30T14:22:36Z",
         "actualEndTime": "2026-03-30T18:33:09Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0R05uRkNOazlsY0dOcll4b1Q2cWpkdVFFTkNndEdObkZDTms5bGNHTnJZeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "9Z_5_PZWEnk",
@@ -572,7 +592,8 @@
         "scheduledStartTime": "2026-03-28T14:48:43Z",
         "actualStartTime": "2026-03-28T14:49:00Z",
         "actualEndTime": "2026-03-28T19:28:04Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wSGARp2Q2lrcUp3b1lWVU5sUWxaME0xbG9lRmhCVUhGTVRUZG1VVlEyY1ZKM0VnczVXbDgxWDFCYVYwVnVheG9sNnFqZHVRRWZDZ3M1V2w4MVgxQmFWMFZ1YTBvUU1HZGpTa05tWTBGWlIyTnNSMTh4YXlBQk1BQSUzREABcggIBBgCIAAoAHgB"
     },
     {
       "videoId": "K7a46USwzL8",
@@ -601,7 +622,8 @@
         "scheduledStartTime": "2026-03-27T13:04:03Z",
         "actualStartTime": "2026-03-27T13:04:21Z",
         "actualEndTime": "2026-03-27T19:04:01Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0TE4yRTBObFZUZDNwTU9Cb1Q2cWpkdVFFTkNndExOMkUwTmxWVGQzcE1PQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "QDPELr9VAk8",
@@ -630,7 +652,8 @@
         "scheduledStartTime": "2026-03-25T13:49:47Z",
         "actualStartTime": "2026-03-25T13:50:04Z",
         "actualEndTime": "2026-03-25T17:52:04Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0UlJGQkZUSEk1VmtGck9Cb1Q2cWpkdVFFTkNndFJSRkJGVEhJNVZrRnJPQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "Ci3a6S8UlSs",
@@ -659,7 +682,8 @@
         "scheduledStartTime": "2026-03-23T18:35:50Z",
         "actualStartTime": "2026-03-23T18:36:09Z",
         "actualEndTime": "2026-03-23T20:37:47Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0RGFUTmhObE00Vld4VGN4b1Q2cWpkdVFFTkNndERhVE5oTmxNNFZXeFRjeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "PVhkpGGjS9c",
@@ -688,7 +712,8 @@
         "scheduledStartTime": "2026-03-23T13:18:12Z",
         "actualStartTime": "2026-03-23T13:18:31Z",
         "actualEndTime": "2026-03-23T18:24:51Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0UVZtaHJjRWRIYWxNNVl4b1Q2cWpkdVFFTkNndFFWbWhyY0VkSGFsTTVZeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "Pa0xh4BLtEw",
@@ -717,7 +742,8 @@
         "scheduledStartTime": "2026-03-21T17:46:15Z",
         "actualStartTime": "2026-03-21T17:46:32Z",
         "actualEndTime": "2026-03-21T20:13:20Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0UVlUQjRhRFJDVEhSRmR4b1Q2cWpkdVFFTkNndFFZVEI0YURSQ1RIUkZkeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "Zn9s4yFBETU",
@@ -746,7 +772,8 @@
         "scheduledStartTime": "2026-03-21T13:15:12Z",
         "actualStartTime": "2026-03-21T13:15:33Z",
         "actualEndTime": "2026-03-21T17:25:42Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0YWJqbHpOSGxHUWtWVVZSb1Q2cWpkdVFFTkNndGFiamx6TkhsR1FrVlVWU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "p-aKsKkDZAs",
@@ -775,7 +802,8 @@
         "scheduledStartTime": "2026-03-19T13:45:36Z",
         "actualStartTime": "2026-03-19T13:45:54Z",
         "actualEndTime": "2026-03-19T15:25:02Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0d0xXRkxjMHRyUkZwQmN4b1Q2cWpkdVFFTkNndHdMV0ZMYzB0clJGcEJjeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "OGpmWz5KkIA",
@@ -804,7 +832,8 @@
         "scheduledStartTime": "2026-03-19T15:25:20Z",
         "actualStartTime": "2026-03-19T15:25:36Z",
         "actualEndTime": "2026-03-19T19:25:11Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0UFIzQnRWM28xUzJ0SlFSb1Q2cWpkdVFFTkNndFBSM0J0VjNvMVMydEpRU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "6srBE7Ux7zs",
@@ -833,7 +862,8 @@
         "scheduledStartTime": "2026-03-16T16:15:12Z",
         "actualStartTime": "2026-03-16T16:15:29Z",
         "actualEndTime": "2026-03-16T20:07:14Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzMmMzSkNSVGRWZURkNmN4b1Q2cWpkdVFFTkNnczJjM0pDUlRkVmVEZDZjeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "2l0YC9lvFxQ",
@@ -862,7 +892,8 @@
         "scheduledStartTime": "2026-03-15T13:55:25Z",
         "actualStartTime": "2026-03-15T13:55:42Z",
         "actualEndTime": "2026-03-15T19:10:26Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzeWJEQlpRemxzZGtaNFVSb1Q2cWpkdVFFTkNnc3liREJaUXpsc2RrWjRVU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "9aiK2WKGi6w",
@@ -891,7 +922,8 @@
         "scheduledStartTime": "2026-03-13T15:10:43Z",
         "actualStartTime": "2026-03-13T15:11:02Z",
         "actualEndTime": "2026-03-13T20:20:39Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzNVlXbExNbGRMUjJrMmR4b1Q2cWpkdVFFTkNnczVZV2xMTWxkTFIyazJkeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "JqOQVqPMwj8",
@@ -920,7 +952,8 @@
         "scheduledStartTime": "2026-03-11T13:59:46Z",
         "actualStartTime": "2026-03-11T14:00:02Z",
         "actualEndTime": "2026-03-11T19:00:36Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0S2NVOVJWbkZRVFhkcU9Cb1Q2cWpkdVFFTkNndEtjVTlSVm5GUVRYZHFPQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "1jTTeuHX5I8",
@@ -949,7 +982,8 @@
         "scheduledStartTime": "2026-03-10T14:43:57Z",
         "actualStartTime": "2026-03-10T14:44:14Z",
         "actualEndTime": "2026-03-10T19:44:02Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzeGFsUlVaWFZJV0RWSk9Cb1Q2cWpkdVFFTkNnc3hhbFJVWlhWSVdEVkpPQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "jfAYG-_7IHY",
@@ -978,7 +1012,8 @@
         "scheduledStartTime": "2026-03-08T17:44:38Z",
         "actualStartTime": "2026-03-08T17:44:56Z",
         "actualEndTime": "2026-03-08T22:19:12Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0cVprRlpSeTFmTjBsSVdSb1Q2cWpkdVFFTkNndHFaa0ZaUnkxZk4wbElXU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "W8c23eW4fpU",
@@ -1007,7 +1042,8 @@
         "scheduledStartTime": "2026-03-08T14:30:12Z",
         "actualStartTime": "2026-03-08T14:30:30Z",
         "actualEndTime": "2026-03-08T17:31:14Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0WE9HTXlNMlZYTkdad1ZSb1Q2cWpkdVFFTkNndFhPR015TTJWWE5HWndWU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "R0QiJB5YbNc",
@@ -1036,7 +1072,8 @@
         "scheduledStartTime": "2026-03-06T14:45:26Z",
         "actualStartTime": "2026-03-06T14:45:46Z",
         "actualEndTime": "2026-03-06T18:43:40Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0U01GRnBTa0kxV1dKT1l4b1Q2cWpkdVFFTkNndFNNRkZwU2tJMVdXSk9ZeUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "KLg1VeQvLLk",
@@ -1065,7 +1102,8 @@
         "scheduledStartTime": "2026-03-05T15:46:20Z",
         "actualStartTime": "2026-03-05T15:46:36Z",
         "actualEndTime": "2026-03-05T20:00:00Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0TFRHY3hWbVZSZGt4TWF4b1Q2cWpkdVFFTkNndExUR2N4Vm1WUmRreE1heUFCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "Ve_-PY2daq0",
@@ -1094,7 +1132,8 @@
         "scheduledStartTime": "2026-03-03T18:12:33Z",
         "actualStartTime": "2026-03-03T18:12:48Z",
         "actualEndTime": "2026-03-03T19:15:22Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0V1pWOHRVRmt5WkdGeE1Cb1Q2cWpkdVFFTkNndFdaVjh0VUZreVpHRnhNQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "hiXvugSNV_Y",
@@ -1123,7 +1162,8 @@
         "scheduledStartTime": "2026-03-03T15:34:35Z",
         "actualStartTime": "2026-03-03T15:34:52Z",
         "actualEndTime": "2026-03-03T18:06:44Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wSGARp2Q2lrcUp3b1lWVU5sUWxaME0xbG9lRmhCVUhGTVRUZG1VVlEyY1ZKM0VndG9hVmgyZFdkVFRsWmZXUm9sNnFqZHVRRWZDZ3RvYVZoMmRXZFRUbFpmV1VvUU1HZGpTa05tWTBGWlIyTnNSMTh4YXlBQk1BQSUzREABcggIBBgCIAAoAHgB"
     },
     {
       "videoId": "qVuTf1s6lpQ",
@@ -1152,7 +1192,8 @@
         "scheduledStartTime": "2026-03-01T18:14:33Z",
         "actualStartTime": "2026-03-01T18:14:48Z",
         "actualEndTime": "2026-03-01T20:29:28Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0eFZuVlVaakZ6Tm14d1VSb1Q2cWpkdVFFTkNndHhWblZVWmpGek5teHdVU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "hgXDipaOmtI",
@@ -1181,7 +1222,8 @@
         "scheduledStartTime": "2026-03-01T15:28:41Z",
         "actualStartTime": "2026-03-01T15:28:56Z",
         "actualEndTime": "2026-03-01T18:08:49Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0b1oxaEVhWEJoVDIxMFNSb1Q2cWpkdVFFTkNndG9aMWhFYVhCaFQyMTBTU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "lrwaKy1efeU",
@@ -1210,7 +1252,8 @@
         "scheduledStartTime": "2026-02-27T19:16:47Z",
         "actualStartTime": "2026-02-27T19:17:04Z",
         "actualEndTime": "2026-02-27T21:35:04Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0c2NuZGhTM2t4WldabFZSb1Q2cWpkdVFFTkNndHNjbmRoUzNreFpXWmxWU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "W5PtU2WQ_e0",
@@ -1239,7 +1282,8 @@
         "scheduledStartTime": "2026-02-27T14:27:47Z",
         "actualStartTime": "2026-02-27T14:28:02Z",
         "actualEndTime": "2026-02-27T18:56:25Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0WE5WQjBWVEpYVVY5bE1Cb1Q2cWpkdVFFTkNndFhOVkIwVlRKWFVWOWxNQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "5e2MP1P-ACM",
@@ -1268,7 +1312,8 @@
         "scheduledStartTime": "2026-02-25T17:47:32Z",
         "actualStartTime": "2026-02-25T17:47:50Z",
         "actualEndTime": "2026-02-25T19:59:01Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wSGARp2Q2lrcUp3b1lWVU5sUWxaME0xbG9lRmhCVUhGTVRUZG1VVlEyY1ZKM0VnczFaVEpOVURGUUxVRkRUUm9sNnFqZHVRRWZDZ3MxWlRKTlVERlFMVUZEVFVvUU1HZGpTa05tWTBGWlIyTnNSMTh4YXlBQk1BQSUzREABcggIBBgCIAAoAHgB"
     },
     {
       "videoId": "4I1OrjeAHrE",
@@ -1297,7 +1342,8 @@
         "scheduledStartTime": "2026-02-25T15:01:00Z",
         "actualStartTime": "2026-02-25T15:01:18Z",
         "actualEndTime": "2026-02-25T17:31:12Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzMFNURlBjbXBsUVVoeVJSb1Q2cWpkdVFFTkNnczBTVEZQY21wbFFVaHlSU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "INtchhQ51iY",
@@ -1326,7 +1372,8 @@
         "scheduledStartTime": "2026-02-22T15:03:43Z",
         "actualStartTime": "2026-02-22T15:03:58Z",
         "actualEndTime": "2026-02-22T19:16:02Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0SlRuUmphR2hSTlRGcFdSb1Q2cWpkdVFFTkNndEpUblJqYUdoUk5URnBXU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "CT6k75yNPNw",
@@ -1355,7 +1402,8 @@
         "scheduledStartTime": "2026-02-16T15:04:11Z",
         "actualStartTime": "2026-02-16T15:04:28Z",
         "actualEndTime": "2026-02-16T19:21:45Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wSGARp2Q2lrcUp3b1lWVU5sUWxaME0xbG9lRmhCVUhGTVRUZG1VVlEyY1ZKM0VndERWRFpyTnpWNVRsQk9keG9sNnFqZHVRRWZDZ3REVkRack56VjVUbEJPZDBvUU1HZGpTa05tWTBGWlIyTnNSMTh4YXlBQk1BQSUzREABcggIBBgCIAAoAHgB"
     },
     {
       "videoId": "NDSYpv6pADM",
@@ -1384,7 +1432,8 @@
         "scheduledStartTime": "2026-02-12T15:20:53Z",
         "actualStartTime": "2026-02-12T15:21:12Z",
         "actualEndTime": "2026-02-12T18:53:38Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0T1JGTlpjSFkyY0VGRVRSb1Q2cWpkdVFFTkNndE9SRk5aY0hZMmNFRkVUU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "PDJQsYvzg8E",
@@ -1407,7 +1456,8 @@
         "scheduledStartTime": null,
         "actualStartTime": null,
         "actualEndTime": null
-      }
+      },
+      "liveChatReplayContinuation": null
     },
     {
       "videoId": "fFfguv2ILm8",
@@ -1436,7 +1486,8 @@
         "scheduledStartTime": "2026-02-10T15:03:34Z",
         "actualStartTime": "2026-02-10T15:03:50Z",
         "actualEndTime": "2026-02-10T17:43:15Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWd0bVJtWm5kWFl5U1V4dE9Cb1Q2cWpkdVFFTkNndG1SbVpuZFhZeVNVeHRPQ0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     },
     {
       "videoId": "3DHm-Pr7_-A",
@@ -1465,7 +1516,8 @@
         "scheduledStartTime": "2026-02-08T15:04:50Z",
         "actualStartTime": "2026-02-08T15:05:10Z",
         "actualEndTime": "2026-02-08T17:50:47Z"
-      }
+      },
+      "liveChatReplayContinuation": "op2w0wRuGl5DaWtxSndvWVZVTmxRbFowTTFsb2VGaEJVSEZNVFRkbVVWUTJjVkozRWdzelJFaHRMVkJ5TjE4dFFSb1Q2cWpkdVFFTkNnc3pSRWh0TFZCeU4xOHRRU0FCTUFBJTNEQAFyCAgEGAIgACgAeAE%3D"
     }
   ]
 }
