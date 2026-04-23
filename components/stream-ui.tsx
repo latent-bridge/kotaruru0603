@@ -22,11 +22,47 @@ export function ArchivePlayerWithChatToggle({
   title: string;
   hasChatReplay: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-
   if (!hasChatReplay) {
     return <StreamPlayer videoId={videoId} title={title} />;
   }
+  // hasChatReplay のときは、iframe を常時マウントしたまま chat だけ
+  // 表示/非表示を切り替える。トグルで iframe を再作成すると動画が 0 秒
+  // に巻き戻ってしまうため、別コンポーネントへ分岐はしない。
+  return <PlayerWithOptionalChat videoId={videoId} title={title} />;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// Player + chat 連動
+// ═══════════════════════════════════════════════════════════════════════
+
+/** build 時に basePath が埋め込まれる */
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+type Msg = {
+  t: number;
+  a: string;
+  m: string;
+  p: string;
+  b?: string[];
+  s?: number;
+  sa?: string;
+  c?: string;
+};
+
+/**
+ * プレイヤー iframe を常時マウントしたまま、チャットトグルで右カラムの
+ * 表示/非表示だけ切り替える。postMessage の `listening` + infoDelivery
+ * はチャット開閉に関係なく走り続ける(コストほぼ 0)。
+ */
+function PlayerWithOptionalChat({
+  videoId,
+  title,
+}: {
+  videoId: string;
+  title: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const { iframeRef, currentTime } = useYouTubeTime(videoId);
 
   return (
     <div>
@@ -60,80 +96,51 @@ export function ArchivePlayerWithChatToggle({
         </button>
       </div>
 
-      {open ? (
-        <PlayerAndChat videoId={videoId} title={title} />
-      ) : (
-        <StreamPlayer videoId={videoId} title={title} />
-      )}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// Player + chat 連動
-// ═══════════════════════════════════════════════════════════════════════
-
-/** build 時に basePath が埋め込まれる */
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
-type Msg = {
-  t: number;
-  a: string;
-  m: string;
-  p: string;
-  b?: string[];
-  s?: number;
-  sa?: string;
-  c?: string;
-};
-
-/**
- * 動画プレーヤーとチャットリプレイを 1 つのクライアントコンポーネントに
- * まとめて配置。iframe API の postMessage で currentTime を取得し、
- * それに応じてチャットメッセージを流す。
- */
-function PlayerAndChat({ videoId, title }: { videoId: string; title: string }) {
-  const { iframeRef, currentTime } = useYouTubeTime(videoId);
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 md:gap-5">
       <div
-        style={{
-          position: "relative",
-          background: "#fff",
-          borderRadius: 22,
-          border: `3px solid ${PALETTE.ink}`,
-          boxShadow: `5px 5px 0 ${PALETTE.ink}`,
-          padding: 10,
-        }}
+        className={
+          open
+            ? "grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 md:gap-5"
+            : ""
+        }
       >
         <div
           style={{
             position: "relative",
-            aspectRatio: "16 / 9",
-            borderRadius: 14,
-            overflow: "hidden",
-            background: PALETTE.ink,
+            background: "#fff",
+            borderRadius: 22,
+            border: `3px solid ${PALETTE.ink}`,
+            boxShadow: `5px 5px 0 ${PALETTE.ink}`,
+            padding: 10,
           }}
         >
-          <iframe
-            ref={iframeRef}
-            src={buildPlayerSrc(videoId)}
-            title={title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
+          <div
             style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              border: 0,
+              position: "relative",
+              aspectRatio: "16 / 9",
+              borderRadius: 14,
+              overflow: "hidden",
+              background: PALETTE.ink,
             }}
-          />
+          >
+            <iframe
+              ref={iframeRef}
+              src={buildPlayerSrc(videoId)}
+              title={title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                border: 0,
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <ChatReplay videoId={videoId} currentTime={currentTime} />
+        {open && <ChatReplay videoId={videoId} currentTime={currentTime} />}
+      </div>
     </div>
   );
 }
