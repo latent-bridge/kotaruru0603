@@ -12,6 +12,8 @@ export const streamerConfig = {
       // 現状はデモとして Lofi Girl の常時ライブを利用。
       liveVideoId: "jfKfPfyJRdk",
     },
+    // Discord サーバ (guildId: 1496724862423666690, channel #雑談: 1496724863434621010) は
+    // バックエンド側のサイト↔Discord マッピングで管理する予定。chat-infrastructure.md 参照。
   },
 
   donate: {

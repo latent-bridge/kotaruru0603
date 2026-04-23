@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa, Kumo } from "@/components/mochi-ui";
 import { LiveBadge } from "@/components/live-badge";
+import { AuthPill } from "@/components/AuthPill";
 
 export default function MochiLayout({
   children,
@@ -102,7 +103,9 @@ function TopBar() {
         <NavPill href="/schedule" label="よてい" />
         <NavPill href="/archive" label="おもいで" />
         <NavPill href="/stream" label="らいぶ" />
+        <NavPill href="/chat" label="ざつだん" />
         <LiveBadge />
+        <AuthPill />
       </div>
     </header>
   );
