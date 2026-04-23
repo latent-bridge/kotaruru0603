@@ -12,6 +12,18 @@ type Message = {
 
 type Status = "connecting" | "connected" | "error";
 
+type User = {
+  id: string;
+  display_name: string;
+  avatar_url: string | null;
+  has_discord: boolean;
+};
+
+type AuthState =
+  | { status: "loading" }
+  | { status: "anonymous" }
+  | { status: "authenticated"; user: User };
+
 type Props = {
   siteId?: string;
   height?: number;
@@ -20,9 +32,12 @@ type Props = {
 const API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
 
+const MESSAGE_MAX_LEN = 500;
+
 export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<Status>("connecting");
+  const [auth, setAuth] = useState<AuthState>({ status: "loading" });
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -41,6 +56,27 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
     };
     return () => es.close();
   }, [siteId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/me`, { credentials: "include" });
+        if (cancelled) return;
+        if (res.status === 200) {
+          const user = (await res.json()) as User;
+          setAuth({ status: "authenticated", user });
+        } else {
+          setAuth({ status: "anonymous" });
+        }
+      } catch {
+        if (!cancelled) setAuth({ status: "anonymous" });
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -78,7 +114,7 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
           messages.map((m) => <MessageBubble key={m.id} message={m} />)
         )}
       </div>
-      <Footer />
+      <ComposeArea auth={auth} siteId={siteId} />
     </div>
   );
 }
@@ -223,20 +259,203 @@ function EmptyState({ status }: { status: Status }) {
   );
 }
 
-function Footer() {
+function ComposeArea({ auth, siteId }: { auth: AuthState; siteId: string }) {
+  if (auth.status === "loading") {
+    return <ComposeShell>&nbsp;</ComposeShell>;
+  }
+  if (auth.status === "anonymous") {
+    return (
+      <ComposeShell>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 10,
+          }}
+        >
+          <span style={{ fontSize: 12, color: PALETTE.inkDim }}>
+            ログインすると かきこめるよ ♡
+          </span>
+          <div style={{ display: "flex", gap: 6 }}>
+            <a href="/login/" style={linkPill(false)}>
+              ログイン
+            </a>
+            <a href="/register/" style={linkPill(true)}>
+              とうろく
+            </a>
+          </div>
+        </div>
+      </ComposeShell>
+    );
+  }
+  if (!auth.user.has_discord) {
+    return (
+      <ComposeShell>
+        <span style={{ fontSize: 12, color: PALETTE.inkDim }}>
+          Discord と れんけいすると かきこめるようになるよ
+        </span>
+      </ComposeShell>
+    );
+  }
+  return <SendForm siteId={siteId} user={auth.user} />;
+}
+
+function ComposeShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        padding: "10px 16px",
+        padding: "10px 14px",
         borderTop: `2px solid ${PALETTE.inkSoft}`,
-        fontSize: 10,
-        fontFamily: FONTS.mono,
-        color: PALETTE.inkDim,
-        textAlign: "center",
-        letterSpacing: 1,
+        background: PALETTE.paper,
       }}
     >
-      DISCORD → LIVE FEED · READ ONLY
+      {children}
     </div>
   );
+}
+
+function SendForm({ siteId, user }: { siteId: string; user: User }) {
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const trimmed = message.trim();
+  const over = message.length > MESSAGE_MAX_LEN;
+  const canSend = !sending && !!trimmed && !over;
+
+  async function send() {
+    if (!canSend) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/chat/${siteId}/send`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: trimmed }),
+      });
+      if (res.ok) {
+        setMessage("");
+        textareaRef.current?.focus();
+      } else {
+        const payload = await res.json().catch(() => ({}));
+        setError(translateError(payload.error, res.status));
+      }
+    } catch {
+      setError("つうしんに しっぱいしたみたい。もういちど おねがい");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      send();
+    }
+  }
+
+  return (
+    <div
+      style={{
+        borderTop: `2px solid ${PALETTE.inkSoft}`,
+        padding: "10px 14px",
+        background: PALETTE.paper,
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "flex-end", gap: 8 }}>
+        <textarea
+          ref={textareaRef}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={onKeyDown}
+          placeholder={`${user.display_name} として はつげん…`}
+          rows={2}
+          style={{
+            flex: 1,
+            resize: "none",
+            padding: "8px 10px",
+            border: `2px solid ${PALETTE.ink}`,
+            borderRadius: 12,
+            background: "#fff",
+            fontSize: 13,
+            fontFamily: FONTS.body,
+            color: PALETTE.ink,
+            outline: "none",
+          }}
+          disabled={sending}
+        />
+        <button
+          onClick={send}
+          disabled={!canSend}
+          style={{
+            padding: "8px 14px",
+            border: `2px solid ${PALETTE.ink}`,
+            borderRadius: 12,
+            background: canSend ? PALETTE.accent : PALETTE.inkSoft,
+            color: canSend ? "#fff" : PALETTE.inkDim,
+            fontSize: 12,
+            fontWeight: 900,
+            cursor: canSend ? "pointer" : "not-allowed",
+          }}
+        >
+          {sending ? "…" : "おくる"}
+        </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 10,
+          fontFamily: FONTS.mono,
+          color: over ? PALETTE.accent : PALETTE.inkDim,
+        }}
+      >
+        <span>{error ?? "⌘/Ctrl + Enter でそうしん"}</span>
+        <span>
+          {message.length}/{MESSAGE_MAX_LEN}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function translateError(code: string | undefined, status: number): string {
+  switch (code) {
+    case "empty_message":
+      return "なにか かいてね";
+    case "message_too_long":
+      return `${MESSAGE_MAX_LEN}もじ までにしてね`;
+    case "discord_not_linked":
+      return "Discord と れんけいが ひつようです";
+    case "rate_limited":
+      return "ちょっと はやすぎるみたい。少し おちついてね";
+    case "webhook_not_configured":
+      return "いま そうしんを せってい中…もう少し待ってね";
+    case "webhook_post_failed":
+    case "webhook_post_error":
+      return "Discord に とどかなかったみたい";
+    case "not_authenticated":
+      return "ログインの じかんが きれたみたい。もういちど ログインしてね";
+    default:
+      return `そうしん しっぱい (${status})`;
+  }
+}
+
+function linkPill(filled: boolean): React.CSSProperties {
+  return {
+    padding: "5px 12px",
+    borderRadius: 999,
+    border: `2px solid ${PALETTE.ink}`,
+    background: filled ? PALETTE.cream : "transparent",
+    color: PALETTE.ink,
+    fontSize: 12,
+    fontWeight: 700,
+    textDecoration: "none",
+  };
 }
