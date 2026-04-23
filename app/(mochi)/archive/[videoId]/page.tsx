@@ -23,6 +23,7 @@ import {
   ArchiveCard,
   ClipCard,
   CategoryChip,
+  CollabBadge,
   CollabChip,
 } from "@/components/archive-ui";
 import { ArchivePlayerWithChatToggle } from "@/components/stream-ui";
@@ -301,6 +302,7 @@ function VideoHeader({
         }}
       >
         {memory.category && <CategoryChip category={memory.category} />}
+        {memory.collabWith.length > 0 && <CollabBadge />}
         {memory.game && (
           <span
             style={{

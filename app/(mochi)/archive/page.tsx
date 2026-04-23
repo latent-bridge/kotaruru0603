@@ -16,7 +16,11 @@ import {
   ArchiveCard,
   ClipCard,
   CATEGORY_COLORS,
+  COLLAB_COLOR,
 } from "@/components/archive-ui";
+
+/** カテゴリチップで選べる値: 個別 Category / "collab"(コラボのみ) / null(ぜんぶ) */
+type CategoryFilter = Category | "collab" | null;
 
 type SortKey = "newest" | "oldest" | "popular" | "series";
 
@@ -29,7 +33,7 @@ const SORT_LABELS: Record<SortKey, string> = {
 
 export default function ArchivePage() {
   const [kind, setKind] = useState<Kind>("stream");
-  const [category, setCategory] = useState<Category | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>(null);
   const [game, setGame] = useState<Game | null>(null);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortKey>("newest");
@@ -44,14 +48,20 @@ export default function ArchivePage() {
   );
 
   const filtered = useMemo(() => {
+    const isCollab = categoryFilter === "collab";
+    const cat =
+      kind === "stream" && categoryFilter && categoryFilter !== "collab"
+        ? categoryFilter
+        : null;
     return queryMemories(memories, {
       kind,
-      category: kind === "stream" ? category : null,
+      category: cat,
+      collabOnly: kind === "stream" && isCollab,
       game: kind === "stream" ? game : null,
       search,
       sort,
     });
-  }, [kind, category, game, search, sort]);
+  }, [kind, categoryFilter, game, search, sort]);
 
   return (
     <main className="max-w-[1200px] mx-auto px-5 md:px-10 relative">
@@ -111,8 +121,8 @@ export default function ArchivePage() {
         <StreamFilters
           search={search}
           setSearch={setSearch}
-          category={category}
-          setCategory={setCategory}
+          categoryFilter={categoryFilter}
+          setCategoryFilter={setCategoryFilter}
           game={game}
           setGame={setGame}
           sort={sort}
@@ -240,8 +250,8 @@ function KindTabs({
 function StreamFilters({
   search,
   setSearch,
-  category,
-  setCategory,
+  categoryFilter,
+  setCategoryFilter,
   game,
   setGame,
   sort,
@@ -251,8 +261,8 @@ function StreamFilters({
 }: {
   search: string;
   setSearch: (v: string) => void;
-  category: Category | null;
-  setCategory: (v: Category | null) => void;
+  categoryFilter: CategoryFilter;
+  setCategoryFilter: (v: CategoryFilter) => void;
   game: Game | null;
   setGame: (v: Game | null) => void;
   sort: SortKey;
@@ -284,19 +294,25 @@ function StreamFilters({
           しゅるい:
         </span>
         <CategoryChipButton
-          active={category === null}
-          onClick={() => setCategory(null)}
+          active={categoryFilter === null}
+          onClick={() => setCategoryFilter(null)}
           label="ぜんぶ"
         />
         {CATEGORIES.map((c) => (
           <CategoryChipButton
             key={c}
-            active={category === c}
-            onClick={() => setCategory(c)}
+            active={categoryFilter === c}
+            onClick={() => setCategoryFilter(c)}
             label={c}
             color={CATEGORY_COLORS[c]}
           />
         ))}
+        <CategoryChipButton
+          active={categoryFilter === "collab"}
+          onClick={() => setCategoryFilter("collab")}
+          label="こらぼ"
+          color={COLLAB_COLOR}
+        />
       </div>
 
       <div className="flex flex-wrap items-center gap-3 mt-3">

@@ -27,9 +27,16 @@ export const CATEGORIES = [
   "ポンコツだいぶ",
   "ポンコツさむらい",
   "ゆるげーむ",
-  "こらぼ",
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
+
+/**
+ * 「こらぼ」は category ではなく「こらぼ相手がいるか」の独立した軸。
+ * UI のフィルタチップでは他の category と並んで見えるが、内部的には
+ * collabWith.length > 0 でフィルタされる。
+ */
+export const COLLAB_FILTER_KEY = "こらぼ" as const;
+export type CollabFilterKey = typeof COLLAB_FILTER_KEY;
 
 export type Kind = "stream" | "clip";
 
@@ -244,6 +251,7 @@ export const memories: Memory[] = rawArchive.videos
 export type ArchiveQuery = {
   kind?: Kind;
   category?: Category | null; // null = すべて
+  collabOnly?: boolean; // true = コラボ相手がいる動画のみ
   game?: Game | null; // null = すべて
   search?: string;
   sort?: "newest" | "oldest" | "popular" | "series";
@@ -257,6 +265,7 @@ export function queryMemories(
 
   if (q.kind) out = out.filter((m) => m.kind === q.kind);
   if (q.category) out = out.filter((m) => m.category === q.category);
+  if (q.collabOnly) out = out.filter((m) => m.collabWith.length > 0);
   if (q.game) out = out.filter((m) => m.game === q.game);
 
   const s = q.search?.trim().toLowerCase();

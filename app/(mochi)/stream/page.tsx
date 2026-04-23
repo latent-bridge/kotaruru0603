@@ -14,6 +14,7 @@ import { EyebrowChip, Kumo, Onigiri } from "@/components/mochi-ui";
 import {
   ArchiveCard,
   CategoryChip,
+  CollabBadge,
   CollabChip,
 } from "@/components/archive-ui";
 import { StreamPlayer, StreamChat } from "@/components/stream-ui";
@@ -155,6 +156,7 @@ function MetaRow({ memory, videoId }: { memory: Memory; videoId: string }) {
       }}
     >
       {memory.category && <CategoryChip category={memory.category} />}
+      {memory.collabWith.length > 0 && <CollabBadge />}
       {memory.game && (
         <span
           style={{
@@ -325,6 +327,7 @@ function UpcomingView({
               }}
             >
               {memory.category && <CategoryChip category={memory.category} />}
+              {memory.collabWith.length > 0 && <CollabBadge />}
               {memory.game && (
                 <span
                   style={{

@@ -13,8 +13,10 @@ export const CATEGORY_COLORS: Record<Category, { color: string; bg: string }> = 
   "ポンコツだいぶ": { color: "#c25470", bg: "#fbe0e4" },
   "ポンコツさむらい": { color: "#7a6bb4", bg: "#e2dff2" },
   "ゆるげーむ": { color: "#5a8870", bg: "#d6e6d8" },
-  "こらぼ": { color: "#a68248", bg: "#f6e8b0" },
 };
+
+/** コラボ専用の色 (ゲーム category と同系統だが独立) */
+export const COLLAB_COLOR = { color: "#a68248", bg: "#f6e8b0" };
 
 export function CategoryChip({
   category,
@@ -41,6 +43,28 @@ export function CategoryChip({
       }}
     >
       {category}
+    </span>
+  );
+}
+
+export function CollabBadge({ size = "sm" }: { size?: "sm" | "xs" }) {
+  const pad = size === "xs" ? "2px 8px" : "3px 10px";
+  const fs = size === "xs" ? 10 : 11;
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        padding: pad,
+        background: COLLAB_COLOR.bg,
+        color: COLLAB_COLOR.color,
+        fontSize: fs,
+        fontWeight: 700,
+        borderRadius: 999,
+        border: `1.5px solid ${COLLAB_COLOR.color}`,
+        fontFamily: FONTS.body,
+      }}
+    >
+      こらぼ
     </span>
   );
 }
@@ -194,6 +218,7 @@ export function ArchiveCard({ memory }: { memory: Memory }) {
             }}
           >
             {memory.category && <CategoryChip category={memory.category} />}
+            {memory.collabWith.length > 0 && <CollabBadge />}
             {memory.episode !== null && (
               <span
                 style={{

@@ -38,7 +38,7 @@ type Game =
   | "Planet of Lana"
   | "Arise";
 
-type Category = "ポンコツだいぶ" | "ポンコツさむらい" | "ゆるげーむ" | "こらぼ";
+type Category = "ポンコツだいぶ" | "ポンコツさむらい" | "ゆるげーむ";
 
 type Inferred = {
   category?: Category;
@@ -183,12 +183,13 @@ function inferCollabWith(title: string): CollabInfo {
 }
 
 function inferCategory(
-  collab: CollabInfo,
   game: Game | undefined,
   isClip: boolean,
 ): Category | undefined {
-  if (isClip) return undefined; // クリップは category なし
-  if (collab.isExplicit) return "こらぼ";
+  // category は「ゲーム軸」に一本化する。コラボかどうかは collabWith で
+  // 独立に表現するので、こらぼ回でも game-derived category を立てる
+  // (以前は collab なら game を捨てて "こらぼ" を出していた)。
+  if (isClip) return undefined;
   if (game) return GAME_TO_CATEGORY[game];
   return undefined;
 }
@@ -201,7 +202,7 @@ function inferOne(raw: RawVideo): Inferred {
   const isClip = isClipVideo(raw);
   const game = inferGame(raw.title);
   const collab = inferCollabWith(raw.title);
-  const category = inferCategory(collab, game, isClip);
+  const category = inferCategory(game, isClip);
   const episode = inferEpisode(raw.title);
 
   const inferred: Inferred = {};
