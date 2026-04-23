@@ -365,7 +365,9 @@
       }
     },
     "PDJQsYvzg8E": {
-      "_inferred": {}
+      "_inferred": {},
+      "hidden": true,
+      "memo": "放棄された予約配信 (durationSec=0, scheduledStartTime=null)"
     },
     "fFfguv2ILm8": {
       "_inferred": {
