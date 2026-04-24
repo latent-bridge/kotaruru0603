@@ -106,12 +106,11 @@ function TopBar() {
         </div>
       </div>
 
-      {/* Row 2: navigation */}
+      {/* Row 2: navigation — "らいぶ" はライブ中のみ LiveBadge が上段に現れて /stream/ へ誘導するので常設ナビからは外す */}
       <nav className="flex items-center gap-2 md:gap-3 flex-wrap mt-3 md:mt-4">
         <NavPill href="/" label="おうち" />
         <NavPill href="/schedule" label="よてい" />
         <NavPill href="/archive" label="おもいで" />
-        <NavPill href="/stream" label="らいぶ" />
         <NavPill href="/chat" label="ざつだん" />
       </nav>
     </header>
