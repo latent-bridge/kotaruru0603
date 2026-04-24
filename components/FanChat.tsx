@@ -84,6 +84,13 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages]);
 
+  // Matches what chat-api puts in the webhook username, so the SSE feed can
+  // tell our own messages apart from everyone else's.
+  const selfLabel =
+    auth.status === "authenticated"
+      ? `${auth.user.display_name} #${auth.user.tag}`
+      : null;
+
   return (
     <div
       style={{
@@ -112,7 +119,13 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
         {messages.length === 0 ? (
           <EmptyState status={status} />
         ) : (
-          messages.map((m) => <MessageBubble key={m.id} message={m} />)
+          messages.map((m) => (
+            <MessageBubble
+              key={m.id}
+              message={m}
+              isSelf={selfLabel !== null && m.author === selfLabel}
+            />
+          ))
         )}
       </div>
       <ComposeArea auth={auth} siteId={siteId} />
@@ -188,7 +201,13 @@ function ConnectionBadge({ status }: { status: Status }) {
   );
 }
 
-function MessageBubble({ message }: { message: Message }) {
+function MessageBubble({
+  message,
+  isSelf,
+}: {
+  message: Message;
+  isSelf: boolean;
+}) {
   const time = new Date(message.timestamp).toLocaleTimeString("ja-JP", {
     hour: "2-digit",
     minute: "2-digit",
@@ -198,8 +217,8 @@ function MessageBubble({ message }: { message: Message }) {
       style={{
         alignSelf: "flex-start",
         maxWidth: "90%",
-        background: PALETTE.paper,
-        border: `2px solid ${PALETTE.inkSoft}`,
+        background: isSelf ? `${PALETTE.mint}55` : PALETTE.paper,
+        border: `2px solid ${isSelf ? PALETTE.mint : PALETTE.inkSoft}`,
         borderRadius: 14,
         padding: "8px 12px",
       }}
