@@ -142,8 +142,8 @@ function Header({ status }: { status: Status }) {
         }}
       >
         <span style={{ fontSize: 18 }}>💬</span>
-        <span style={{ fontSize: 12, letterSpacing: 1, fontFamily: FONTS.mono }}>
-          LIVE CHAT
+        <span style={{ fontSize: 13, fontWeight: 900 }}>
+          みんなの こえ
         </span>
       </div>
       <ConnectionBadge status={status} />
@@ -196,6 +196,8 @@ function MessageBubble({ message }: { message: Message }) {
   return (
     <div
       style={{
+        alignSelf: "flex-start",
+        maxWidth: "90%",
         background: PALETTE.paper,
         border: `2px solid ${PALETTE.inkSoft}`,
         borderRadius: 14,
