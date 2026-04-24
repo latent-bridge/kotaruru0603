@@ -65,7 +65,11 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 function SettingsPanelInner() {
   const [state, setState] = useState<LinkState>({ status: "loading" });
-  const [busy, setBusy] = useState<ProviderId | "logout" | null>(null);
+  const [busy, setBusy] = useState<ProviderId | "logout" | "name" | null>(null);
+  const [nameInput, setNameInput] = useState("");
+  const [nameStatus, setNameStatus] = useState<
+    { kind: "idle" } | { kind: "ok" } | { kind: "error"; message: string }
+  >({ kind: "idle" });
   const params = useSearchParams();
   const errorCode = params?.get("error");
   const errorMessage = errorCode ? ERROR_MESSAGES[errorCode] : null;
@@ -96,6 +100,69 @@ function SettingsPanelInner() {
       window.location.replace("/login/");
     }
   }, [state.status]);
+
+  useEffect(() => {
+    if (state.status === "authenticated") {
+      setNameInput(state.user.display_name);
+    }
+  }, [state.status]);
+
+  async function saveName() {
+    if (state.status !== "authenticated") return;
+    const trimmed = nameInput.trim();
+    if (!trimmed) {
+      setNameStatus({ kind: "error", message: "なまえを いれてね" });
+      return;
+    }
+    if (trimmed === state.user.display_name) {
+      setNameStatus({ kind: "idle" });
+      return;
+    }
+    setBusy("name");
+    setNameStatus({ kind: "idle" });
+    try {
+      const res = await fetch(`${CHAT_API_BASE}/me/name`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: trimmed }),
+      });
+      const body = (await res.json().catch(() => ({}))) as {
+        user?: User;
+        error?: string;
+        max?: number;
+      };
+      if (res.ok && body.user) {
+        setState({ status: "authenticated", user: body.user });
+        setNameStatus({ kind: "ok" });
+        try {
+          window.sessionStorage.removeItem("lb_me_cache_v1");
+        } catch {
+          /* ignore */
+        }
+      } else {
+        const message = (() => {
+          switch (body.error) {
+            case "empty_name":
+              return "なまえを いれてね";
+            case "name_too_long":
+              return `${body.max ?? 32}もじ までに してね`;
+            case "invalid_chars":
+              return "つかえない もじ が はいってるよ";
+            case "not_authenticated":
+              return "ログインしなおして ください";
+            default:
+              return `ほぞん しっぱい (${res.status})`;
+          }
+        })();
+        setNameStatus({ kind: "error", message });
+      }
+    } catch {
+      setNameStatus({ kind: "error", message: "つうしん しっぱい" });
+    } finally {
+      setBusy(null);
+    }
+  }
 
   async function unlink(providerId: ProviderId) {
     if (
@@ -247,18 +314,144 @@ function SettingsPanelInner() {
         )}
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ fontSize: 16, fontWeight: 900, color: PALETTE.ink }}>
-            {user.display_name}
+            {user.display_name}{" "}
+            <span
+              style={{
+                fontFamily: FONTS.mono,
+                color: PALETTE.inkDim,
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              #{user.id.slice(0, 6)}
+            </span>
           </span>
-          <span
+          <span style={{ fontSize: 10, color: PALETTE.inkDim }}>
+            チャットで こう ひょうじされるよ
+          </span>
+        </div>
+      </div>
+
+      <h2 style={sectionHeading}>プロフィール</h2>
+      <div
+        style={{
+          background: "#fff",
+          border: `2px solid ${PALETTE.ink}`,
+          borderRadius: 16,
+          padding: "14px 16px",
+          marginBottom: 24,
+          boxShadow: `3px 3px 0 ${PALETTE.inkSoft}`,
+        }}
+      >
+        <label
+          htmlFor="display-name"
+          style={{
+            display: "block",
+            fontSize: 11,
+            fontFamily: FONTS.mono,
+            color: PALETTE.inkDim,
+            letterSpacing: 0.8,
+            marginBottom: 6,
+          }}
+        >
+          なまえ (1〜32もじ)
+        </label>
+        <div style={{ display: "flex", gap: 8 }}>
+          <input
+            id="display-name"
+            type="text"
+            value={nameInput}
+            onChange={(e) => {
+              setNameInput(e.target.value);
+              if (nameStatus.kind !== "idle") setNameStatus({ kind: "idle" });
+            }}
+            maxLength={64}
+            disabled={busy !== null}
             style={{
-              fontSize: 10,
-              fontFamily: FONTS.mono,
-              color: PALETTE.inkDim,
-              letterSpacing: 0.6,
+              flex: 1,
+              padding: "8px 12px",
+              fontSize: 14,
+              fontFamily: FONTS.body,
+              color: PALETTE.ink,
+              background: PALETTE.paper,
+              border: `2px solid ${PALETTE.ink}`,
+              borderRadius: 10,
+              outline: "none",
+            }}
+          />
+          <button
+            type="button"
+            onClick={saveName}
+            disabled={
+              busy !== null ||
+              !nameInput.trim() ||
+              nameInput.trim() === user.display_name
+            }
+            style={{
+              padding: "8px 16px",
+              borderRadius: 10,
+              border: `2px solid ${PALETTE.ink}`,
+              background:
+                busy !== null ||
+                !nameInput.trim() ||
+                nameInput.trim() === user.display_name
+                  ? PALETTE.inkSoft
+                  : PALETTE.accent,
+              color:
+                busy !== null ||
+                !nameInput.trim() ||
+                nameInput.trim() === user.display_name
+                  ? PALETTE.inkDim
+                  : "#fff",
+              fontSize: 12,
+              fontWeight: 900,
+              cursor:
+                busy !== null ||
+                !nameInput.trim() ||
+                nameInput.trim() === user.display_name
+                  ? "not-allowed"
+                  : "pointer",
             }}
           >
-            USER ID · {user.id}
-          </span>
+            {busy === "name" ? "..." : "ほぞん"}
+          </button>
+        </div>
+        {nameStatus.kind === "ok" && (
+          <div
+            role="status"
+            style={{
+              marginTop: 8,
+              fontSize: 11,
+              color: PALETTE.mint,
+              fontWeight: 700,
+            }}
+          >
+            ほぞん しました ♡
+          </div>
+        )}
+        {nameStatus.kind === "error" && (
+          <div
+            role="alert"
+            style={{
+              marginTop: 8,
+              fontSize: 11,
+              color: PALETTE.accent,
+              fontWeight: 700,
+            }}
+          >
+            {nameStatus.message}
+          </div>
+        )}
+        <div
+          style={{
+            marginTop: 10,
+            fontSize: 10,
+            fontFamily: FONTS.mono,
+            color: PALETTE.inkDim,
+            letterSpacing: 0.4,
+          }}
+        >
+          ID · #{user.id.slice(0, 6)}(へんこう できません)
         </div>
       </div>
 

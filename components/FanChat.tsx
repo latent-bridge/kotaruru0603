@@ -277,14 +277,9 @@ function ComposeArea({ auth, siteId }: { auth: AuthState; siteId: string }) {
           <span style={{ fontSize: 12, color: PALETTE.inkDim }}>
             ログインすると かきこめるよ ♡
           </span>
-          <div style={{ display: "flex", gap: 6 }}>
-            <a href="/login/" style={linkPill(false)}>
-              ログイン
-            </a>
-            <a href="/register/" style={linkPill(true)}>
-              とうろく
-            </a>
-          </div>
+          <a href="/login/" style={linkPill(true)}>
+            ログイン
+          </a>
         </div>
       </ComposeShell>
     );
