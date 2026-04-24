@@ -153,7 +153,8 @@ function MochiFooter() {
           ♡ またきてね
         </span>
       </div>
-      <span
+      <div
+        className="flex items-center gap-3"
         style={{
           fontSize: 10,
           fontFamily: FONTS.mono,
@@ -161,8 +162,18 @@ function MochiFooter() {
           letterSpacing: 1,
         }}
       >
-        MOCHI HOUSE
-      </span>
+        <Link
+          href="/privacy/"
+          style={{
+            color: PALETTE.inkDim,
+            textDecoration: "none",
+            borderBottom: `1px dotted ${PALETTE.inkSoft}`,
+          }}
+        >
+          PRIVACY
+        </Link>
+        <span>MOCHI HOUSE</span>
+      </div>
     </footer>
   );
 }

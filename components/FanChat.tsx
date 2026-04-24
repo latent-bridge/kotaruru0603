@@ -289,15 +289,6 @@ function ComposeArea({ auth, siteId }: { auth: AuthState; siteId: string }) {
       </ComposeShell>
     );
   }
-  if (!auth.user.has_discord) {
-    return (
-      <ComposeShell>
-        <span style={{ fontSize: 12, color: PALETTE.inkDim }}>
-          Discord と れんけいすると かきこめるようになるよ
-        </span>
-      </ComposeShell>
-    );
-  }
   return <SendForm siteId={siteId} user={auth.user} />;
 }
 
@@ -431,8 +422,8 @@ function translateError(code: string | undefined, status: number): string {
       return "なにか かいてね";
     case "message_too_long":
       return `${MESSAGE_MAX_LEN}もじ までにしてね`;
-    case "discord_not_linked":
-      return "Discord と れんけいが ひつようです";
+    case "profile_incomplete":
+      return "プロフィールじょうほう が たりません";
     case "rate_limited":
       return "ちょっと はやすぎるみたい。少し おちついてね";
     case "webhook_not_configured":

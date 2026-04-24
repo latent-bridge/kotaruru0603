@@ -168,7 +168,7 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
             position: "absolute",
             right: 0,
             top: "calc(100% + 6px)",
-            minWidth: 160,
+            minWidth: 180,
             background: "#fff",
             border: `2px solid ${PALETTE.ink}`,
             borderRadius: 14,
@@ -186,21 +186,22 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
               letterSpacing: 0.5,
             }}
           >
-            {user.has_discord ? "Discord 連携済" : "未連携"}
+            {providerStatus(user)}
           </div>
+          <Link
+            href="/settings/"
+            onClick={() => setOpen(false)}
+            style={menuItemStyle(PALETTE.ink)}
+          >
+            せってい
+          </Link>
           <button
             onClick={handleLogout}
             style={{
-              display: "block",
-              width: "100%",
-              textAlign: "left",
-              padding: "6px 8px",
-              fontSize: 12,
-              color: PALETTE.accent,
+              ...menuItemStyle(PALETTE.accent),
               background: "transparent",
               border: "none",
               cursor: "pointer",
-              fontWeight: 700,
               fontFamily: FONTS.body,
             }}
           >
@@ -210,6 +211,28 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
       )}
     </div>
   );
+}
+
+function providerStatus(user: User): string {
+  const linked: string[] = [];
+  if (user.has_discord) linked.push("Discord");
+  if (user.has_google) linked.push("YouTube");
+  if (linked.length === 0) return "IdP 未連携";
+  return `${linked.join(" ・ ")} 連携済`;
+}
+
+function menuItemStyle(color: string): React.CSSProperties {
+  return {
+    display: "block",
+    width: "100%",
+    textAlign: "left",
+    padding: "6px 8px",
+    fontSize: 12,
+    color,
+    fontWeight: 700,
+    textDecoration: "none",
+    borderRadius: 6,
+  };
 }
 
 function pillStyle(filled: boolean): React.CSSProperties {
