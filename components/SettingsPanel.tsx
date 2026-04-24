@@ -35,20 +35,20 @@ type ProviderConfig = {
 
 const PROVIDERS: ProviderConfig[] = [
   {
-    id: "discord",
-    label: "Discord",
-    linkedLabel: "Discord に れんけいずみ",
-    background: "#5865F2",
-    color: "#fff",
-    check: (u) => u.has_discord,
-  },
-  {
     id: "google",
     label: "YouTube",
     linkedLabel: "YouTube に れんけいずみ",
     background: "#fff",
     color: PALETTE.ink,
     check: (u) => u.has_google,
+  },
+  {
+    id: "discord",
+    label: "Discord",
+    linkedLabel: "Discord に れんけいずみ",
+    background: "#5865F2",
+    color: "#fff",
+    check: (u) => u.has_discord,
   },
 ];
 

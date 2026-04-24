@@ -21,18 +21,18 @@ type ProviderConfig = {
 
 const PROVIDERS: ProviderConfig[] = [
   {
-    id: "discord",
-    label: { login: "Discord でログイン", register: "Discord で登録" },
-    background: "#5865F2",
-    color: "#fff",
-    Mark: DiscordMark,
-  },
-  {
     id: "google",
     label: { login: "YouTube でログイン", register: "YouTube で登録" },
     background: "#fff",
     color: PALETTE.ink,
     Mark: GoogleMark,
+  },
+  {
+    id: "discord",
+    label: { login: "Discord でログイン", register: "Discord で登録" },
+    background: "#5865F2",
+    color: "#fff",
+    Mark: DiscordMark,
   },
 ];
 
