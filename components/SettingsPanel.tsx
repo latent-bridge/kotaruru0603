@@ -14,6 +14,7 @@ type User = {
   has_discord: boolean;
   has_google: boolean;
   has_email: boolean;
+  tag: string;
 };
 
 type LinkState =
@@ -323,7 +324,7 @@ function SettingsPanelInner() {
                 fontWeight: 700,
               }}
             >
-              #{user.id.slice(0, 6)}
+              #{user.tag}
             </span>
           </span>
           <span style={{ fontSize: 10, color: PALETTE.inkDim }}>
@@ -451,7 +452,7 @@ function SettingsPanelInner() {
             letterSpacing: 0.4,
           }}
         >
-          ID · #{user.id.slice(0, 6)}(へんこう できません)
+          ID · #{user.tag}(へんこう できません)
         </div>
       </div>
 

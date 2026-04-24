@@ -13,6 +13,7 @@ type Message = {
 type Status = "connecting" | "connected" | "error";
 
 type User = {
+  tag: string;
   id: string;
   display_name: string;
   avatar_url: string | null;

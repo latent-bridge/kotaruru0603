@@ -14,6 +14,7 @@ type User = {
   has_discord: boolean;
   has_google: boolean;
   has_email: boolean;
+  tag: string;
 };
 
 type AuthState =
