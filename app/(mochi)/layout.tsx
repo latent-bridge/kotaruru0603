@@ -69,44 +69,51 @@ function TopBar() {
   const { streamer } = MOCHI;
   return (
     <header
-      className="flex flex-wrap items-center justify-between gap-3 px-5 md:px-10 pt-5 md:pt-6 pb-3 max-w-[1280px] mx-auto"
+      className="px-5 md:px-10 pt-5 md:pt-6 pb-3 max-w-[1280px] mx-auto"
       style={{ position: "relative", zIndex: 10 }}
     >
-      <Link
-        href="/"
-        className="flex items-center gap-3"
-        style={{ textDecoration: "none", color: PALETTE.ink }}
-      >
-        <MochiUsa size={42} />
-        <div>
-          <div
-            className="text-[15px] md:text-[17px]"
-            style={{ fontWeight: 900, lineHeight: 1.1 }}
-          >
-            {streamer.name}
+      {/* Row 1: brand + status/auth */}
+      <div className="flex items-center justify-between gap-3">
+        <Link
+          href="/"
+          className="flex items-center gap-3 min-w-0"
+          style={{ textDecoration: "none", color: PALETTE.ink }}
+        >
+          <MochiUsa size={42} />
+          <div className="min-w-0">
+            <div
+              className="text-[15px] md:text-[17px]"
+              style={{ fontWeight: 900, lineHeight: 1.1 }}
+            >
+              {streamer.name}
+            </div>
+            <div
+              style={{
+                fontSize: 10,
+                color: PALETTE.inkDim,
+                fontFamily: FONTS.mono,
+                letterSpacing: 0.5,
+              }}
+            >
+              {streamer.handle}
+            </div>
           </div>
-          <div
-            style={{
-              fontSize: 10,
-              color: PALETTE.inkDim,
-              fontFamily: FONTS.mono,
-              letterSpacing: 0.5,
-            }}
-          >
-            {streamer.handle}
-          </div>
-        </div>
-      </Link>
+        </Link>
 
-      <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+        <div className="flex items-center gap-2 shrink-0">
+          <LiveBadge />
+          <AuthPill />
+        </div>
+      </div>
+
+      {/* Row 2: navigation */}
+      <nav className="flex items-center gap-2 md:gap-3 flex-wrap mt-3 md:mt-4">
         <NavPill href="/" label="おうち" />
         <NavPill href="/schedule" label="よてい" />
         <NavPill href="/archive" label="おもいで" />
         <NavPill href="/stream" label="らいぶ" />
         <NavPill href="/chat" label="ざつだん" />
-        <LiveBadge />
-        <AuthPill />
-      </div>
+      </nav>
     </header>
   );
 }
