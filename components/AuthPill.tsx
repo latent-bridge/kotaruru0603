@@ -77,8 +77,22 @@ export function AuthPill() {
         if (!cancelled) setState({ status: "anonymous" });
       }
     })();
+
+    function handleUserUpdated(e: Event) {
+      const detail = (e as CustomEvent<User | null>).detail;
+      if (detail) {
+        writeCache(detail);
+        setState({ status: "authenticated", user: detail });
+      } else {
+        writeCache(null);
+        setState({ status: "anonymous" });
+      }
+    }
+    window.addEventListener("lb:user-updated", handleUserUpdated);
+
     return () => {
       cancelled = true;
+      window.removeEventListener("lb:user-updated", handleUserUpdated);
     };
   }, []);
 

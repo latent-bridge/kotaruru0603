@@ -141,6 +141,9 @@ function SettingsPanelInner() {
         } catch {
           /* ignore */
         }
+        window.dispatchEvent(
+          new CustomEvent("lb:user-updated", { detail: body.user }),
+        );
       } else {
         const message = (() => {
           switch (body.error) {
