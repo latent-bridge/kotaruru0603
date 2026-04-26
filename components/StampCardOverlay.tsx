@@ -283,7 +283,7 @@ export function CoverPanel({ cardIndex }: { cardIndex: number }) {
             marginTop: 2,
           }}
         >
-          ぽんこつスタンプ
+          ぽんこつすたんぷ
         </div>
         <div
           style={{

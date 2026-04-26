@@ -232,7 +232,7 @@ function StatusLine({ status }: { status: State }) {
     );
   }
   const text = status.today_claimed
-    ? "きょうのスタンプ もらった ♡"
+    ? "きょうのすたんぷ もらった ♡"
     : "きょうログインしたら 1 まい！";
   return (
     <div
