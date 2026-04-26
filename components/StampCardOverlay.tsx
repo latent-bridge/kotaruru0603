@@ -30,8 +30,8 @@ const T = {
   exiting: 400,
 };
 
-const CARD_W = 320;
-const PANEL_H = 132;
+export const CARD_W = 320;
+export const PANEL_H = 132;
 
 export function StampCardOverlay() {
   const [phase, setPhase] = useState<Phase>("loading");
@@ -46,6 +46,12 @@ export function StampCardOverlay() {
         setPhase("done");
         return;
       }
+      // Notify other widgets (HomeStampCard etc.) so they can refresh without
+      // having to fire their own /stamp/me. AuthPill uses the same lb: event
+      // namespace.
+      window.dispatchEvent(
+        new CustomEvent("lb:stamp-updated", { detail: r }),
+      );
       setResult(r);
       setPhase("entering");
     })();
@@ -220,7 +226,7 @@ function FoldingCard(props: {
   );
 }
 
-function CoverPanel({ cardIndex }: { cardIndex: number }) {
+export function CoverPanel({ cardIndex }: { cardIndex: number }) {
   return (
     <div
       style={{
@@ -274,7 +280,7 @@ function CoverPanel({ cardIndex }: { cardIndex: number }) {
             marginTop: 2,
           }}
         >
-          きょうの きろく
+          ぽんこつスタンプ
         </div>
         <div
           style={{
@@ -418,7 +424,7 @@ function Slot(props: {
   );
 }
 
-function Stamp({ variant }: { variant: "settled" | "falling" | "landed" }) {
+export function Stamp({ variant }: { variant: "settled" | "falling" | "landed" }) {
   // settled = pre-existing stamps from earlier days (small, slight rotation)
   // falling = the new stamp mid-drop (large, high, transparent)
   // landed  = the new stamp seated in its slot (full size, low rotation)

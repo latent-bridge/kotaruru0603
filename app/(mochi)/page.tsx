@@ -9,11 +9,13 @@ import {
 } from "@/components/mochi-ui";
 import { ArchiveCard } from "@/components/archive-ui";
 import { TodayCard } from "@/components/today-card";
+import { HomeStampCard } from "@/components/HomeStampCard";
 
 export default function HomePage() {
   return (
     <main className="max-w-[1200px] mx-auto px-5 md:px-10 relative">
       <Hero />
+      <HomeStampCard />
       <MiniCards />
       <WeekPreview />
       <LatestMemories />
