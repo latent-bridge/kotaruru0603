@@ -37,6 +37,22 @@ body {
   50% { opacity: 0.4; }
 }
 
+@keyframes stamp-shockwave {
+  0%   { transform: scale(0.8); opacity: 0.9; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+@keyframes stamp-banner-in {
+  0%   { transform: translate(-50%, -16px) scale(0.7); opacity: 0; }
+  100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+}
+
+@keyframes stamp-sparkle {
+  0%, 100% { transform: scale(0.6) rotate(0deg);   opacity: 0; }
+  40%      { transform: scale(1.2) rotate(20deg);  opacity: 1; }
+  60%      { transform: scale(1)   rotate(-10deg); opacity: 0.9; }
+}
+
 .font-mono {
   font-family: "JetBrains Mono", ui-monospace, monospace;
 }
