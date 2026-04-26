@@ -14,7 +14,7 @@ import {
   type StampClaimResult,
 } from "@/lib/stamp";
 import { PALETTE, FONTS } from "@/lib/mochi";
-import { EyebrowChip } from "@/components/mochi-ui";
+import { SectionTitle } from "@/components/mochi-ui";
 
 // undefined = loading, null = anonymous (or fetch failed), object = authed.
 type State = StampStatus | null | undefined;
@@ -63,13 +63,11 @@ export function HomeStampCard() {
 
   return (
     <section className="py-6 md:py-8">
-      {/* Eyebrow follows the same left-aligned pattern as the other home
-          sections (WeekPreview / LatestMemories). The card object itself
-          stays centered — its slight rotation reads better with breathing
-          room on both sides. */}
-      <div className="mb-4">
-        <EyebrowChip>☁ STAMP CARD ☁</EyebrowChip>
-      </div>
+      {/* Same SectionTitle pattern as WeekPreview / LatestMemories — English
+          eyebrow on top of a Japanese title, both left-aligned. The card
+          object itself stays centered: its slight rotation reads better
+          with breathing room on both sides than flush against the gutter. */}
+      <SectionTitle eyebrow="☁ STAMP CARD ☁" title="ぽんこつスタンプ" />
       <div className="flex justify-center">
         {status === undefined ? <Placeholder /> : <CardBody status={status} />}
       </div>
