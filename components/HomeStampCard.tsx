@@ -62,24 +62,20 @@ export function HomeStampCard() {
   }, []);
 
   return (
-    <section
-      className="py-6 md:py-8"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 14,
-      }}
-    >
-      <EyebrowChip>☁ STAMP CARD ☁</EyebrowChip>
-
-      {status === undefined ? (
-        <Placeholder />
-      ) : (
-        <CardBody status={status} />
-      )}
-
-      <StatusLine status={status} />
+    <section className="py-6 md:py-8">
+      {/* Eyebrow follows the same left-aligned pattern as the other home
+          sections (WeekPreview / LatestMemories). The card object itself
+          stays centered — its slight rotation reads better with breathing
+          room on both sides. */}
+      <div className="mb-4">
+        <EyebrowChip>☁ STAMP CARD ☁</EyebrowChip>
+      </div>
+      <div className="flex justify-center">
+        {status === undefined ? <Placeholder /> : <CardBody status={status} />}
+      </div>
+      <div className="flex justify-center mt-3">
+        <StatusLine status={status} />
+      </div>
     </section>
   );
 }

@@ -271,7 +271,7 @@ export function CoverPanel({ cardIndex }: { cardIndex: number }) {
             fontWeight: 700,
           }}
         >
-          MOCHI STAMP
+          PONKOTSU STAMP
         </div>
         <div
           style={{

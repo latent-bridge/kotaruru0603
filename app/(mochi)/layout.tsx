@@ -180,7 +180,7 @@ function MochiFooter() {
         >
           PRIVACY
         </Link>
-        <span>MOCHI HOUSE</span>
+        <span>PONKOTSU HOUSE</span>
       </div>
     </footer>
   );
