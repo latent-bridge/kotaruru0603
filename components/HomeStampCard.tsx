@@ -67,7 +67,7 @@ export function HomeStampCard() {
           eyebrow on top of a Japanese title, both left-aligned. The card
           object itself stays centered: its slight rotation reads better
           with breathing room on both sides than flush against the gutter. */}
-      <SectionTitle eyebrow="☁ STAMP CARD ☁" title="ぽんこつスタンプ" />
+      <SectionTitle eyebrow="☁ STAMP CARD ☁" title="すたんぷかーど" />
       <div className="flex justify-center">
         {status === undefined ? <Placeholder /> : <CardBody status={status} />}
       </div>
