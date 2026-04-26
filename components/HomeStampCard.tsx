@@ -150,7 +150,8 @@ function StaticStampPanel({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${cardSize}, 1fr)`,
+          // Fixed 7-col grid so 14-stamp cards wrap to 2 rows (week × 2).
+          gridTemplateColumns: "repeat(7, 1fr)",
           gap: 6,
           alignItems: "center",
           justifyItems: "center",

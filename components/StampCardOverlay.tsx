@@ -31,7 +31,10 @@ const T = {
 };
 
 export const CARD_W = 320;
-export const PANEL_H = 132;
+// Panel height has to fit two rows of 36px stamps + footer + padding while
+// keeping the cover and stamp panels the same dimension (the fold animation
+// hinges on this — bottom panel rotates 180° onto cover when closed).
+export const PANEL_H = 148;
 
 export function StampCardOverlay() {
   const [phase, setPhase] = useState<Phase>("loading");
@@ -335,7 +338,8 @@ function StampPanel(props: {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${cardSize}, 1fr)`,
+          // Fixed 7-col grid so 14-stamp cards wrap to 2 rows (week × 2).
+          gridTemplateColumns: "repeat(7, 1fr)",
           gap: 6,
           alignItems: "center",
           justifyItems: "center",
