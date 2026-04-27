@@ -52,9 +52,7 @@ const DEFAULT_SCHEDULE: ScheduleEntry[] = [
 ];
 
 type AdminScheduleEntry = {
-  day?: string;
-  weekday?: string | null;
-  date_label?: string | null;
+  date?: string;
   title?: string | null;
   time?: string | null;
   category?: string | null;
@@ -62,24 +60,56 @@ type AdminScheduleEntry = {
   note?: string | null;
 };
 
+const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
+const WEEKDAY_JP = ["にち", "げつ", "か", "すい", "もく", "きん", "ど"] as const;
+
+function jstYmd(d: Date): string {
+  // Asia/Tokyo calendar date as YYYY-MM-DD. Build by formatting parts so we
+  // don't drift on DST-less timezones.
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return fmt.format(d);
+}
+
+// Build the next 7 days starting from today (JST). Days without an admin
+// entry render as a "未定" placeholder so the public week always shows 7
+// cards. Future "next 14 days" expansion is a one-line constant change here.
 function resolveSchedule(): ScheduleEntry[] {
   const entries = (adminSchedule as { entries?: AdminScheduleEntry[] }).entries;
   if (!entries || entries.length === 0) return DEFAULT_SCHEDULE;
-  return entries.map((e) => {
-    const cat = (e.category && ALLOWED_CATEGORIES.has(e.category as Category))
+
+  const byDate = new Map<string, AdminScheduleEntry>();
+  for (const e of entries) if (e.date) byDate.set(e.date, e);
+
+  const todayJst = jstYmd(new Date());
+  const baseMs = Date.parse(todayJst + "T00:00:00Z");
+  const result: ScheduleEntry[] = [];
+  for (let i = 0; i < 7; i += 1) {
+    const d = new Date(baseMs + i * 86400_000);
+    const iso = d.toISOString().slice(0, 10);
+    const month = Number.parseInt(iso.slice(5, 7), 10);
+    const day = Number.parseInt(iso.slice(8, 10), 10);
+    const dow = d.getUTCDay();
+    const e = byDate.get(iso);
+    const cat = (e?.category && ALLOWED_CATEGORIES.has(e.category as Category))
       ? (e.category as Category)
-      : "おしゃべり";
-    return {
-      day: e.day ?? "",
-      weekday: e.weekday ?? "",
-      dateLabel: e.date_label ?? "",
-      title: e.title ?? "",
-      time: e.time ?? "",
-      category: cat,
-      emoji: e.emoji ?? "",
-      note: e.note ?? "",
-    };
-  });
+      : "おやすみ";
+    result.push({
+      day: DAY_KEYS[dow],
+      weekday: WEEKDAY_JP[dow],
+      dateLabel: `${month}.${day}`,
+      title: e?.title || "未定",
+      time: e?.time || "",
+      category: e ? cat : "おやすみ",
+      emoji: e?.emoji || (e ? "" : "💭"),
+      note: e?.note || "",
+    });
+  }
+  return result;
 }
 
 export const MOCHI = {

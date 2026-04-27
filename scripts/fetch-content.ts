@@ -13,9 +13,7 @@ const API_BASE =
   process.env.CHAT_API_BASE ?? "https://chat.latent-bridge.com";
 
 type ScheduleEntry = {
-  day: string;
-  weekday: string | null;
-  date_label: string | null;
+  date: string;
   title: string | null;
   time: string | null;
   category: string | null;
@@ -23,8 +21,12 @@ type ScheduleEntry = {
   note: string | null;
 };
 
+const DAYS_TO_FETCH = 14;
+
 async function main() {
-  const url = `${API_BASE}/public/schedule/${SITE_ID}`;
+  // Fetch a wider window than the public site renders (7 days) so a near-term
+  // edit during the build window doesn't wipe out the next week.
+  const url = `${API_BASE}/public/schedule/${SITE_ID}?days=${DAYS_TO_FETCH}`;
   console.log(`[fetch-content] GET ${url}`);
   let entries: ScheduleEntry[] = [];
   try {
