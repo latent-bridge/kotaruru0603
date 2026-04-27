@@ -243,7 +243,7 @@ function pillStyle(filled: boolean): React.CSSProperties {
     padding: "5px 12px",
     borderRadius: 999,
     border: `2px solid ${PALETTE.ink}`,
-    background: filled ? PALETTE.cream : "transparent",
+    background: filled ? PALETTE.cream : PALETTE.paper,
     color: PALETTE.ink,
     fontSize: 12,
     fontWeight: 700,
