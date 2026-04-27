@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { streamerConfig } from "@/config/streamer.config";
+
+const STREAMER_TAG = streamerConfig.chatTag;
 
 type Message = {
   id: string;
@@ -124,6 +127,7 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
               key={m.id}
               message={m}
               isSelf={selfTag !== null && m.tag !== null && m.tag === selfTag}
+              isStreamer={m.tag === STREAMER_TAG}
             />
           ))
         )}
@@ -204,21 +208,36 @@ function ConnectionBadge({ status }: { status: Status }) {
 function MessageBubble({
   message,
   isSelf,
+  isStreamer,
 }: {
   message: Message;
   isSelf: boolean;
+  isStreamer: boolean;
 }) {
   const time = new Date(message.timestamp).toLocaleTimeString("ja-JP", {
     hour: "2-digit",
     minute: "2-digit",
   });
+  // Visual priority: streamer > self > other. The streamer chiming in is the
+  // signal everyone wants to see, so it wins over the user's own self-tint.
+  const bg = isStreamer
+    ? `${PALETTE.coral}33`
+    : isSelf
+      ? `${PALETTE.mint}55`
+      : PALETTE.paper;
+  const borderColor = isStreamer
+    ? PALETTE.coral
+    : isSelf
+      ? PALETTE.mint
+      : PALETTE.inkSoft;
+  const nameColor = isStreamer ? "#c25470" : PALETTE.accent;
   return (
     <div
       style={{
         alignSelf: "flex-start",
         maxWidth: "90%",
-        background: isSelf ? `${PALETTE.mint}55` : PALETTE.paper,
-        border: `2px solid ${isSelf ? PALETTE.mint : PALETTE.inkSoft}`,
+        background: bg,
+        border: `2px solid ${borderColor}`,
         borderRadius: 14,
         padding: "8px 12px",
       }}
@@ -232,7 +251,10 @@ function MessageBubble({
         }}
       >
         <span style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}>
-          <span style={{ fontSize: 12, fontWeight: 900, color: PALETTE.accent }}>
+          {isStreamer && (
+            <span aria-label="streamer" style={{ fontSize: 14, lineHeight: 1 }}>🐰</span>
+          )}
+          <span style={{ fontSize: 12, fontWeight: 900, color: nameColor }}>
             {message.author}
           </span>
           {message.tag && (

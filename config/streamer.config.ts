@@ -4,6 +4,12 @@ export const streamerConfig = {
   bio: "FPSやってる。たまにチル。よろしく。",
   brandColor: "#a3ffd6",
 
+  // 4-char tag (uppercase hex from sha1(user.id)) of ruru's fan-site account.
+  // Used by FanChat to single out her messages with a different visual
+  // treatment. Currently a placeholder until ruru actually registers — swap
+  // this when her real tag is known.
+  chatTag: "7E0B",
+
   platforms: {
     youtube: {
       // ruru の YouTube チャンネル (@ruru-s2w)
