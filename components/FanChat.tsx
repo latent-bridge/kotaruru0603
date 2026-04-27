@@ -6,6 +6,9 @@ import { PALETTE, FONTS } from "@/lib/mochi";
 type Message = {
   id: string;
   author: string;
+  // 4-char tag derived from the sender's user.id, present only for messages
+  // that came through the fan-site (webhook). Native Discord posts have null.
+  tag: string | null;
   content: string;
   timestamp: number;
 };
@@ -84,12 +87,9 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages]);
 
-  // Matches what chat-api puts in the webhook username, so the SSE feed can
-  // tell our own messages apart from everyone else's.
-  const selfLabel =
-    auth.status === "authenticated"
-      ? `${auth.user.display_name} #${auth.user.tag}`
-      : null;
+  // Compare on the structured tag field rather than parsing the author string.
+  // Stable across display-name changes and content with arbitrary characters.
+  const selfTag = auth.status === "authenticated" ? auth.user.tag : null;
 
   return (
     <div
@@ -123,7 +123,7 @@ export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
             <MessageBubble
               key={m.id}
               message={m}
-              isSelf={selfLabel !== null && m.author === selfLabel}
+              isSelf={selfTag !== null && m.tag !== null && m.tag === selfTag}
             />
           ))
         )}
@@ -231,8 +231,18 @@ function MessageBubble({
           marginBottom: 3,
         }}
       >
-        <span style={{ fontSize: 12, fontWeight: 900, color: PALETTE.accent }}>
-          {message.author}
+        <span style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}>
+          <span style={{ fontSize: 12, fontWeight: 900, color: PALETTE.accent }}>
+            {message.author}
+          </span>
+          {message.tag && (
+            <span style={{
+              fontSize: 10,
+              fontFamily: FONTS.mono,
+              color: PALETTE.inkDim,
+              fontWeight: 500,
+            }}>#{message.tag}</span>
+          )}
         </span>
         <span
           style={{
