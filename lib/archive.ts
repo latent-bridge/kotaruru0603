@@ -11,6 +11,7 @@
 
 import rawJson from "@/data/archive.raw.json";
 import curatedJson from "@/data/archive.curated.json";
+import overridesJson from "@/data/archive.overrides.json";
 
 // --- 列挙定義 -----------------------------------------------------------
 
@@ -112,18 +113,54 @@ type CuratedArchive = {
   videos: Record<string, CuratedVideo>;
 };
 
-function effective(c: CuratedVideo | undefined) {
+// Admin-side overrides (managed via the admin app, persisted in chat-api).
+// Sparse: only fields the operator explicitly set. NULL fields fall through
+// to the curated.json human top-level → _inferred → defaults chain.
+type AdminOverride = {
+  video_id: string;
+  category: string | null;
+  game: string | null;
+  collab_with: string[] | null;
+  episode: number | null;
+  tags: string[] | null;
+  kind: string | null;
+  hidden: boolean | null;
+  pinned: boolean | null;
+  tone: string | null;
+  memo: string | null;
+};
+
+const overridesByVideoId: Map<string, AdminOverride> = new Map();
+{
+  const raw = overridesJson as { overrides?: AdminOverride[] };
+  for (const o of raw.overrides ?? []) {
+    if (o.video_id) overridesByVideoId.set(o.video_id, o);
+  }
+}
+
+function effective(c: CuratedVideo | undefined, videoId: string) {
   const inferred = c?._inferred ?? {};
+  const ov = overridesByVideoId.get(videoId);
+  // Precedence: admin override > curated top-level > _inferred > default.
   return {
-    category: c?.category ?? inferred.category,
-    game: c?.game ?? inferred.game,
-    collabWith: c?.collabWith ?? inferred.collabWith ?? [],
-    episode: c?.episode ?? inferred.episode,
-    tags: c?.tags ?? inferred.tags ?? [],
-    kind: c?.kind,
-    pinned: c?.pinned === true,
-    tone: c?.tone,
+    category: (ov?.category as Category | undefined) ?? c?.category ?? inferred.category,
+    game: (ov?.game as Game | undefined) ?? c?.game ?? inferred.game,
+    collabWith: ov?.collab_with ?? c?.collabWith ?? inferred.collabWith ?? [],
+    episode: ov?.episode ?? c?.episode ?? inferred.episode,
+    tags: ov?.tags ?? c?.tags ?? inferred.tags ?? [],
+    kind: (ov?.kind as Kind | undefined) ?? c?.kind,
+    pinned: ov?.pinned ?? c?.pinned === true,
+    tone: (ov?.tone as Tone | undefined) ?? c?.tone,
   };
+}
+
+// Hidden state lookup — public listing filters these out, but admin must be
+// able to see them. Exposed so callers can decide what to do.
+export function isHiddenByOverride(videoId: string, curated: CuratedVideo | undefined): boolean {
+  const ov = overridesByVideoId.get(videoId);
+  if (ov?.hidden === true) return true;
+  if (ov?.hidden === false) return false; // explicit un-hide wins over curated
+  return curated?.hidden === true;
 }
 
 // --- UI が使う merged 型 -----------------------------------------------
@@ -203,7 +240,7 @@ function hashTone(videoId: string): Tone {
 }
 
 function toMemory(raw: RawVideo, curated: CuratedVideo | undefined): Memory {
-  const eff = effective(curated);
+  const eff = effective(curated, raw.videoId);
   return {
     videoId: raw.videoId,
     title: raw.title,
@@ -243,7 +280,7 @@ const rawArchive = rawJson as RawArchive;
 const curatedArchive = curatedJson as CuratedArchive;
 
 export const memories: Memory[] = rawArchive.videos
-  .filter((v) => curatedArchive.videos[v.videoId]?.hidden !== true)
+  .filter((v) => !isHiddenByOverride(v.videoId, curatedArchive.videos[v.videoId]))
   .map((v) => toMemory(v, curatedArchive.videos[v.videoId]));
 
 // --- クエリヘルパ (page 側 useMemo 用) ---------------------------------
