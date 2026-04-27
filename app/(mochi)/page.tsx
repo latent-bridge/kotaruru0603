@@ -256,7 +256,7 @@ function WeekPreview() {
         }}
       >
         {MOCHI.schedule.slice(0, 5).map((s, i) => {
-          const isOff = s.category === "おやすみ";
+          const isOff = s.tags.includes("おやすみ");
           return (
             <div
               key={s.day}

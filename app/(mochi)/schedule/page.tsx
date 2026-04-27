@@ -1,7 +1,7 @@
-import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
+import { MOCHI, PALETTE, FONTS, isOffEntry } from "@/lib/mochi";
 import {
   MochiButton,
-  CategoryTag,
+  TagList,
   EyebrowChip,
   Fusen,
   Kumo,
@@ -89,7 +89,7 @@ function ScheduleDay({
   entry: (typeof MOCHI.schedule)[number];
   index: number;
 }) {
-  const isOff = entry.category === "おやすみ";
+  const isOff = isOffEntry(entry);
 
   return (
     <article
@@ -142,7 +142,7 @@ function ScheduleDay({
           >
             {entry.title}
           </h2>
-          {!isOff && <CategoryTag category={entry.category} />}
+          {!isOff && <TagList tags={entry.tags} />}
         </div>
         <div
           style={{

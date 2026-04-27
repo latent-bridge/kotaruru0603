@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MOCHI, PALETTE, FONTS, type ScheduleEntry } from "@/lib/mochi";
-import { MochiButton, CategoryTag } from "@/components/mochi-ui";
+import { MOCHI, PALETTE, FONTS, isOffEntry, type ScheduleEntry } from "@/lib/mochi";
+import { MochiButton, TagList } from "@/components/mochi-ui";
 
 const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
 
@@ -35,7 +35,7 @@ export function TodayCard() {
     setMounted(true);
   }, []);
 
-  const isOff = entry?.category === "おやすみ";
+  const isOff = !!entry && isOffEntry(entry);
 
   return (
     <div
@@ -178,7 +178,7 @@ export function TodayCard() {
           </div>
 
           <div className="flex gap-1.5 mt-3 flex-wrap">
-            <CategoryTag category={entry.category} />
+            <TagList tags={entry.tags} />
           </div>
 
           {entry.note && (

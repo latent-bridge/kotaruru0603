@@ -4,6 +4,7 @@ import {
   FONTS,
   CATEGORY_COLOR,
   TONE_BG,
+  tagColor,
   type Category,
   type Memory,
 } from "@/lib/mochi";
@@ -178,6 +179,38 @@ export function CategoryTag({ category }: { category: Category }) {
       }}
     >
       {category}
+    </span>
+  );
+}
+
+// Schedule tag chip with #-prefix display matching the original MIDNIGHT OPS
+// design. Preset tags use CATEGORY_COLOR; free-form tags fall through to the
+// default neutral tone via tagColor().
+export function TagChip({ tag }: { tag: string }) {
+  const c = tagColor(tag);
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        padding: "2px 9px",
+        background: c.bg,
+        color: c.color,
+        fontSize: 11,
+        fontWeight: 700,
+        borderRadius: 999,
+        border: `1.5px solid ${c.color}`,
+      }}
+    >
+      #{tag}
+    </span>
+  );
+}
+
+export function TagList({ tags }: { tags: string[] }) {
+  if (tags.length === 0) return null;
+  return (
+    <span style={{ display: "inline-flex", flexWrap: "wrap", gap: 4 }}>
+      {tags.map((t) => <TagChip key={t} tag={t} />)}
     </span>
   );
 }

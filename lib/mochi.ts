@@ -21,10 +21,26 @@ export type ScheduleEntry = {
   dateLabel: string;
   title: string;
   time: string;
-  category: Category;
+  tags: string[];
   emoji: string;
   note: string;
 };
+
+const PRESET_TAG_SET: ReadonlySet<string> = new Set([
+  "おしゃべり", "げーむ", "おえかき", "うた", "おはなし", "めんばー", "おやすみ",
+]);
+
+export function isOffEntry(e: ScheduleEntry): boolean {
+  return e.tags.includes("おやすみ");
+}
+
+const DEFAULT_TAG_COLOR = { color: "#857670", bg: "#f0e8df" };
+export function tagColor(tag: string): { color: string; bg: string } {
+  if (PRESET_TAG_SET.has(tag) && (CATEGORY_COLOR as Record<string, { color: string; bg: string }>)[tag]) {
+    return (CATEGORY_COLOR as Record<string, { color: string; bg: string }>)[tag]!;
+  }
+  return DEFAULT_TAG_COLOR;
+}
 
 export type Memory = {
   id: string;
@@ -37,24 +53,22 @@ export type Memory = {
   tone: "coral" | "lilac" | "mint" | "cream";
 };
 
-const ALLOWED_CATEGORIES: ReadonlySet<Category> = new Set([
-  "おしゃべり", "げーむ", "おえかき", "うた", "おはなし", "めんばー", "おやすみ",
-]);
-
 const DEFAULT_SCHEDULE: ScheduleEntry[] = [
-  { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", category: "げーむ", emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
-  { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", category: "げーむ", emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
-  { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", category: "おやすみ", emoji: "💤", note: "すこし やすませてください 🙇" },
-  { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", category: "げーむ", emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
-  { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", category: "おはなし", emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
-  { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", category: "げーむ", emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
-  { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", category: "おしゃべり", emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
+  { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
+  { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
+  { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", tags: ["おやすみ"], emoji: "💤", note: "すこし やすませてください 🙇" },
+  { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
+  { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", tags: ["おはなし", "げーむ"], emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
+  { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
+  { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", tags: ["おしゃべり"], emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
 ];
 
 type AdminScheduleEntry = {
   date?: string;
   title?: string | null;
   time?: string | null;
+  tags?: string[] | null;
+  // legacy field — older fetched JSON may still carry it
   category?: string | null;
   emoji?: string | null;
   note?: string | null;
@@ -95,16 +109,19 @@ function resolveSchedule(): ScheduleEntry[] {
     const day = Number.parseInt(iso.slice(8, 10), 10);
     const dow = d.getUTCDay();
     const e = byDate.get(iso);
-    const cat = (e?.category && ALLOWED_CATEGORIES.has(e.category as Category))
-      ? (e.category as Category)
-      : "おやすみ";
+    let tags: string[] = [];
+    if (e?.tags && Array.isArray(e.tags)) {
+      tags = e.tags.filter((t) => typeof t === "string" && t.trim().length > 0);
+    } else if (e?.category) {
+      tags = [e.category];
+    }
     result.push({
       day: DAY_KEYS[dow],
       weekday: WEEKDAY_JP[dow],
       dateLabel: `${month}.${day}`,
       title: e?.title || "未定",
       time: e?.time || "",
-      category: e ? cat : "おやすみ",
+      tags,
       emoji: e?.emoji || (e ? "" : "💭"),
       note: e?.note || "",
     });
