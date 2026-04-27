@@ -2,6 +2,9 @@
 // 見た目はもちもち路線、ストリーマー識別情報 (name/handle) のみ ruru に差し替え。
 
 import { STREAMER } from "./data";
+// Admin-edited schedule, populated by `pnpm fetch:content` at build time.
+// Empty { entries: [] } in development → DEFAULT_SCHEDULE below is used.
+import adminSchedule from "@/data/schedule.json";
 
 export type Category =
   | "おしゃべり"
@@ -34,6 +37,51 @@ export type Memory = {
   tone: "coral" | "lilac" | "mint" | "cream";
 };
 
+const ALLOWED_CATEGORIES: ReadonlySet<Category> = new Set([
+  "おしゃべり", "げーむ", "おえかき", "うた", "おはなし", "めんばー", "おやすみ",
+]);
+
+const DEFAULT_SCHEDULE: ScheduleEntry[] = [
+  { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", category: "げーむ", emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
+  { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", category: "げーむ", emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
+  { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", category: "おやすみ", emoji: "💤", note: "すこし やすませてください 🙇" },
+  { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", category: "げーむ", emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
+  { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", category: "おはなし", emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
+  { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", category: "げーむ", emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
+  { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", category: "おしゃべり", emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
+];
+
+type AdminScheduleEntry = {
+  day?: string;
+  weekday?: string | null;
+  date_label?: string | null;
+  title?: string | null;
+  time?: string | null;
+  category?: string | null;
+  emoji?: string | null;
+  note?: string | null;
+};
+
+function resolveSchedule(): ScheduleEntry[] {
+  const entries = (adminSchedule as { entries?: AdminScheduleEntry[] }).entries;
+  if (!entries || entries.length === 0) return DEFAULT_SCHEDULE;
+  return entries.map((e) => {
+    const cat = (e.category && ALLOWED_CATEGORIES.has(e.category as Category))
+      ? (e.category as Category)
+      : "おしゃべり";
+    return {
+      day: e.day ?? "",
+      weekday: e.weekday ?? "",
+      dateLabel: e.date_label ?? "",
+      title: e.title ?? "",
+      time: e.time ?? "",
+      category: cat,
+      emoji: e.emoji ?? "",
+      note: e.note ?? "",
+    };
+  });
+}
+
 export const MOCHI = {
   streamer: {
     name: "ruru",
@@ -49,15 +97,7 @@ export const MOCHI = {
     { t: "おとどけもの", jp: "ぐっず", c: "mint" as const, ic: "🎁", sub: "あたらしいの 3つ" },
   ],
 
-  schedule: [
-    { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", category: "げーむ" as Category, emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
-    { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", category: "げーむ" as Category, emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
-    { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", category: "おやすみ" as Category, emoji: "💤", note: "すこし やすませてください 🙇" },
-    { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", category: "げーむ" as Category, emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
-    { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", category: "おはなし" as Category, emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
-    { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", category: "げーむ" as Category, emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
-    { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", category: "おしゃべり" as Category, emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
-  ] as ScheduleEntry[],
+  schedule: resolveSchedule(),
 
   memories: [
     { id: "m01", title: "はじめてのはいしん", date: "2021.03.14", duration: "4:12", views: "128K", category: "おしゃべり" as Category, emoji: "✨", tone: "coral" as const },

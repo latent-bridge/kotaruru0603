@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Fired by chat-api after admin saves schedule (event_type: content_updated).
+  repository_dispatch:
+    types: [content_updated]
 
 permissions:
   contents: read
@@ -30,6 +33,14 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Fetch admin-edited content
+        # Best-effort: failure does not fail the build. The committed
+        # data/schedule.json (or DEFAULT_SCHEDULE in lib/mochi.ts) is the fallback.
+        run: pnpm fetch:content
+        env:
+          CHAT_API_BASE: https://chat.latent-bridge.com
+          SITE_ID: kotaruru0603
 
       - name: Build
         run: pnpm build

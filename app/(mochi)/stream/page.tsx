@@ -9,6 +9,7 @@ import {
   type Memory,
   type StreamState,
 } from "@/lib/archive";
+import { syntheticLiveMemory, useLiveOverride } from "@/lib/live-override";
 import { PALETTE, FONTS, TONE_BG } from "@/lib/mochi";
 import { EyebrowChip, Kumo, Onigiri } from "@/components/mochi-ui";
 import {
@@ -30,7 +31,28 @@ export default function StreamPage() {
     return () => clearInterval(t);
   }, []);
 
-  const state = useMemo<StreamState>(() => getStreamState(now), [now]);
+  const baseState = useMemo<StreamState>(() => getStreamState(now), [now]);
+  const override = useLiveOverride();
+
+  // Admin-driven override takes precedence: when ruru clicks [配信開始],
+  // chat-api emits live_on with the YouTube videoId and we flip the page
+  // immediately, even before the next archive fetch has discovered it.
+  const state: StreamState = useMemo(() => {
+    if (override.status !== "on") return baseState;
+    if (baseState.kind === "live" && baseState.videoId === override.videoId) {
+      return baseState;
+    }
+    const memory =
+      baseState.kind === "live" && baseState.memory.videoId === override.videoId
+        ? baseState.memory
+        : syntheticLiveMemory(override.videoId);
+    return {
+      kind: "live",
+      memory,
+      actualStartAt: baseState.kind === "live" ? baseState.actualStartAt : null,
+      videoId: override.videoId,
+    };
+  }, [baseState, override]);
 
   return (
     <main
