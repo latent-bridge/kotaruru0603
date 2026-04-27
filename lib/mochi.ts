@@ -26,20 +26,24 @@ export type ScheduleEntry = {
   note: string;
 };
 
-const PRESET_TAG_SET: ReadonlySet<string> = new Set([
-  "おしゃべり", "げーむ", "おえかき", "うた", "おはなし", "めんばー", "おやすみ",
-]);
-
 export function isOffEntry(e: ScheduleEntry): boolean {
   return e.tags.includes("おやすみ");
 }
 
 const DEFAULT_TAG_COLOR = { color: "#857670", bg: "#f0e8df" };
+
+// Schedule-tag colors. Inherits the archive Category palette for any tag that
+// happens to overlap, plus schedule-only labels (コラボ etc.). New shared
+// preset tags should land in CATEGORY_COLOR; schedule-only ones go below.
+function tagColorOverrides(): Record<string, { color: string; bg: string }> {
+  return {
+    ...(CATEGORY_COLOR as Record<string, { color: string; bg: string }>),
+    コラボ: { color: "#c26a50", bg: "#fad8c8" },
+  };
+}
+
 export function tagColor(tag: string): { color: string; bg: string } {
-  if (PRESET_TAG_SET.has(tag) && (CATEGORY_COLOR as Record<string, { color: string; bg: string }>)[tag]) {
-    return (CATEGORY_COLOR as Record<string, { color: string; bg: string }>)[tag]!;
-  }
-  return DEFAULT_TAG_COLOR;
+  return tagColorOverrides()[tag] ?? DEFAULT_TAG_COLOR;
 }
 
 export type Memory = {
