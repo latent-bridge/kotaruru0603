@@ -7,11 +7,12 @@ export const metadata = {
     "ruruのポンコツ部屋(kotaruru0603.latent-bridge.com)における個人情報の取り扱いについて。",
 };
 
+const BUSINESS_NAME = "Latent Bridge";
 const OPERATOR_NAME = "安里 和";
 const CONTACT_EMAIL = "latentbridge3@gmail.com";
 const SERVICE_NAME = "ruruのポンコツ部屋 (kotaruru0603.latent-bridge.com)";
 const PLATFORM_NAME = "latent-bridge プラットフォーム";
-const EFFECTIVE_DATE = "2026年4月24日";
+const EFFECTIVE_DATE = "2026年4月27日";
 
 export default function PrivacyPage() {
   return (
@@ -63,7 +64,7 @@ export default function PrivacyPage() {
 
       <Section title="1. 運営者">
         <p>
-          本サービスは <strong>{OPERATOR_NAME}</strong>(個人)が運営しています。
+          本サービスは <strong>{BUSINESS_NAME}</strong>(屋号、運営者: {OPERATOR_NAME})が運営しています。
         </p>
         <p>
           本サービスは、{PLATFORM_NAME}の一部として配信者ごとのファンサイトを提供しており、
@@ -216,6 +217,9 @@ export default function PrivacyPage() {
       <Section title="12. お問い合わせ">
         <p>本ポリシーおよび個人情報の取り扱いに関するお問い合わせは下記までお願いします。</p>
         <ul style={{ ...listStyle, listStyle: "none", paddingLeft: 0 }}>
+          <li>
+            <strong>屋号</strong>: {BUSINESS_NAME}
+          </li>
           <li>
             <strong>運営者</strong>: {OPERATOR_NAME}
           </li>
