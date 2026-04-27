@@ -62,11 +62,15 @@ const ERROR_MESSAGES: Record<string, string> = {
   session_expired:
     "セッションが きれたので、もういちど ログインしてから やりなおしてね。",
   provider_not_configured: "この ログインほうほうは まだ じゅんびちゅう。",
+  delete_failed:
+    "アカウントの しまつに しっぱいしました。もういちど ためしてみてね。",
 };
 
 function SettingsPanelInner() {
   const [state, setState] = useState<LinkState>({ status: "loading" });
-  const [busy, setBusy] = useState<ProviderId | "logout" | "name" | null>(null);
+  const [busy, setBusy] = useState<
+    ProviderId | "logout" | "name" | "delete" | null
+  >(null);
   const [nameInput, setNameInput] = useState("");
   const [nameStatus, setNameStatus] = useState<
     { kind: "idle" } | { kind: "ok" } | { kind: "error"; message: string }
@@ -193,6 +197,37 @@ function SettingsPanelInner() {
         router.replace(`/settings/?error=${encodeURIComponent(code)}`);
       }
     } finally {
+      setBusy(null);
+    }
+  }
+
+  async function deleteAccount() {
+    if (
+      !window.confirm(
+        "アカウントを ぜんぶ けします。\nなまえ・スタンプカードの しんちょく・れんけいが すべて きえて、もとに もどせません。\n\nほんとうに よろしいですか?",
+      )
+    ) {
+      return;
+    }
+    setBusy("delete");
+    try {
+      const res = await fetch(`${CHAT_API_BASE}/me/delete`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!res.ok) {
+        router.replace("/settings/?error=delete_failed");
+        setBusy(null);
+        return;
+      }
+      try {
+        window.sessionStorage.removeItem("lb_me_cache_v1");
+      } catch {
+        /* ignore */
+      }
+      window.location.href = "/";
+    } catch {
+      router.replace("/settings/?error=delete_failed");
       setBusy(null);
     }
   }
@@ -530,10 +565,55 @@ function SettingsPanelInner() {
           width: "100%",
           padding: "12px 16px",
           fontSize: 14,
+          marginBottom: 24,
         }}
       >
         {busy === "logout" ? "..." : "ログアウト"}
       </button>
+
+      <h2 style={sectionHeading}>アカウントを けす</h2>
+      <div
+        style={{
+          background: "#fff",
+          border: `2px solid ${PALETTE.ink}`,
+          borderRadius: 16,
+          padding: "14px 16px",
+          boxShadow: `3px 3px 0 ${PALETTE.inkSoft}`,
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+        }}
+      >
+        <p
+          style={{
+            fontSize: 12,
+            color: PALETTE.inkDim,
+            lineHeight: 1.7,
+            margin: 0,
+          }}
+        >
+          ぜんぶ けすと、なまえ・スタンプカードの しんちょく・れんけいが すべて きえて、もとに もどせません。
+        </p>
+        <button
+          type="button"
+          onClick={deleteAccount}
+          disabled={busy !== null}
+          style={{
+            padding: "12px 16px",
+            borderRadius: 999,
+            border: `2px solid ${PALETTE.accent}`,
+            background: "#fff",
+            color: PALETTE.accent,
+            fontSize: 13,
+            fontWeight: 900,
+            fontFamily: FONTS.body,
+            cursor: busy !== null ? "not-allowed" : "pointer",
+            opacity: busy !== null ? 0.5 : 1,
+          }}
+        >
+          {busy === "delete" ? "..." : "アカウントを けす"}
+        </button>
+      </div>
     </main>
   );
 }
