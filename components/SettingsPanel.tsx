@@ -292,30 +292,6 @@ function SettingsPanelInner() {
           marginBottom: 24,
         }}
       >
-        {user.avatar_url ? (
-          <img
-            src={user.avatar_url}
-            alt=""
-            width={56}
-            height={56}
-            style={{
-              borderRadius: "50%",
-              border: `2px solid ${PALETTE.ink}`,
-              objectFit: "cover",
-            }}
-          />
-        ) : (
-          <div
-            aria-hidden
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: "50%",
-              background: PALETTE.cream,
-              border: `2px solid ${PALETTE.ink}`,
-            }}
-          />
-        )}
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ fontSize: 16, fontWeight: 900, color: PALETTE.ink }}>
             {user.display_name}{" "}
