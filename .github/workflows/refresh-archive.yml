@@ -1,0 +1,53 @@
+name: Refresh archive from YouTube
+
+on:
+  # admin の [YouTube から再取得] ボタンが chat-api 経由で投げる
+  repository_dispatch:
+    types: [archive_refresh]
+  # 手動再実行用
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-archive
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Fetch archive from YouTube Data API
+        run: pnpm fetch:archive
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+
+      - name: Re-infer curated metadata
+        run: pnpm infer:curated
+
+      - name: Commit if changed
+        run: |
+          git config user.name "latent-bridge[bot]"
+          git config user.email "noreply@latent-bridge.com"
+          git add data/archive.raw.json data/archive.curated.json
+          if git diff --cached --quiet; then
+            echo "No archive changes to commit"
+          else
+            git commit -m "auto: refresh archive from YouTube"
+            git push
+            echo "Pushed archive update — deploy workflow will rebuild on push"
+          fi
