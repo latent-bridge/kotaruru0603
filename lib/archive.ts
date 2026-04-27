@@ -21,6 +21,7 @@ export const GAMES = [
   "Dave the diver",
   "Planet of Lana",
   "Arise",
+  "Prince of Persia",
 ] as const;
 export type Game = (typeof GAMES)[number];
 

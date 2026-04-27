@@ -92,6 +92,14 @@ const GAME_PATTERNS: Array<{ game: Game; regexes: RegExp[] }> = [
     game: "Arise",
     regexes: [/Arise\s*:\s*a\s*simple\s*story/i, /\[Arise\]/i],
   },
+  {
+    game: "Prince of Persia",
+    regexes: [
+      /Prince\s*of\s*Persia/i,
+      /失われた王冠/,
+      /ポンコツ\s*Prince/i,
+    ],
+  },
 ];
 
 const GAME_TO_CATEGORY: Record<Game, Category> = {
@@ -100,6 +108,7 @@ const GAME_TO_CATEGORY: Record<Game, Category> = {
   "Dave the diver": "ゆるげーむ",
   "Planet of Lana": "ゆるげーむ",
   Arise: "ゆるげーむ",
+  "Prince of Persia": "ゆるげーむ",
 };
 
 const KANJI_NUM: Record<string, number> = {
