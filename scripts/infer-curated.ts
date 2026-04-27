@@ -36,7 +36,8 @@ type Game =
   | "Ghost of Yotei"
   | "Dave the diver"
   | "Planet of Lana"
-  | "Arise";
+  | "Arise"
+  | "Prince of Persia";
 
 type Category = "ポンコツだいぶ" | "ポンコツさむらい" | "ゆるげーむ";
 
