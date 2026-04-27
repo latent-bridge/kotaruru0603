@@ -77,16 +77,22 @@ export default function PrivacyPage() {
         <h3 style={subHeading}>2.1 外部認証サービスから取得する情報</h3>
         <p>
           ユーザーが Discord または Google(YouTube)アカウントでログインした際、
-          それぞれの認証サービスから次の情報を受け取ります。
+          それぞれの認証サービスから本サービスが受け取り保存する情報は次のとおりです。
         </p>
         <ul style={listStyle}>
           <li>
-            <strong>Discord ログイン時</strong>: Discord ユーザー ID、表示名 (global name / username)、アバター画像 URL
+            <strong>Discord ログイン時</strong>: Discord ユーザー ID のみを保存します。
+            Discord API のレスポンスに含まれる表示名・アバター画像 URL は本サービスでは利用せず、保存もしません。
           </li>
           <li>
-            <strong>Google(YouTube)ログイン時</strong>: Google アカウント識別子 (sub)、表示名、プロフィール画像 URL、メールアドレス
+            <strong>Google(YouTube)ログイン時</strong>: Google アカウント識別子 (sub) のみを保存します。
+            OAuth スコープから <code>profile</code> および <code>email</code> を除外しているため、
+            表示名・プロフィール画像・メールアドレスへのアクセス権限を要求しません。
           </li>
         </ul>
+        <p>
+          サイト上での表示名は、ログイン後にユーザー本人が設定するものを使用します(初回ログイン時に設定画面が表示されます)。
+        </p>
         <h3 style={subHeading}>2.2 サービス利用に伴い生成される情報</h3>
         <ul style={listStyle}>
           <li>
@@ -109,7 +115,7 @@ export default function PrivacyPage() {
         <ul style={listStyle}>
           <li>ユーザーアカウントの識別および認証</li>
           <li>
-            ユーザーのリクエストに基づく Discord チャンネルへの代理投稿(ユーザー名・アバターは取得したものを使用)
+            ユーザーのリクエストに基づく Discord チャンネルへの代理投稿(ユーザー本人がサイト上で設定した表示名のみを使用し、アバター画像は付与しません)
           </li>
           <li>不正利用・スパム行為の検知およびレート制限の適用</li>
           <li>サイト機能(チャット、スタンプ等)の提供</li>
@@ -124,7 +130,7 @@ export default function PrivacyPage() {
         <ul style={listStyle}>
           <li>
             <strong>Discord Webhook 経由の投稿</strong>:ユーザーがサイト上でチャット送信を行った場合、
-            表示名・アバター画像・投稿内容を該当する Discord サーバ/チャンネルへ転送します。
+            ユーザー本人が設定した表示名・投稿内容を該当する Discord サーバ/チャンネルへ転送します。
           </li>
           <li>法令に基づく開示要求があった場合</li>
           <li>ユーザーの生命・身体または財産の保護のために必要であり、本人の同意を得ることが困難な場合</li>
@@ -162,7 +168,7 @@ export default function PrivacyPage() {
       <Section title="7. 保管期間">
         <ul style={listStyle}>
           <li>
-            <strong>アカウント情報</strong>:ユーザーが削除を希望するまで保管します。
+            <strong>アカウント情報</strong>(外部認証の識別子・本人が設定した表示名・ハンドルタグ):ユーザーが削除を希望するまで保管します。
           </li>
           <li>
             <strong>セッション情報</strong>:発行から 30 日間で自動失効します。

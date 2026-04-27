@@ -3,6 +3,7 @@ import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa, Kumo } from "@/components/mochi-ui";
 import { LiveBadge } from "@/components/live-badge";
 import { AuthPill } from "@/components/AuthPill";
+import { NameSetupModal } from "@/components/NameSetupModal";
 import { StampCardOverlay } from "@/components/StampCardOverlay";
 
 export default function MochiLayout({
@@ -63,6 +64,7 @@ export default function MochiLayout({
       <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
       <MochiFooter />
       <StampCardOverlay />
+      <NameSetupModal />
     </div>
   );
 }
