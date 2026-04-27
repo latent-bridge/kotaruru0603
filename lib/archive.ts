@@ -294,6 +294,19 @@ export type ArchiveQuery = {
   sort?: "newest" | "oldest" | "popular" | "series";
 };
 
+// Normalize a string for substring matching: lower-case ASCII and fold
+// katakana → hiragana so 「アリン」 matches 「ありん」 and vice versa. NFKC
+// also collapses full-width ASCII into half-width so "ＡＢＣ" matches "abc".
+const KATAKANA_TO_HIRAGANA_OFFSET = 0x3041 - 0x30a1; // -0x60
+function normalizeForSearch(s: string): string {
+  return s
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[ァ-ヶ]/g, (c) =>
+      String.fromCharCode(c.charCodeAt(0) + KATAKANA_TO_HIRAGANA_OFFSET),
+    );
+}
+
 export function queryMemories(
   base: readonly Memory[],
   q: ArchiveQuery,
@@ -305,13 +318,13 @@ export function queryMemories(
   if (q.collabOnly) out = out.filter((m) => m.collabWith.length > 0);
   if (q.game) out = out.filter((m) => m.game === q.game);
 
-  const s = q.search?.trim().toLowerCase();
+  const s = normalizeForSearch(q.search?.trim() ?? "");
   if (s) {
     out = out.filter((m) => {
-      if (m.title.toLowerCase().includes(s)) return true;
-      if (m.tags.some((t) => t.toLowerCase().includes(s))) return true;
-      if (m.collabWith.some((c) => c.toLowerCase().includes(s))) return true;
-      if (m.game?.toLowerCase().includes(s)) return true;
+      if (normalizeForSearch(m.title).includes(s)) return true;
+      if (m.tags.some((t) => normalizeForSearch(t).includes(s))) return true;
+      if (m.collabWith.some((c) => normalizeForSearch(c).includes(s))) return true;
+      if (m.game && normalizeForSearch(m.game).includes(s)) return true;
       return false;
     });
   }

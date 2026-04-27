@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import {
   memories,
@@ -302,14 +302,14 @@ function StreamFilters({
           <CategoryChipButton
             key={c}
             active={categoryFilter === c}
-            onClick={() => setCategoryFilter(c)}
+            onClick={() => setCategoryFilter(categoryFilter === c ? null : c)}
             label={c}
             color={CATEGORY_COLORS[c]}
           />
         ))}
         <CategoryChipButton
           active={categoryFilter === "collab"}
-          onClick={() => setCategoryFilter("collab")}
+          onClick={() => setCategoryFilter(categoryFilter === "collab" ? null : "collab")}
           label="こらぼ"
           color={COLLAB_COLOR}
         />
@@ -402,6 +402,23 @@ function SearchBox({
   value: string;
   onChange: (v: string) => void;
 }) {
+  // Local input state lets the textbox display the IME draft immediately,
+  // while we postpone notifying the parent (and thus running the filter)
+  // until composition ends. Without this, every keypress in Japanese input
+  // causes the result list to flicker and the displayed text to "drop".
+  const [local, setLocal] = useState(value);
+  const composingRef = useRef(false);
+
+  useEffect(() => {
+    setLocal(value);
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value;
+    setLocal(v);
+    if (!composingRef.current) onChange(v);
+  };
+
   return (
     <div style={{ position: "relative" }}>
       <span
@@ -419,8 +436,15 @@ function SearchBox({
       </span>
       <input
         type="search"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={local}
+        onChange={handleChange}
+        onCompositionStart={() => {
+          composingRef.current = true;
+        }}
+        onCompositionEnd={(e) => {
+          composingRef.current = false;
+          onChange((e.target as HTMLInputElement).value);
+        }}
         placeholder="タイトル・ゲーム・コラボ相手で さがす"
         style={{
           width: "100%",
