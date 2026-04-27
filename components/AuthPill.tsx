@@ -144,8 +144,8 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          padding: "4px 10px 4px 4px",
+          gap: 6,
+          padding: "5px 12px",
           background: PALETTE.paper,
           border: `2px solid ${PALETTE.ink}`,
           borderRadius: 999,
@@ -154,24 +154,12 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
         }}
         aria-expanded={open}
       >
-        {user.avatar_url ? (
-          <img
-            src={user.avatar_url}
-            alt=""
-            width={24}
-            height={24}
-            style={{ borderRadius: "50%", display: "block" }}
-          />
-        ) : (
-          <div
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: "50%",
-              background: PALETTE.cream,
-            }}
-          />
-        )}
+        <span
+          aria-hidden
+          style={{ fontSize: 12, color: PALETTE.accent, lineHeight: 1 }}
+        >
+          ♡
+        </span>
         <span style={{ fontSize: 12, fontWeight: 700, color: PALETTE.ink }}>
           {user.display_name}
         </span>
