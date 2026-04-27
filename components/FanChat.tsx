@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { MochiUsa } from "@/components/mochi-ui";
 import { streamerConfig } from "@/config/streamer.config";
 
 const STREAMER_TAG = streamerConfig.chatTag;
@@ -252,7 +253,16 @@ function MessageBubble({
       >
         <span style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}>
           {isStreamer && (
-            <span aria-label="streamer" style={{ fontSize: 14, lineHeight: 1 }}>🐰</span>
+            <span
+              aria-label="streamer"
+              style={{
+                display: "inline-flex",
+                alignSelf: "center",
+                marginRight: 2,
+              }}
+            >
+              <MochiUsa size={20} />
+            </span>
           )}
           <span style={{ fontSize: 12, fontWeight: 900, color: nameColor }}>
             {message.author}
