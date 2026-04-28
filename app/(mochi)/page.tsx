@@ -7,6 +7,7 @@ import {
   SectionTitle,
   Onigiri,
 } from "@/components/mochi-ui";
+import { Emo } from "@/components/emoji";
 import { ArchiveCard } from "@/components/archive-ui";
 import { TodayCard } from "@/components/today-card";
 import { HomeStampCard } from "@/components/HomeStampCard";
@@ -36,26 +37,22 @@ export default function HomePage() {
           position: "absolute",
           top: 820,
           left: 40,
-          fontSize: 26,
-          color: PALETTE.accent,
           transform: "rotate(-10deg)",
           zIndex: 0,
         }}
       >
-        ♡
+        <Emo e="♡" size={26} accent={PALETTE.accent} />
       </div>
       <div
         style={{
           position: "absolute",
           top: 480,
           left: "45%",
-          fontSize: 22,
-          color: PALETTE.accent,
           transform: "rotate(8deg)",
           zIndex: 0,
         }}
       >
-        ✦
+        <Emo e="✦" size={22} accent={PALETTE.accent} />
       </div>
     </main>
   );
@@ -66,7 +63,9 @@ function Hero() {
   return (
     <section className="pt-6 md:pt-8 pb-6 md:pb-8 grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-8 md:gap-10 items-start">
       <div>
-        <EyebrowChip>☁ HELLO ☁</EyebrowChip>
+        <EyebrowChip>
+          <Emo e="☁" size={12} /> HELLO <Emo e="☁" size={12} />
+        </EyebrowChip>
         <h1
           className="text-[40px] md:text-[60px] lg:text-[76px]"
           style={{
@@ -231,7 +230,14 @@ function WeekPreview() {
   return (
     <section className="py-8 md:py-12">
       <div className="flex items-baseline justify-between gap-3 flex-wrap mb-5">
-        <SectionTitle eyebrow="☁ THIS WEEK ☁" title="こんしゅうのよてい" />
+        <SectionTitle
+          eyebrow={
+            <>
+              <Emo e="☁" size={12} /> THIS WEEK <Emo e="☁" size={12} />
+            </>
+          }
+          title="こんしゅうのよてい"
+        />
         <Link
           href="/schedule"
           style={{
@@ -326,7 +332,14 @@ function LatestMemories() {
   return (
     <section className="py-8 md:py-12">
       <div className="flex items-baseline justify-between gap-3 flex-wrap mb-5">
-        <SectionTitle eyebrow="☁ RECENT MEMORIES ☁" title="さいきんのおもいで" />
+        <SectionTitle
+          eyebrow={
+            <>
+              <Emo e="☁" size={12} /> RECENT MEMORIES <Emo e="☁" size={12} />
+            </>
+          }
+          title="さいきんのおもいで"
+        />
         <Link
           href="/archive"
           style={{

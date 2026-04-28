@@ -330,7 +330,7 @@ export function SectionTitle({
   title,
   note,
 }: {
-  eyebrow: string;
+  eyebrow: React.ReactNode;
   title: string;
   note?: string;
 }) {

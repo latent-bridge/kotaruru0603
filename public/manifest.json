@@ -1,0 +1,31 @@
+{
+  "name": "ruruのポンコツ部屋",
+  "short_name": "ruru",
+  "description": "ゲーム配信者 ruru のファンサイト",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf3ea",
+  "theme_color": "#d06a7e",
+  "icons": [
+    {
+      "src": "./icons/usa.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/usa.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/usa-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

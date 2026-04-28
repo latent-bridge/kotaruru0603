@@ -1,10 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { STREAMER } from "@/lib/data";
+
+// Build-time basePath so manifest / icon refs work at both
+// kotaruru0603.latent-bridge.com (root) and latent-bridge.github.io/kotaruru0603/.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
   title: `ruruのポンコツ部屋 — ${STREAMER.handle}`,
   description: STREAMER.bio,
+  manifest: `${BASE_PATH}/manifest.json`,
+  icons: {
+    icon: `${BASE_PATH}/icons/usa.svg`,
+    apple: `${BASE_PATH}/icons/usa.svg`,
+  },
+  appleWebApp: {
+    capable: true,
+    title: "ruru",
+    statusBarStyle: "default",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#d06a7e",
 };
 
 export default function RootLayout({
@@ -20,7 +39,16 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        {children}
+        <Script id="register-sw" strategy="afterInteractive">
+          {`if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('${BASE_PATH}/sw.js').catch(() => {});
+            });
+          }`}
+        </Script>
+      </body>
     </html>
   );
 }
