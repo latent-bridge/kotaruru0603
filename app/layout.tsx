@@ -65,6 +65,26 @@ export default function RootLayout({
           href={`${BASE_PATH}/icons/splash-iphone-x.png`}
           media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
         />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-xsmax.png`}
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-xr.png`}
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-8plus.png`}
+          media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-se.png`}
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        />
       </head>
       <body className="min-h-screen">
         {children}
