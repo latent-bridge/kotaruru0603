@@ -13,11 +13,10 @@ export const metadata: Metadata = {
   manifest: `${BASE_PATH}/manifest.json`,
   icons: {
     icon: `${BASE_PATH}/icons/usa.svg`,
-    // iOS fills any transparency in apple-touch-icon with black before
-    // displaying it on the home screen, so we point at the maskable variant
-    // (which has the cream safe-zone background) instead of the transparent
-    // any-purpose icon.
-    apple: `${BASE_PATH}/icons/usa-maskable.svg`,
+    // iOS handles SVG apple-touch-icon inconsistently across versions —
+    // some build images paint transparent areas with black. PNG is the
+    // reliable format here, so we ship a 180x180 PNG specifically for iOS.
+    apple: `${BASE_PATH}/icons/usa-180.png`,
   },
   appleWebApp: {
     capable: true,
@@ -41,6 +40,30 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;900&family=Kalam:wght@400;700&display=swap"
           rel="stylesheet"
+        />
+        {/* iOS splash screens. iOS ignores manifest.background_color and only
+            shows a non-default splash when an apple-touch-startup-image with a
+            matching device media query is registered. Without these, iOS PWAs
+            show a black/white default during launch. */}
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-pmax.png`}
+          media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-pro.png`}
+          media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-std.png`}
+          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        />
+        <link
+          rel="apple-touch-startup-image"
+          href={`${BASE_PATH}/icons/splash-iphone-x.png`}
+          media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
         />
       </head>
       <body className="min-h-screen">
