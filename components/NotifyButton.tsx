@@ -121,7 +121,7 @@ export function NotifyButton({
     setConfirmReq({
       title: "ホーム画面に ついかしてね",
       message:
-        "iPhone の Safari で、共有ボタン → 「ホーム画面に追加」 で アプリにすると、しらせを うけとれるよ ♡",
+        "ブラウザの 共有ボタン → 「ホーム画面に追加」 で アプリに できるよ。\nうまく いかない時は iPhone なら Safari、Android なら Chrome で ためしてね ♡",
       confirmLabel: "わかった",
       cancelLabel: null,
       onConfirm: close,
@@ -145,15 +145,24 @@ export function NotifyButton({
     if (state.kind === "loading" || state.kind === "busy") return;
 
     if (state.kind === "unsupported") {
-      setConfirmReq({
-        title: "つかえないみたい",
-        message:
-          "このブラウザは 通知に たいおうしていないよ。\n別のブラウザから ためしてね。",
-        confirmLabel: "わかった",
-        cancelLabel: null,
-        onConfirm: close,
-        onCancel: close,
-      });
+      // iOS Chrome and other non-Safari iOS WebViews don't expose
+      // PushManager — the install hint is the actually-actionable advice
+      // there (open in Safari -> add to home -> launch the PWA). Surface
+      // that instead of a dead-end "this browser doesn't support" message.
+      const support = detectPushSupport();
+      if (support.isIOS) {
+        showNeedsInstall();
+      } else {
+        setConfirmReq({
+          title: "つかえないみたい",
+          message:
+            "このブラウザは 通知に たいおうしていないよ。\n別のブラウザから ためしてね。",
+          confirmLabel: "わかった",
+          cancelLabel: null,
+          onConfirm: close,
+          onCancel: close,
+        });
+      }
       return;
     }
 
