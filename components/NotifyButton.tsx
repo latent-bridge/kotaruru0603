@@ -22,7 +22,16 @@ type State =
   | { kind: "on" }
   | { kind: "busy" };
 
-export function NotifyButton({ size = "sm" }: { size?: "sm" | "md" }) {
+export function NotifyButton({
+  size = "sm",
+  // Variant used for the OFF / loading / denied / needs_install / busy states
+  // (i.e. anything except actively subscribed). ON state always uses "cream"
+  // so the subscribed indicator is visually distinct from the call-to-action.
+  defaultVariant = "outline",
+}: {
+  size?: "sm" | "md";
+  defaultVariant?: "filled" | "outline" | "cream";
+}) {
   const [state, setState] = useState<State>({ kind: "loading" });
   const [confirmReq, setConfirmReq] = useState<ConfirmRequest | null>(null);
 
@@ -194,8 +203,8 @@ export function NotifyButton({ size = "sm" }: { size?: "sm" | "md" }) {
     }
   })();
 
-  const variant: "filled" | "outline" =
-    state.kind === "on" ? "filled" : "outline";
+  const variant: "filled" | "outline" | "cream" =
+    state.kind === "on" ? "cream" : defaultVariant;
 
   return (
     <>

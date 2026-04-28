@@ -196,7 +196,7 @@ export function TodayCard() {
           )}
 
           <div className="mt-4 flex gap-2">
-            <NotifyButton size="sm" />
+            <NotifyButton size="sm" defaultVariant="filled" />
             <MochiButton size="sm" variant="outline" href="/schedule">
               よていぜんぶ
             </MochiButton>
