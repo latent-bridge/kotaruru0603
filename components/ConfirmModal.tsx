@@ -8,7 +8,9 @@ export type ConfirmRequest = {
   // Multi-line strings render with line breaks preserved.
   message: string;
   confirmLabel: string;
-  cancelLabel?: string;
+  // Pass `null` to hide the cancel button entirely (info-only modal).
+  // `undefined` falls back to the default "やめる".
+  cancelLabel?: string | null;
   // Destructive actions (delete, unlink) get accent (pink) confirm button to
   // signal that the operation can't be casually undone.
   destructive?: boolean;
@@ -98,26 +100,28 @@ export function ConfirmModal({ request }: { request: ConfirmRequest | null }) {
           {request.message}
         </p>
         <div style={{ display: "flex", gap: 10 }}>
-          <button
-            type="button"
-            onClick={request.onCancel}
-            disabled={!!request.busy}
-            style={{
-              flex: 1,
-              padding: "11px 14px",
-              borderRadius: 999,
-              border: `2px solid ${PALETTE.ink}`,
-              background: "#fff",
-              color: PALETTE.ink,
-              fontSize: 13,
-              fontWeight: 900,
-              fontFamily: FONTS.body,
-              cursor: request.busy ? "not-allowed" : "pointer",
-              opacity: request.busy ? 0.5 : 1,
-            }}
-          >
-            {request.cancelLabel ?? "やめる"}
-          </button>
+          {request.cancelLabel !== null && (
+            <button
+              type="button"
+              onClick={request.onCancel}
+              disabled={!!request.busy}
+              style={{
+                flex: 1,
+                padding: "11px 14px",
+                borderRadius: 999,
+                border: `2px solid ${PALETTE.ink}`,
+                background: "#fff",
+                color: PALETTE.ink,
+                fontSize: 13,
+                fontWeight: 900,
+                fontFamily: FONTS.body,
+                cursor: request.busy ? "not-allowed" : "pointer",
+                opacity: request.busy ? 0.5 : 1,
+              }}
+            >
+              {request.cancelLabel ?? "やめる"}
+            </button>
+          )}
           <button
             ref={confirmBtnRef}
             type="button"

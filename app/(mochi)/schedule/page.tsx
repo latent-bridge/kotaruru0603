@@ -7,6 +7,7 @@ import {
   Kumo,
   Onigiri,
 } from "@/components/mochi-ui";
+import { NotifyButton } from "@/components/NotifyButton";
 
 export default function SchedulePage() {
   return (
@@ -176,7 +177,7 @@ function ScheduleDay({
           letterSpacing: 1,
         }}
       >
-        {!isOff && <MochiButton size="sm" variant="outline">しらせて</MochiButton>}
+        {!isOff && <NotifyButton size="sm" />}
       </div>
 
       {index === 0 && !isOff && (

@@ -122,11 +122,17 @@ export function MochiButton({
   variant = "filled",
   href,
   size = "md",
+  onClick,
+  disabled = false,
+  ariaLabel,
 }: {
   children: React.ReactNode;
   variant?: "filled" | "outline" | "cream";
   href?: string;
   size?: "sm" | "md";
+  onClick?: () => void;
+  disabled?: boolean;
+  ariaLabel?: string;
 }) {
   const sizing =
     size === "sm"
@@ -137,7 +143,7 @@ export function MochiButton({
     variant === "filled" ? PALETTE.coral : variant === "cream" ? PALETTE.cream : "#fff";
   const color = variant === "filled" ? "#fff" : PALETTE.ink;
 
-  const style = {
+  const style: React.CSSProperties = {
     display: "inline-block",
     padding: `${sizing.padY}px ${sizing.padX}px`,
     background: bg,
@@ -148,19 +154,30 @@ export function MochiButton({
     border: `2.5px solid ${PALETTE.ink}`,
     boxShadow: `${sizing.shadow} ${PALETTE.ink}`,
     textDecoration: "none",
-    cursor: "pointer",
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.55 : 1,
     fontFamily: FONTS.body,
     letterSpacing: 0.3,
-  } as const;
+  };
 
   if (href) {
     return (
-      <Link href={href} style={style}>
+      <Link href={href} style={style} aria-label={ariaLabel}>
         {children}
       </Link>
     );
   }
-  return <span style={style}>{children}</span>;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      style={style}
+    >
+      {children}
+    </button>
+  );
 }
 
 export function CategoryTag({ category }: { category: Category }) {

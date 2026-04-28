@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MOCHI, PALETTE, FONTS, isOffEntry, type ScheduleEntry } from "@/lib/mochi";
 import { MochiButton, TagList } from "@/components/mochi-ui";
+import { NotifyButton } from "@/components/NotifyButton";
 
 const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
 
@@ -195,9 +196,7 @@ export function TodayCard() {
           )}
 
           <div className="mt-4 flex gap-2">
-            <MochiButton size="sm" href="/schedule">
-              しらせて ♡
-            </MochiButton>
+            <NotifyButton size="sm" />
             <MochiButton size="sm" variant="outline" href="/schedule">
               よていぜんぶ
             </MochiButton>
