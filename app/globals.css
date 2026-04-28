@@ -16,6 +16,11 @@ html,
 body {
   font-size: 14px;
   letter-spacing: 0.01em;
+  /* Cream background matches the (mochi) design and, more importantly,
+     provides a non-black initial frame for iOS' PWA splash + standalone
+     viewport (which uses the html bg before the page paints). Without
+     this, iOS renders 1-2 frames of black before the page renders. */
+  background-color: #fdf3ea;
 }
 
 .legacy-shell {

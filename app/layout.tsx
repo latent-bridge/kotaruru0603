@@ -13,7 +13,11 @@ export const metadata: Metadata = {
   manifest: `${BASE_PATH}/manifest.json`,
   icons: {
     icon: `${BASE_PATH}/icons/usa.svg`,
-    apple: `${BASE_PATH}/icons/usa.svg`,
+    // iOS fills any transparency in apple-touch-icon with black before
+    // displaying it on the home screen, so we point at the maskable variant
+    // (which has the cream safe-zone background) instead of the transparent
+    // any-purpose icon.
+    apple: `${BASE_PATH}/icons/usa-maskable.svg`,
   },
   appleWebApp: {
     capable: true,
