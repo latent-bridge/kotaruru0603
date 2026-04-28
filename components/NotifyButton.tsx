@@ -37,6 +37,17 @@ export function NotifyButton({
 
   useEffect(() => {
     let cancelled = false;
+
+    // Safety net: serviceWorker.ready can wait indefinitely if SW registration
+    // somehow never produces an active worker. Drop to the actionable "off"
+    // state after a few seconds so the user is never stuck on the disabled
+    // loading button.
+    const failOpen = setTimeout(() => {
+      if (!cancelled) {
+        setState((prev) => (prev.kind === "loading" ? { kind: "off" } : prev));
+      }
+    }, 3000);
+
     (async () => {
       const support = detectPushSupport();
       if (!support.apiAvailable) {
@@ -57,9 +68,11 @@ export function NotifyButton({
       }
       const sub = await getCurrentSubscription();
       if (!cancelled) setState({ kind: sub ? "on" : "off" });
-    })();
+    })().finally(() => clearTimeout(failOpen));
+
     return () => {
       cancelled = true;
+      clearTimeout(failOpen);
     };
   }, []);
 
@@ -158,7 +171,8 @@ export function NotifyButton({
       setConfirmReq({
         title: "しらせを やめる？",
         message: "配信が はじまっても 通知が とどかなくなるよ。",
-        confirmLabel: "やめる",
+        confirmLabel: "通知を きる",
+        cancelLabel: "そのまま",
         destructive: true,
         onConfirm: doUnsubscribe,
         onCancel: close,
@@ -187,14 +201,15 @@ export function NotifyButton({
   // Render
   if (state.kind === "unsupported") return null; // hide; nothing meaningful to offer
 
+  // Show "しらせて ♡" during loading too — a disabled "..." button reads as
+  // "broken / hidden" on first paint before the support check completes.
   const label = (() => {
     switch (state.kind) {
-      case "loading":
-        return "...";
       case "busy":
         return "...";
       case "on":
         return "しらせる ♡";
+      case "loading":
       case "denied":
       case "needs_install":
       case "off":
@@ -212,7 +227,10 @@ export function NotifyButton({
         size={size}
         variant={variant}
         onClick={handleClick}
-        disabled={state.kind === "loading" || state.kind === "busy"}
+        // Only "busy" (mid-subscribe / mid-unsubscribe) shows the faded
+        // disabled style. "loading" looks fully enabled — handleClick
+        // no-ops on it so an early tap is harmless rather than greyed out.
+        disabled={state.kind === "busy"}
         ariaLabel={state.kind === "on" ? "通知を解除" : "配信開始時に通知"}
       >
         {label}
