@@ -198,8 +198,12 @@ export function NotifyButton({
     });
   }
 
-  // Render
-  if (state.kind === "unsupported") return null; // hide; nothing meaningful to offer
+  // We used to hide the button on "unsupported" browsers (no Push API), but
+  // that made the feature look removed on browsers that don't expose
+  // PushManager (notably iOS Chrome / non-Safari iOS WebViews). The button
+  // is now always rendered; on click handleClick shows an explainer modal
+  // when Push isn't available so the user gets a real explanation rather
+  // than a missing UI element.
 
   // Show "しらせて ♡" during loading too — a disabled "..." button reads as
   // "broken / hidden" on first paint before the support check completes.
