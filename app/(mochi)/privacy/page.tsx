@@ -74,10 +74,10 @@ export default function PrivacyPage() {
 
       <Section title="2. 取得する情報">
         <p>本サービスでは、以下の情報を取得します。</p>
-        <h3 style={subHeading}>2.1 外部認証サービスから取得する情報</h3>
+        <h3 style={subHeading}>2.1 ログイン時に取得する情報</h3>
         <p>
-          ユーザーが Discord または Google(YouTube)アカウントでログインした際、
-          それぞれの認証サービスから本サービスが受け取り保存する情報は次のとおりです。
+          ユーザーが Discord、Google(YouTube)、またはメールアドレスでログインした際、
+          本サービスが受け取り保存する情報は次のとおりです。
         </p>
         <ul style={listStyle}>
           <li>
@@ -88,6 +88,11 @@ export default function PrivacyPage() {
             <strong>Google(YouTube)ログイン時</strong>: Google アカウント識別子 (sub) のみを保存します。
             OAuth スコープから <code>profile</code> および <code>email</code> を除外しているため、
             表示名・プロフィール画像・メールアドレスへのアクセス権限を要求しません。
+          </li>
+          <li>
+            <strong>メールアドレスでログイン時</strong>: 入力されたメールアドレスのみを保存します。
+            ログインの度に当該アドレス宛へワンタイムのログインリンクを送信し、リンクのクリックを本人確認の手段として使用します(パスワードは保存しません)。
+            メール送信は外部メール配信サービスを利用するため、メールアドレスは送信処理の範囲で当該事業者へ送られます。
           </li>
         </ul>
         <p>

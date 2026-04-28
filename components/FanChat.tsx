@@ -428,6 +428,9 @@ function SendForm({ siteId, user }: { siteId: string; user: User }) {
           rows={2}
           style={{
             flex: 1,
+            // Allow shrink below intrinsic textarea width so the send button
+            // doesn't get pushed past the row's right edge on narrow mobiles.
+            minWidth: 0,
             resize: "none",
             padding: "8px 10px",
             border: `2px solid ${PALETTE.ink}`,
@@ -437,6 +440,7 @@ function SendForm({ siteId, user }: { siteId: string; user: User }) {
             fontFamily: FONTS.body,
             color: PALETTE.ink,
             outline: "none",
+            boxSizing: "border-box",
           }}
           disabled={sending}
         />

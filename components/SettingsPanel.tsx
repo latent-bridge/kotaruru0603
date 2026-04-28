@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { ConfirmModal, type ConfirmRequest } from "@/components/ConfirmModal";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -75,6 +76,7 @@ function SettingsPanelInner() {
   const [nameStatus, setNameStatus] = useState<
     { kind: "idle" } | { kind: "ok" } | { kind: "error"; message: string }
   >({ kind: "idle" });
+  const [confirmReq, setConfirmReq] = useState<ConfirmRequest | null>(null);
   const params = useSearchParams();
   const errorCode = params?.get("error");
   const errorMessage = errorCode ? ERROR_MESSAGES[errorCode] : null;
@@ -172,15 +174,9 @@ function SettingsPanelInner() {
     }
   }
 
-  async function unlink(providerId: ProviderId) {
-    if (
-      !window.confirm(
-        `${providerId === "discord" ? "Discord" : "YouTube"} との れんけいを かいじょしますか？`,
-      )
-    ) {
-      return;
-    }
+  async function doUnlink(providerId: ProviderId) {
     setBusy(providerId);
+    setConfirmReq((prev) => (prev ? { ...prev, busy: true } : prev));
     try {
       const res = await fetch(`${CHAT_API_BASE}/auth/${providerId}/unlink`, {
         method: "POST",
@@ -198,18 +194,25 @@ function SettingsPanelInner() {
       }
     } finally {
       setBusy(null);
+      setConfirmReq(null);
     }
   }
 
-  async function deleteAccount() {
-    if (
-      !window.confirm(
-        "アカウントを ぜんぶ けします。\nなまえ・スタンプカードの しんちょく・れんけいが すべて きえて、もとに もどせません。\n\nほんとうに よろしいですか?",
-      )
-    ) {
-      return;
-    }
+  function unlink(providerId: ProviderId) {
+    const label = providerId === "discord" ? "Discord" : "YouTube";
+    setConfirmReq({
+      title: `${label} の れんけいを かいじょする？`,
+      message: `${label} との れんけいを かいじょします。`,
+      confirmLabel: "かいじょする",
+      destructive: true,
+      onConfirm: () => doUnlink(providerId),
+      onCancel: () => setConfirmReq(null),
+    });
+  }
+
+  async function doDeleteAccount() {
     setBusy("delete");
+    setConfirmReq((prev) => (prev ? { ...prev, busy: true } : prev));
     try {
       const res = await fetch(`${CHAT_API_BASE}/me/delete`, {
         method: "POST",
@@ -218,6 +221,7 @@ function SettingsPanelInner() {
       if (!res.ok) {
         router.replace("/settings/?error=delete_failed");
         setBusy(null);
+        setConfirmReq(null);
         return;
       }
       try {
@@ -229,12 +233,25 @@ function SettingsPanelInner() {
     } catch {
       router.replace("/settings/?error=delete_failed");
       setBusy(null);
+      setConfirmReq(null);
     }
   }
 
-  async function logout() {
-    if (!window.confirm("ログアウトしますか？")) return;
+  function deleteAccount() {
+    setConfirmReq({
+      title: "アカウントを けす？",
+      message:
+        "なまえ・スタンプカードの しんちょく・れんけいが すべて きえて、もとに もどせません。\n\nほんとうに よろしいですか？",
+      confirmLabel: "ぜんぶ けす",
+      destructive: true,
+      onConfirm: doDeleteAccount,
+      onCancel: () => setConfirmReq(null),
+    });
+  }
+
+  async function doLogout() {
     setBusy("logout");
+    setConfirmReq((prev) => (prev ? { ...prev, busy: true } : prev));
     try {
       await fetch(`${CHAT_API_BASE}/auth/logout`, {
         method: "POST",
@@ -249,6 +266,16 @@ function SettingsPanelInner() {
       }
       window.location.href = "/";
     }
+  }
+
+  function logout() {
+    setConfirmReq({
+      title: "ログアウトする？",
+      message: "また あそびに きてね ♡",
+      confirmLabel: "ログアウト",
+      onConfirm: doLogout,
+      onCancel: () => setConfirmReq(null),
+    });
   }
 
   if (state.status === "loading" || state.status === "anonymous") {
@@ -384,6 +411,11 @@ function SettingsPanelInner() {
             disabled={busy !== null}
             style={{
               flex: 1,
+              // Override the default min-width: auto on flex items, which
+              // for inputs uses the intrinsic ~200px width. Without this the
+              // row overflows on narrow mobile viewports and the save button
+              // gets pushed past the card's right edge.
+              minWidth: 0,
               padding: "8px 12px",
               fontSize: 14,
               fontFamily: FONTS.body,
@@ -392,6 +424,7 @@ function SettingsPanelInner() {
               border: `2px solid ${PALETTE.ink}`,
               borderRadius: 10,
               outline: "none",
+              boxSizing: "border-box",
             }}
           />
           <button
@@ -614,6 +647,8 @@ function SettingsPanelInner() {
           {busy === "delete" ? "..." : "アカウントを けす"}
         </button>
       </div>
+
+      <ConfirmModal request={confirmReq} />
     </main>
   );
 }

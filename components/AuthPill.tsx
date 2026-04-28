@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { ConfirmModal, type ConfirmRequest } from "@/components/ConfirmModal";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -118,8 +119,10 @@ export function AuthPill() {
 
 function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
   const [open, setOpen] = useState(false);
+  const [confirmReq, setConfirmReq] = useState<ConfirmRequest | null>(null);
 
-  async function handleLogout() {
+  async function doLogout() {
+    setConfirmReq((prev) => (prev ? { ...prev, busy: true } : prev));
     try {
       await fetch(`${CHAT_API_BASE}/auth/logout`, {
         method: "POST",
@@ -135,6 +138,18 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
     }
     onLogout();
     setOpen(false);
+    setConfirmReq(null);
+  }
+
+  function requestLogout() {
+    setOpen(false);
+    setConfirmReq({
+      title: "ログアウトする？",
+      message: "また あそびに きてね ♡",
+      confirmLabel: "ログアウト",
+      onConfirm: doLogout,
+      onCancel: () => setConfirmReq(null),
+    });
   }
 
   return (
@@ -199,7 +214,7 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
             せってい
           </Link>
           <button
-            onClick={handleLogout}
+            onClick={requestLogout}
             style={{
               ...menuItemStyle(PALETTE.accent),
               background: "transparent",
@@ -212,6 +227,8 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
           </button>
         </div>
       )}
+
+      <ConfirmModal request={confirmReq} />
     </div>
   );
 }
