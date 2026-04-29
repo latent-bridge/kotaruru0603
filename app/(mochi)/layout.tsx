@@ -3,7 +3,6 @@ import { MOCHI, PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa, Kumo } from "@/components/mochi-ui";
 import { LiveBadge } from "@/components/live-badge";
 import { AuthPill } from "@/components/AuthPill";
-import { Nav } from "@/components/Nav";
 import { NameSetupModal } from "@/components/NameSetupModal";
 import { StampCardOverlay } from "@/components/StampCardOverlay";
 
@@ -112,8 +111,33 @@ function TopBar() {
       </div>
 
       {/* Row 2: navigation — "らいぶ" はライブ中のみ LiveBadge が上段に現れて /stream/ へ誘導するので常設ナビからは外す */}
-      <Nav />
+      <nav className="flex items-center gap-2 md:gap-3 flex-wrap mt-3 md:mt-4">
+        <NavPill href="/" label="おうち" />
+        <NavPill href="/schedule" label="よてい" />
+        <NavPill href="/archive" label="おもいで" />
+        <NavPill href="/chat" label="ざつだん" />
+      </nav>
     </header>
+  );
+}
+
+function NavPill({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        padding: "6px 14px",
+        borderRadius: 999,
+        background: "transparent",
+        border: `2px solid transparent`,
+        fontSize: 12,
+        fontWeight: 700,
+        color: PALETTE.ink,
+        textDecoration: "none",
+      }}
+    >
+      {label}
+    </Link>
   );
 }
 
