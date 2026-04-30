@@ -46,6 +46,8 @@ import {
   IconBow,
   IconKatana,
   IconCastle,
+  IconLive,
+  IconSearch,
 } from "./icons-full";
 
 type IconComp = React.ComponentType<{ size?: number; accent?: string }>;
@@ -118,6 +120,11 @@ const EMOJI_MAP: Record<string, IconComp> = {
   "⚔": IconKatana,
   "⚔️": IconKatana,
   "🏯": IconCastle,
+
+  // status / ui glyphs (true picture-emoji only — typographic glyphs like ✎,
+  // ★, ♡ are intentionally left as raw text since they read fine inline)
+  "🔴": IconLive,
+  "🔍": IconSearch,
 };
 
 export function Emo({

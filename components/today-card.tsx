@@ -64,15 +64,7 @@ export function TodayCard() {
           fontWeight: 900,
         }}
       >
-        {isOff ? (
-          <>
-            <Emo e="☁" size={11} accent={PALETTE.ink} /> きょうの ようす
-          </>
-        ) : (
-          <>
-            <Emo e="☀" size={11} accent={PALETTE.ink} /> きょうのよてい
-          </>
-        )}
+        {isOff ? "☁ きょうの ようす" : "☀ きょうのよてい"}
       </div>
 
       <div

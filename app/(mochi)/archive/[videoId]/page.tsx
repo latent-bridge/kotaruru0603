@@ -27,6 +27,7 @@ import {
   CollabChip,
 } from "@/components/archive-ui";
 import { ArchivePlayerWithChatToggle } from "@/components/stream-ui";
+import { Emo } from "@/components/emoji";
 
 export const dynamicParams = false;
 
@@ -317,7 +318,7 @@ function VideoHeader({
               fontFamily: FONTS.mono,
             }}
           >
-            🎮 {memory.game}
+            <Emo e="🎮" size={14} /> {memory.game}
           </span>
         )}
         {memory.episode !== null && (
@@ -349,7 +350,7 @@ function VideoHeader({
           letterSpacing: 0.5,
         }}
       >
-        <span>📅 {memory.date}</span>
+        <span><Emo e="📅" size={12} /> {memory.date}</span>
         <span>⏱ {memory.duration}</span>
         <span>👀 {memory.views} views</span>
         {memory.likeCount !== null && <span>♡ {memory.likeCount}</span>}

@@ -18,6 +18,7 @@ import {
   CATEGORY_COLORS,
   COLLAB_COLOR,
 } from "@/components/archive-ui";
+import { Emo } from "@/components/emoji";
 
 /** カテゴリチップで選べる値: 個別 Category / "collab"(コラボのみ) / null(ぜんぶ) */
 type CategoryFilter = Category | "collab" | null;
@@ -432,7 +433,7 @@ function SearchBox({
           pointerEvents: "none",
         }}
       >
-        🔍
+        <Emo e="🔍" size={14} accent={PALETTE.inkDim} />
       </span>
       <input
         type="search"

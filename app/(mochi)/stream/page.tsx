@@ -19,6 +19,7 @@ import {
   CollabChip,
 } from "@/components/archive-ui";
 import { StreamPlayer, StreamChat } from "@/components/stream-ui";
+import { Emo } from "@/components/emoji";
 
 function cleanTitle(title: string): string {
   return title.replace(/\s*(?:#\S+\s*)+$/u, "").trim() || title;
@@ -106,7 +107,7 @@ function LiveView({
     <>
       <header style={{ padding: "18px 0 14px" }}>
         <EyebrowChip bg={PALETTE.coral}>
-          <span style={{ color: "#fff" }}>🔴 LIVE NOW ♡</span>
+          <span style={{ color: "#fff" }}><Emo e="🔴" size={12} accent="#fff" /> LIVE NOW ♡</span>
         </EyebrowChip>
         <h1
           style={{
@@ -193,7 +194,7 @@ function MetaRow({ memory, videoId }: { memory: Memory; videoId: string }) {
             fontFamily: FONTS.mono,
           }}
         >
-          🎮 {memory.game}
+          <Emo e="🎮" size={14} /> {memory.game}
         </span>
       )}
       {memory.collabWith.map((name) => (
@@ -326,7 +327,7 @@ function UpcomingView({
               marginBottom: 6,
             }}
           >
-            📅 {date}{"  "}·{"  "}{time} 〜
+            <Emo e="📅" size={14} /> {date}{"  "}·{"  "}{time} 〜
           </div>
           <h2
             style={{
@@ -364,7 +365,7 @@ function UpcomingView({
                     fontFamily: FONTS.mono,
                   }}
                 >
-                  🎮 {memory.game}
+                  <Emo e="🎮" size={14} /> {memory.game}
                 </span>
               )}
               {memory.collabWith.map((name) => (
