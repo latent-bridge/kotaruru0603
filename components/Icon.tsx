@@ -170,6 +170,77 @@ export const ICON_MAP: Record<string, IconComp> = {
   search: IconSearch,
 };
 
+// Per-icon natural accent. Only listed when the icon has an obvious real-world
+// color that pink wouldn't read as. Anything not in this map falls back to
+// PALETTE.coral (the site's default warm pink). Callers can still override by
+// passing an explicit `accent` prop — that always wins.
+const ICON_ACCENTS: Record<string, string> = {
+  // water / sky
+  fish: PALETTE.sky,
+  rain: PALETTE.sky,
+  cloud: PALETTE.sky,
+
+  // plants
+  leaf: PALETTE.mint,
+
+  // sky bodies
+  sun: PALETTE.cream,
+  moon: PALETTE.lilac,
+  sparkle: PALETTE.lilac,
+  star: PALETTE.cream,
+
+  // gold / shiny
+  crown: PALETTE.cream,
+  trophy: PALETTE.cream,
+  key: PALETTE.cream,
+  bell: PALETTE.cream,
+
+  // signal / status
+  check: PALETTE.mint,
+  heart: PALETTE.accent,
+  live: PALETTE.accent,
+  letter: PALETTE.accent,
+
+  // food
+  ramen: PALETTE.cream,
+  candy: PALETTE.lilac,
+  onigiri: PALETTE.ink,
+
+  // dark equipment / glyph readability
+  pencil: PALETTE.ink,
+  camera: PALETTE.ink,
+  search: PALETTE.ink,
+  settings: PALETTE.ink,
+  arrow: PALETTE.ink,
+  user: PALETTE.ink,
+
+  // samurai (steel / dark)
+  katana: PALETTE.ink,
+  kabuto: PALETTE.ink,
+  shuriken: PALETTE.ink,
+  hinawa: PALETTE.ink,
+  mon: PALETTE.ink,
+  yumi: PALETTE.ink,
+  taiko: PALETTE.accent,
+  nobori: PALETTE.accent,
+
+  // military
+  tank: PALETTE.ink,
+  jet: PALETTE.ink,
+  missile: PALETTE.ink,
+  helmet: PALETTE.ink,
+  gasmask: PALETTE.ink,
+  grenade: PALETTE.ink,
+  barbed: PALETTE.ink,
+  radio: PALETTE.ink,
+  mg: PALETTE.ink,
+  boom: PALETTE.cream,
+};
+
+export function iconAccent(name: string): string {
+  return ICON_ACCENTS[name] ?? PALETTE.coral;
+}
+
 export function Icon({
   name,
   size = 16,
@@ -195,7 +266,7 @@ export function Icon({
     : { display: "inline-flex", lineHeight: 0, ...style };
   return (
     <span style={wrap}>
-      <Comp size={size} accent={accent || PALETTE.coral} />
+      <Comp size={size} accent={accent ?? iconAccent(name)} />
     </span>
   );
 }
