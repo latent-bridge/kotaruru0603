@@ -19,7 +19,6 @@ import {
   COLLAB_COLOR,
 } from "@/components/archive-ui";
 import { Icon } from "@/components/Icon";
-import { Emo } from "@/components/emoji";
 
 /** カテゴリチップで選べる値: 個別 Category / "collab"(コラボのみ) / null(ぜんぶ) */
 type CategoryFilter = Category | "collab" | null;

@@ -8,7 +8,7 @@ import {
   Onigiri,
 } from "@/components/mochi-ui";
 import { NotifyButton } from "@/components/NotifyButton";
-import { Emo } from "@/components/emoji";
+import { EntryIcon } from "@/components/EntryIcon";
 import { Icon } from "@/components/Icon";
 
 export default function SchedulePage() {
@@ -133,7 +133,7 @@ function ScheduleDay({
 
       <div>
         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-          <Emo e={entry.emoji} size={22} />
+          <EntryIcon value={entry.emoji} size={22} />
           <h2
             className="text-[18px] md:text-[22px]"
             style={{

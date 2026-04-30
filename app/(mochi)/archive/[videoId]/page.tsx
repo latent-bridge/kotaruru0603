@@ -27,7 +27,6 @@ import {
   CollabChip,
 } from "@/components/archive-ui";
 import { ArchivePlayerWithChatToggle } from "@/components/stream-ui";
-import { Emo } from "@/components/emoji";
 import { Icon } from "@/components/Icon";
 
 export const dynamicParams = false;

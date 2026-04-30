@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MOCHI, PALETTE, FONTS, isOffEntry, type ScheduleEntry } from "@/lib/mochi";
 import { MochiButton, TagList } from "@/components/mochi-ui";
 import { NotifyButton } from "@/components/NotifyButton";
-import { Emo } from "@/components/emoji";
+import { EntryIcon } from "@/components/EntryIcon";
 import { Icon } from "@/components/Icon";
 
 const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
@@ -142,7 +142,7 @@ export function TodayCard() {
               gap: 8,
             }}
           >
-            <Emo e={entry.emoji} size={26} />
+            <EntryIcon value={entry.emoji} size={26} />
             <span>おやすみ</span>
           </div>
           <p
@@ -176,7 +176,7 @@ export function TodayCard() {
               flexWrap: "wrap",
             }}
           >
-            <Emo e={entry.emoji} size={26} />
+            <EntryIcon value={entry.emoji} size={26} />
             <span style={{ flex: 1, minWidth: 0 }}>{entry.title}</span>
           </div>
           <div

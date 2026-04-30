@@ -8,7 +8,7 @@ import {
   type Category,
   type Memory,
 } from "@/lib/mochi";
-import { Emo } from "@/components/emoji";
+import { EntryIcon } from "@/components/EntryIcon";
 
 // ═══ SVG キャラクター ═══
 
@@ -287,7 +287,7 @@ export function MemoryCard({ memory }: { memory: Memory }) {
           position: "relative",
         }}
       >
-        <Emo e={memory.emoji} size={40} accent={PALETTE.ink} inline={false} />
+        <EntryIcon value={memory.emoji} size={40} accent={PALETTE.ink} inline={false} />
         <span
           style={{
             position: "absolute",

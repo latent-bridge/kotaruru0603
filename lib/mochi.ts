@@ -58,13 +58,13 @@ export type Memory = {
 };
 
 const DEFAULT_SCHEDULE: ScheduleEntry[] = [
-  { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "🎮", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
-  { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "⚔", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
-  { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", tags: ["おやすみ"], emoji: "💤", note: "すこし やすませてください 🙇" },
-  { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "🐟", note: "しばらく はなれてたから おさらいから" },
-  { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", tags: ["おはなし", "げーむ"], emoji: "🤝", note: "アリンお姉様と ヘルダイブ よてい ♡" },
-  { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "🎮", note: "しんさく ためしてみたいのが あるの" },
-  { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", tags: ["おしゃべり"], emoji: "🎙", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
+  { day: "mon", weekday: "げつ", dateLabel: "4.21", title: "ポンコツダイバー #22", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "controller", note: "Helldivers 2 さんかがた。ほのぼの えんせい" },
+  { day: "tue", weekday: "か", dateLabel: "4.22", title: "ポンコツ侍 第十章", time: "よる 21:00 〜", tags: ["げーむ"], emoji: "katana", note: "Ghost of Yotei Legends のつづき。やりなおすの なんかい目かな…" },
+  { day: "wed", weekday: "すい", dateLabel: "4.23", title: "おやすみ", time: "おやすみします", tags: ["おやすみ"], emoji: "moon", note: "すこし やすませてください" },
+  { day: "thu", weekday: "もく", dateLabel: "4.24", title: "Dave the diver (ひさびさ)", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "fish", note: "しばらく はなれてたから おさらいから" },
+  { day: "fri", weekday: "きん", dateLabel: "4.25", title: "ポンコツダイバー #23 [こらぼ]", time: "よる 21:00 〜", tags: ["おはなし", "げーむ"], emoji: "handshake", note: "アリンお姉様と ヘルダイブ よてい" },
+  { day: "sat", weekday: "ど", dateLabel: "4.26", title: "ゆるゲームわく", time: "よる 20:00 〜", tags: ["げーむ"], emoji: "controller", note: "しんさく ためしてみたいのが あるの" },
+  { day: "sun", weekday: "にち", dateLabel: "4.27", title: "ざつだん & つぎのよてい", time: "よる 21:00 〜", tags: ["おしゃべり"], emoji: "mic", note: "のんびり はなして、らいしゅうの ながれ きめたい" },
 ];
 
 type AdminScheduleEntry = {
@@ -126,7 +126,7 @@ function resolveSchedule(): ScheduleEntry[] {
       title: e?.title || "未定",
       time: e?.time || "",
       tags,
-      emoji: e?.emoji || (e ? "" : "💭"),
+      emoji: e?.emoji || (e ? "" : "bubble"),
       note: e?.note || "",
     });
   }
@@ -143,26 +143,26 @@ export const MOCHI = {
   },
 
   bottomCards: [
-    { t: "おしゃべり", jp: "らいぶへ", c: "coral" as const, ic: "🎙", sub: "いま 4,208 にんがみてるよ" },
-    { t: "おもいで", jp: "あーかいぶ", c: "lilac" as const, ic: "📼", sub: "みのがしもここで ♡" },
-    { t: "おとどけもの", jp: "ぐっず", c: "mint" as const, ic: "🎁", sub: "あたらしいの 3つ" },
+    { t: "おしゃべり", jp: "らいぶへ", c: "coral" as const, ic: "mic", sub: "いま 4,208 にんがみてるよ" },
+    { t: "おもいで", jp: "あーかいぶ", c: "lilac" as const, ic: "vhs", sub: "みのがしもここで ♡" },
+    { t: "おとどけもの", jp: "ぐっず", c: "mint" as const, ic: "gift", sub: "あたらしいの 3つ" },
   ],
 
   schedule: resolveSchedule(),
 
   memories: [
-    { id: "m01", title: "はじめてのはいしん", date: "2021.03.14", duration: "4:12", views: "128K", category: "おしゃべり" as Category, emoji: "✨", tone: "coral" as const },
-    { id: "m02", title: "10まんにん ありがとう", date: "2023.08.02", duration: "3:28", views: "94K", category: "おしゃべり" as Category, emoji: "💝", tone: "coral" as const },
-    { id: "m03", title: "さんしゅうねん きねん", date: "2024.03.14", duration: "5:02", views: "202K", category: "おしゃべり" as Category, emoji: "🎂", tone: "cream" as const },
-    { id: "m04", title: "うたわく vol.12", date: "2024.02.10", duration: "2:58", views: "72K", category: "うた" as Category, emoji: "🎤", tone: "lilac" as const },
-    { id: "m05", title: "おえかき、さむねづくり", date: "2024.11.05", duration: "3:14", views: "38K", category: "おえかき" as Category, emoji: "✎", tone: "mint" as const },
-    { id: "m06", title: "こらぼ、あさまでおはなし", date: "2024.09.21", duration: "4:10", views: "66K", category: "おはなし" as Category, emoji: "🤝", tone: "cream" as const },
-    { id: "m07", title: "ほらーがめ たえきゅう", date: "2024.10.12", duration: "4:18", views: "48K", category: "げーむ" as Category, emoji: "👻", tone: "lilac" as const },
-    { id: "m08", title: "りすなーさん さんかがた", date: "2025.10.08", duration: "2:12", views: "24K", category: "げーむ" as Category, emoji: "🎮", tone: "mint" as const },
-    { id: "m09", title: "あさ かつ、こーひーおしゃべり", date: "2024.08.02", duration: "1:28", views: "22K", category: "おしゃべり" as Category, emoji: "☕", tone: "cream" as const },
-    { id: "m10", title: "めんげん、えんちょうせん", date: "2025.01.18", duration: "2:42", views: "6K", category: "めんばー" as Category, emoji: "🌷", tone: "coral" as const },
-    { id: "m11", title: "しんさくゲーム しょけんプレイ", date: "2024.06.14", duration: "4:32", views: "84K", category: "げーむ" as Category, emoji: "🕹", tone: "mint" as const },
-    { id: "m12", title: "あすMR、まったり", date: "2024.04.02", duration: "1:15", views: "42K", category: "おしゃべり" as Category, emoji: "🌙", tone: "lilac" as const },
+    { id: "m01", title: "はじめてのはいしん", date: "2021.03.14", duration: "4:12", views: "128K", category: "おしゃべり" as Category, emoji: "sparkle", tone: "coral" as const },
+    { id: "m02", title: "10まんにん ありがとう", date: "2023.08.02", duration: "3:28", views: "94K", category: "おしゃべり" as Category, emoji: "heart", tone: "coral" as const },
+    { id: "m03", title: "さんしゅうねん きねん", date: "2024.03.14", duration: "5:02", views: "202K", category: "おしゃべり" as Category, emoji: "cake", tone: "cream" as const },
+    { id: "m04", title: "うたわく vol.12", date: "2024.02.10", duration: "2:58", views: "72K", category: "うた" as Category, emoji: "mic", tone: "lilac" as const },
+    { id: "m05", title: "おえかき、さむねづくり", date: "2024.11.05", duration: "3:14", views: "38K", category: "おえかき" as Category, emoji: "pencil", tone: "mint" as const },
+    { id: "m06", title: "こらぼ、あさまでおはなし", date: "2024.09.21", duration: "4:10", views: "66K", category: "おはなし" as Category, emoji: "handshake", tone: "cream" as const },
+    { id: "m07", title: "ほらーがめ たえきゅう", date: "2024.10.12", duration: "4:18", views: "48K", category: "げーむ" as Category, emoji: "moon", tone: "lilac" as const },
+    { id: "m08", title: "りすなーさん さんかがた", date: "2025.10.08", duration: "2:12", views: "24K", category: "げーむ" as Category, emoji: "controller", tone: "mint" as const },
+    { id: "m09", title: "あさ かつ、こーひーおしゃべり", date: "2024.08.02", duration: "1:28", views: "22K", category: "おしゃべり" as Category, emoji: "mug", tone: "cream" as const },
+    { id: "m10", title: "めんげん、えんちょうせん", date: "2025.01.18", duration: "2:42", views: "6K", category: "めんばー" as Category, emoji: "flower", tone: "coral" as const },
+    { id: "m11", title: "しんさくゲーム しょけんプレイ", date: "2024.06.14", duration: "4:32", views: "84K", category: "げーむ" as Category, emoji: "arcade", tone: "mint" as const },
+    { id: "m12", title: "あすMR、まったり", date: "2024.04.02", duration: "1:15", views: "42K", category: "おしゃべり" as Category, emoji: "moon", tone: "lilac" as const },
   ] as Memory[],
 
   letters: [

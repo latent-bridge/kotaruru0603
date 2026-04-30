@@ -7,7 +7,7 @@ import {
   SectionTitle,
   Onigiri,
 } from "@/components/mochi-ui";
-import { Emo } from "@/components/emoji";
+import { EntryIcon } from "@/components/EntryIcon";
 import { Icon } from "@/components/Icon";
 import { ArchiveCard } from "@/components/archive-ui";
 import { TodayCard } from "@/components/today-card";
@@ -183,7 +183,7 @@ function MiniCards() {
                 flexShrink: 0,
               }}
             >
-              {card.ic}
+              <EntryIcon value={card.ic} size={26} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 16, fontWeight: 900 }}>{card.t}</div>
@@ -295,7 +295,7 @@ function WeekPreview() {
                 {s.dateLabel}
               </span>
               <div className="flex items-center gap-2 min-w-0">
-                <Emo e={s.emoji} size={20} />
+                <EntryIcon value={s.emoji} size={20} />
                 <span
                   className="text-[14px] md:text-[16px]"
                   style={{

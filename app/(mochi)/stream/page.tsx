@@ -19,7 +19,6 @@ import {
   CollabChip,
 } from "@/components/archive-ui";
 import { StreamPlayer, StreamChat } from "@/components/stream-ui";
-import { Emo } from "@/components/emoji";
 import { Icon } from "@/components/Icon";
 
 function cleanTitle(title: string): string {
