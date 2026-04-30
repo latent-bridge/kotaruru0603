@@ -294,7 +294,7 @@ function WeekPreview() {
                 {s.dateLabel}
               </span>
               <div className="flex items-center gap-2 min-w-0">
-                <span style={{ fontSize: 18 }}>{s.emoji}</span>
+                <Emo e={s.emoji} size={20} />
                 <span
                   className="text-[14px] md:text-[16px]"
                   style={{
