@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { Icon } from "@/components/Icon";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -81,10 +82,12 @@ function AuthPanelInner({ mode }: { mode: Mode }) {
   const altHref = mode === "login" ? "/register/" : "/login/";
   const altLabel = mode === "login" ? "とうろく" : "ログイン";
   const title = mode === "login" ? "ログイン" : "とうろく";
-  const lead =
-    mode === "login"
-      ? "いつものアカウントでログインして、ざつだんに参加しよう ♡"
-      : "はじめまして！ すきなサービスで 登録してね ♡";
+  const lead: React.ReactNode =
+    mode === "login" ? (
+      <>いつものアカウントでログインして、ざつだんに参加しよう <Icon name="heart" size={14} /></>
+    ) : (
+      <>はじめまして！ すきなサービスで 登録してね <Icon name="heart" size={14} /></>
+    );
 
   const startUrls = useMemo(() => {
     return Object.fromEntries(
@@ -284,7 +287,7 @@ function AuthPanelInner({ mode }: { mode: Mode }) {
               marginBottom: 6,
             }}
           >
-            メールを 送ったよ ♡
+            メールを 送ったよ <Icon name="heart" size={14} />
           </p>
           <p style={{ fontSize: 12, color: PALETTE.inkDim, lineHeight: 1.7 }}>
             <strong style={{ color: PALETTE.ink }}>{emailStatus.email}</strong> に

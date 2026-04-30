@@ -353,7 +353,7 @@ function VideoHeader({
       >
         <span><Icon name="calendar" size={12} /> {memory.date}</span>
         <span>⏱ {memory.duration}</span>
-        <span>👀 {memory.views} views</span>
+        <span>{memory.views} views</span>
         {memory.likeCount !== null && <span><Icon name="heart" size={12} /> {memory.likeCount}</span>}
         <a
           href={memory.youtubeUrl}

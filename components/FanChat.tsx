@@ -160,7 +160,7 @@ function Header({ status }: { status: Status }) {
           color: PALETTE.ink,
         }}
       >
-        <span style={{ fontSize: 18 }}>💬</span>
+        <Icon name="bubble" size={18} />
         <span style={{ fontSize: 13, fontWeight: 900 }}>
           みんなの こえ
         </span>

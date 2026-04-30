@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PALETTE, FONTS, TONE_BG } from "@/lib/mochi";
 import type { Category, Memory } from "@/lib/archive";
+import { Icon } from "@/components/Icon";
 
 function cardHref(memory: Memory): string {
   return `/archive/${memory.videoId}/`;
@@ -84,7 +85,7 @@ export function CollabChip({ name }: { name: string }) {
         fontFamily: FONTS.body,
       }}
     >
-      ♡ {name}
+      <Icon name="heart" size={11} /> {name}
     </span>
   );
 }
@@ -188,7 +189,7 @@ export function ArchiveCard({ memory }: { memory: Memory }) {
                 border: `1.5px solid ${PALETTE.ink}`,
               }}
             >
-              ★ PIN
+              <Icon name="star" size={11} /> PIN
             </span>
           )}
         </div>

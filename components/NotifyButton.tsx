@@ -10,6 +10,7 @@ import {
   subscribe,
   unsubscribe,
 } from "@/lib/push";
+import { Icon } from "@/components/Icon";
 
 const SITE_ID = "kotaruru0603";
 
@@ -121,7 +122,7 @@ export function NotifyButton({
     setConfirmReq({
       title: "ホーム画面に ついかしてね",
       message:
-        "ブラウザの 共有ボタン → 「ホーム画面に追加」 で アプリに できるよ。\nうまく いかない時は iPhone なら Safari、Android なら Chrome で ためしてね ♡",
+        <>ブラウザの 共有ボタン → 「ホーム画面に追加」 で アプリに できるよ。<br />うまく いかない時は iPhone なら Safari、Android なら Chrome で ためしてね <Icon name="heart" size={12} /></>,
       confirmLabel: "わかった",
       cancelLabel: null,
       onConfirm: close,
@@ -198,7 +199,7 @@ export function NotifyButton({
       return;
     }
     setConfirmReq({
-      title: "配信が はじまったら しらせるね ♡",
+      title: <>配信が はじまったら しらせるね <Icon name="heart" size={14} /></>,
       message:
         "つぎに ブラウザが 通知を ゆるすか きいてくるから、「許可」を おしてね。",
       confirmLabel: "つづける",
@@ -214,20 +215,20 @@ export function NotifyButton({
   // when Push isn't available so the user gets a real explanation rather
   // than a missing UI element.
 
-  // Show "しらせて ♡" during loading too — a disabled "..." button reads as
-  // "broken / hidden" on first paint before the support check completes.
-  const label = (() => {
+  // Show "しらせて ..." during loading too — a disabled "..." button reads
+  // as "broken / hidden" on first paint before the support check completes.
+  const label: React.ReactNode = (() => {
     switch (state.kind) {
       case "busy":
         return "...";
       case "on":
-        return "しらせる ♡";
+        return <>しらせる <Icon name="heart" size={12} accent={defaultVariant === "filled" ? "#fff" : undefined} /></>;
       case "loading":
       case "denied":
       case "needs_install":
       case "off":
       default:
-        return "しらせて ♡";
+        return <>しらせて <Icon name="heart" size={12} accent={defaultVariant === "filled" ? "#fff" : undefined} /></>;
     }
   })();
 

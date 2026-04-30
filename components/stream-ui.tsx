@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { Icon } from "@/components/Icon";
 
 // ═══════════════════════════════════════════════════════════════════════
 // アーカイブ詳細ページ: プレイヤー + チャットリプレイトグル
@@ -92,7 +93,7 @@ function PlayerWithOptionalChat({
             boxShadow: open ? "none" : `2px 2px 0 ${PALETTE.inkSoft}`,
           }}
         >
-          💬 {open ? "チャットを とじる" : "チャットリプレイを ひらく"}
+          <Icon name="bubble" size={14} /> {open ? "チャットを とじる" : "チャットリプレイを ひらく"}
         </button>
       </div>
 
@@ -329,7 +330,7 @@ function ChatReplay({
             fontWeight: 700,
           }}
         >
-          💬 CHAT REPLAY
+          <Icon name="bubble" size={14} /> CHAT REPLAY
         </span>
         {all && (
           <span
@@ -367,7 +368,7 @@ function ChatReplay({
         )}
         {all && displayed.length === 0 && (
           <div style={{ fontSize: 11, color: PALETTE.inkDim, padding: 10 }}>
-            ▶ 動画を さいせいすると メッセージが ここに ながれるよ ♡
+            <Icon name="play" size={12} /> 動画を さいせいすると メッセージが ここに ながれるよ <Icon name="heart" size={12} />
           </div>
         )}
         {displayed.map((m, i) => (
@@ -387,7 +388,7 @@ function ChatReplay({
           lineHeight: 1.5,
         }}
       >
-        ♡ 当時の チャットログを そのまま ながしてるよ
+        <Icon name="heart" size={11} /> 当時の チャットログを そのまま ながしてるよ
       </div>
     </div>
   );
@@ -456,8 +457,8 @@ function ChatLine({ m }: { m: Msg }) {
         >
           {m.a}
         </span>
-        {isOwner && <Badge>★</Badge>}
-        {isMod && <Badge>🔧</Badge>}
+        {isOwner && <Badge><Icon name="star" size={11} accent="#fff" /></Badge>}
+        {isMod && <Badge>MOD</Badge>}
         {isSuper && m.sa && (
           <span
             style={{
@@ -623,7 +624,7 @@ export function StreamChat({ videoId }: { videoId: string }) {
             fontWeight: 700,
           }}
         >
-          💬 CHAT
+          <Icon name="bubble" size={14} /> CHAT
         </span>
         <a
           href={`https://www.youtube.com/watch?v=${videoId}`}
@@ -693,7 +694,7 @@ export function StreamChat({ videoId }: { videoId: string }) {
           }}
         >
           {accessState === "granted" ? (
-            <>Cookie きょかずみ。YouTube に ログインずみなら ここから おくれるよ ♡</>
+            <>Cookie きょかずみ。YouTube に ログインずみなら ここから おくれるよ <Icon name="heart" size={12} /></>
           ) : showEnableButton ? (
             <>サイトの なかから おくれるように するには →</>
           ) : (

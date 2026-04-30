@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { ConfirmModal, type ConfirmRequest } from "@/components/ConfirmModal";
+import { Icon } from "@/components/Icon";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -271,7 +272,7 @@ function SettingsPanelInner() {
   function logout() {
     setConfirmReq({
       title: "ログアウトする？",
-      message: "また あそびに きてね ♡",
+      message: <>また あそびに きてね <Icon name="heart" size={12} /></>,
       confirmLabel: "ログアウト",
       onConfirm: doLogout,
       onCancel: () => setConfirmReq(null),
@@ -474,7 +475,7 @@ function SettingsPanelInner() {
               fontWeight: 700,
             }}
           >
-            ほぞん しました ♡
+            ほぞん しました <Icon name="heart" size={11} />
           </div>
         )}
         {nameStatus.kind === "error" && (
@@ -553,7 +554,7 @@ function SettingsPanelInner() {
                       fontWeight: 700,
                     }}
                   >
-                    {linked ? "れんけいずみ ♡" : "みれんけい"}
+                    {linked ? <>れんけいずみ <Icon name="heart" size={11} /></> : "みれんけい"}
                   </span>
                 </div>
               </div>

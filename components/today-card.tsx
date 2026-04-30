@@ -110,7 +110,7 @@ export function TodayCard() {
               lineHeight: 1.25,
             }}
           >
-            よていは まだ きまってないよ ♡
+            よていは まだ きまってないよ <Icon name="heart" size={20} />
           </div>
           <p
             style={{

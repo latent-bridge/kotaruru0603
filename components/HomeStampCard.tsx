@@ -15,6 +15,7 @@ import {
 } from "@/lib/stamp";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { SectionTitle } from "@/components/mochi-ui";
+import { Icon } from "@/components/Icon";
 
 // undefined = loading, null = anonymous (or fetch failed), object = authed.
 type State = StampStatus | null | undefined;
@@ -67,7 +68,7 @@ export function HomeStampCard() {
           eyebrow on top of a Japanese title, both left-aligned. The card
           object itself stays centered: its slight rotation reads better
           with breathing room on both sides than flush against the gutter. */}
-      <SectionTitle eyebrow="☁ STAMP CARD ☁" title="すたんぷかーど" />
+      <SectionTitle eyebrow={<><Icon name="cloud" size={12} /> STAMP CARD <Icon name="cloud" size={12} /></>} title="すたんぷかーど" />
       <div className="flex justify-center">
         {status === undefined ? <Placeholder /> : <CardBody status={status} />}
       </div>
@@ -231,9 +232,6 @@ function StatusLine({ status }: { status: State }) {
       </Link>
     );
   }
-  const text = status.today_claimed
-    ? "きょうのすたんぷ もらった ♡"
-    : "きょうログインしたら 1 まい！";
   return (
     <div
       style={{
@@ -243,7 +241,11 @@ function StatusLine({ status }: { status: State }) {
         fontFamily: FONTS.body,
       }}
     >
-      {text}
+      {status.today_claimed ? (
+        <>きょうのすたんぷ もらった <Icon name="heart" size={12} /></>
+      ) : (
+        "きょうログインしたら 1 まい！"
+      )}
     </div>
   );
 }

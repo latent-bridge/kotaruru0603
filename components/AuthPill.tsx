@@ -146,7 +146,7 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
     setOpen(false);
     setConfirmReq({
       title: "ログアウトする？",
-      message: "また あそびに きてね ♡",
+      message: <>また あそびに きてね <Icon name="heart" size={12} /></>,
       confirmLabel: "ログアウト",
       onConfirm: doLogout,
       onCancel: () => setConfirmReq(null),

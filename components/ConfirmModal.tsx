@@ -4,9 +4,11 @@ import { useEffect, useRef } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
 
 export type ConfirmRequest = {
-  title: string;
-  // Multi-line strings render with line breaks preserved.
-  message: string;
+  title: React.ReactNode;
+  // Multi-line strings render with line breaks preserved (whiteSpace:
+  // pre-line). ReactNode also accepted so callers can mix <Icon /> into
+  // the body without falling back to raw unicode glyphs.
+  message: React.ReactNode;
   confirmLabel: string;
   // Pass `null` to hide the cancel button entirely (info-only modal).
   // `undefined` falls back to the default "やめる".
