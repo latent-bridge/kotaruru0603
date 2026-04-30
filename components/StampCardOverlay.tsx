@@ -8,6 +8,7 @@ import {
 } from "@/lib/stamp";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa } from "@/components/mochi-ui";
+import { Icon } from "@/components/Icon";
 
 type Phase =
   | "loading"
@@ -516,7 +517,7 @@ function CompletedBanner({ cardCount }: { cardCount: number }) {
           letterSpacing: 1.5,
         }}
       >
-        ★ CARD COMPLETE ★
+        <Icon name="star" size={14} /> CARD COMPLETE <Icon name="star" size={14} />
       </div>
       <div
         style={{
@@ -537,7 +538,7 @@ function CompletedBanner({ cardCount }: { cardCount: number }) {
           letterSpacing: 0.5,
         }}
       >
-        またあした、つぎのカードで ♡
+        またあした、つぎのカードで <Icon name="heart" size={12} />
       </div>
       <Sparkles />
     </div>
@@ -564,12 +565,11 @@ function Sparkles() {
             position: "absolute",
             left: p.left,
             top: p.top,
-            fontSize: 18,
             color: PALETTE.accent,
             animation: `stamp-sparkle 1400ms ease-in-out ${p.delay}ms infinite`,
           }}
         >
-          ✦
+          <Icon name="sparkle" size={18} accent={PALETTE.accent} />
         </span>
       ))}
     </>

@@ -5,6 +5,7 @@ import { MOCHI, PALETTE, FONTS, isOffEntry, type ScheduleEntry } from "@/lib/moc
 import { MochiButton, TagList } from "@/components/mochi-ui";
 import { NotifyButton } from "@/components/NotifyButton";
 import { Emo } from "@/components/emoji";
+import { Icon } from "@/components/Icon";
 
 const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
 
@@ -64,7 +65,15 @@ export function TodayCard() {
           fontWeight: 900,
         }}
       >
-        {isOff ? "☁ きょうの ようす" : "☀ きょうのよてい"}
+        {isOff ? (
+          <>
+            <Icon name="cloud" size={11} accent={PALETTE.ink} /> きょうの ようす
+          </>
+        ) : (
+          <>
+            <Icon name="sun" size={11} accent={PALETTE.ink} /> きょうのよてい
+          </>
+        )}
       </div>
 
       <div

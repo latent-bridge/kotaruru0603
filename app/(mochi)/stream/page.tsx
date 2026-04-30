@@ -20,6 +20,7 @@ import {
 } from "@/components/archive-ui";
 import { StreamPlayer, StreamChat } from "@/components/stream-ui";
 import { Emo } from "@/components/emoji";
+import { Icon } from "@/components/Icon";
 
 function cleanTitle(title: string): string {
   return title.replace(/\s*(?:#\S+\s*)+$/u, "").trim() || title;
@@ -107,7 +108,7 @@ function LiveView({
     <>
       <header style={{ padding: "18px 0 14px" }}>
         <EyebrowChip bg={PALETTE.coral}>
-          <span style={{ color: "#fff" }}><Emo e="🔴" size={12} accent="#fff" /> LIVE NOW ♡</span>
+          <span style={{ color: "#fff" }}><Icon name="live" size={12} accent="#fff" /> LIVE NOW <Icon name="heart" size={12} accent="#fff" /></span>
         </EyebrowChip>
         <h1
           style={{
@@ -143,7 +144,7 @@ function LiveView({
               marginBottom: 12,
             }}
           >
-            <EyebrowChip>☁ こんなのも ☁</EyebrowChip>
+            <EyebrowChip><Icon name="cloud" size={12} /> こんなのも <Icon name="cloud" size={12} /></EyebrowChip>
             <span
               style={{
                 fontSize: 11,
@@ -151,7 +152,7 @@ function LiveView({
                 color: PALETTE.inkDim,
               }}
             >
-              おなじげーむの かこはいしん ♡
+              おなじげーむの かこはいしん <Icon name="heart" size={12} />
             </span>
           </div>
           <div
@@ -194,7 +195,7 @@ function MetaRow({ memory, videoId }: { memory: Memory; videoId: string }) {
             fontFamily: FONTS.mono,
           }}
         >
-          <Emo e="🎮" size={14} /> {memory.game}
+          <Icon name="controller" size={14} /> {memory.game}
         </span>
       )}
       {memory.collabWith.map((name) => (
@@ -249,7 +250,7 @@ function UpcomingView({
         zIndex: 1,
       }}
     >
-      <EyebrowChip>☁ NEXT STREAM ☁</EyebrowChip>
+      <EyebrowChip><Icon name="cloud" size={12} /> NEXT STREAM <Icon name="cloud" size={12} /></EyebrowChip>
       <h1
         style={{
           fontFamily: FONTS.body,
@@ -327,7 +328,7 @@ function UpcomingView({
               marginBottom: 6,
             }}
           >
-            <Emo e="📅" size={14} /> {date}{"  "}·{"  "}{time} 〜
+            <Icon name="calendar" size={14} /> {date}{"  "}·{"  "}{time} 〜
           </div>
           <h2
             style={{
@@ -365,7 +366,7 @@ function UpcomingView({
                     fontFamily: FONTS.mono,
                   }}
                 >
-                  <Emo e="🎮" size={14} /> {memory.game}
+                  <Icon name="controller" size={14} /> {memory.game}
                 </span>
               )}
               {memory.collabWith.map((name) => (
@@ -439,7 +440,7 @@ function UpcomingThumbnail({ memory }: { memory: Memory }) {
 function NoStreamView() {
   return (
     <section style={{ padding: "40px 0 20px", position: "relative", zIndex: 1 }}>
-      <EyebrowChip>☁ OFFLINE ☁</EyebrowChip>
+      <EyebrowChip><Icon name="cloud" size={12} /> OFFLINE <Icon name="cloud" size={12} /></EyebrowChip>
       <h1
         style={{
           fontFamily: FONTS.body,
@@ -469,7 +470,7 @@ function NoStreamView() {
         }}
       >
         つぎの はいしんが きまったら ここに でるよ。<br />
-        よていは「よてい」から、アーカイブは「おもいで」から みてね ♡
+        よていは「よてい」から、アーカイブは「おもいで」から みてね <Icon name="heart" size={12} />
       </p>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <Link

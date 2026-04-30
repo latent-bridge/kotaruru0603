@@ -6,6 +6,7 @@ import { AuthPill } from "@/components/AuthPill";
 import { Nav } from "@/components/Nav";
 import { NameSetupModal } from "@/components/NameSetupModal";
 import { StampCardOverlay } from "@/components/StampCardOverlay";
+import { Icon } from "@/components/Icon";
 
 export default function MochiLayout({
   children,
@@ -136,7 +137,7 @@ function MochiFooter() {
             color: PALETTE.ink,
           }}
         >
-          ♡ またきてね
+          <Icon name="heart" size={11} /> またきてね
         </span>
       </div>
       <div

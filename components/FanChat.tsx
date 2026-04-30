@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa } from "@/components/mochi-ui";
 import { streamerConfig } from "@/config/streamer.config";
+import { Icon } from "@/components/Icon";
 
 const STREAMER_TAG = streamerConfig.chatTag;
 
@@ -339,7 +340,7 @@ function ComposeArea({ auth, siteId }: { auth: AuthState; siteId: string }) {
           }}
         >
           <span style={{ fontSize: 12, color: PALETTE.inkDim }}>
-            ログインすると かきこめるよ ♡
+            ログインすると かきこめるよ <Icon name="heart" size={12} />
           </span>
           <a href="/login/" style={linkPill(true)}>
             ログイン

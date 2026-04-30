@@ -1,5 +1,6 @@
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { EyebrowChip } from "@/components/mochi-ui";
+import { Icon } from "@/components/Icon";
 
 export const metadata = {
   title: "プライバシーポリシー — ruruのポンコツ部屋",
@@ -21,7 +22,7 @@ export default function PrivacyPage() {
       style={{ paddingTop: 24, paddingBottom: 80 }}
     >
       <header style={{ marginBottom: 28 }}>
-        <EyebrowChip>☁ PRIVACY POLICY ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> PRIVACY POLICY <Icon name="cloud" size={12} /></EyebrowChip>
         <h1
           style={{
             fontFamily: FONTS.body,

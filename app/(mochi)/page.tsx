@@ -8,6 +8,7 @@ import {
   Onigiri,
 } from "@/components/mochi-ui";
 import { Emo } from "@/components/emoji";
+import { Icon } from "@/components/Icon";
 import { ArchiveCard } from "@/components/archive-ui";
 import { TodayCard } from "@/components/today-card";
 import { HomeStampCard } from "@/components/HomeStampCard";
@@ -41,7 +42,7 @@ export default function HomePage() {
           zIndex: 0,
         }}
       >
-        <Emo e="♡" size={26} accent={PALETTE.accent} />
+        <Icon name="heart" size={26} accent={PALETTE.accent} />
       </div>
       <div
         style={{
@@ -52,7 +53,7 @@ export default function HomePage() {
           zIndex: 0,
         }}
       >
-        <Emo e="✦" size={22} accent={PALETTE.accent} />
+        <Icon name="sparkle" size={22} accent={PALETTE.accent} />
       </div>
     </main>
   );
@@ -64,7 +65,7 @@ function Hero() {
     <section className="pt-6 md:pt-8 pb-6 md:pb-8 grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-8 md:gap-10 items-start">
       <div>
         <EyebrowChip>
-          <Emo e="☁" size={12} /> HELLO <Emo e="☁" size={12} />
+          <Icon name="cloud" size={12} /> HELLO <Icon name="cloud" size={12} />
         </EyebrowChip>
         <h1
           className="text-[40px] md:text-[60px] lg:text-[76px]"
@@ -233,7 +234,7 @@ function WeekPreview() {
         <SectionTitle
           eyebrow={
             <>
-              <Emo e="☁" size={12} /> THIS WEEK <Emo e="☁" size={12} />
+              <Icon name="cloud" size={12} /> THIS WEEK <Icon name="cloud" size={12} />
             </>
           }
           title="こんしゅうのよてい"
@@ -335,7 +336,7 @@ function LatestMemories() {
         <SectionTitle
           eyebrow={
             <>
-              <Emo e="☁" size={12} /> RECENT MEMORIES <Emo e="☁" size={12} />
+              <Icon name="cloud" size={12} /> RECENT MEMORIES <Icon name="cloud" size={12} />
             </>
           }
           title="さいきんのおもいで"

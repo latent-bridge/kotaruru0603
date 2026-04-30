@@ -9,12 +9,13 @@ import {
 } from "@/components/mochi-ui";
 import { NotifyButton } from "@/components/NotifyButton";
 import { Emo } from "@/components/emoji";
+import { Icon } from "@/components/Icon";
 
 export default function SchedulePage() {
   return (
     <main className="max-w-[1040px] mx-auto px-5 md:px-10 relative">
       <header className="pt-6 md:pt-8 pb-6 md:pb-8">
-        <EyebrowChip>☁ THIS WEEK ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> THIS WEEK <Icon name="cloud" size={12} /></EyebrowChip>
         <h1
           className="text-[40px] md:text-[56px]"
           style={{
@@ -40,7 +41,7 @@ export default function SchedulePage() {
           style={{ color: PALETTE.inkDim, lineHeight: 1.9 }}
         >
           はいしんの よていは、かわることが あるかも。<br />
-          だいじな おしらせは X でも つぶやくので、あわせて みてね ♡
+          だいじな おしらせは X でも つぶやくので、あわせて みてね <Icon name="heart" size={12} />
         </p>
       </header>
 
@@ -192,7 +193,7 @@ function ScheduleDay({
           }}
         >
           <Fusen color={PALETTE.cream} rotate={6} style={{ fontSize: 11 }}>
-            ♡ まってるね
+            <Icon name="heart" size={11} /> まってるね
           </Fusen>
         </div>
       )}

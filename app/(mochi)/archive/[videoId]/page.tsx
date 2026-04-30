@@ -28,6 +28,7 @@ import {
 } from "@/components/archive-ui";
 import { ArchivePlayerWithChatToggle } from "@/components/stream-ui";
 import { Emo } from "@/components/emoji";
+import { Icon } from "@/components/Icon";
 
 export const dynamicParams = false;
 
@@ -130,7 +131,7 @@ function StreamDetail({ memory }: { memory: Memory }) {
       {related.length > 0 && (
         <RelatedSection
           title="こんなのも"
-          subtitle="にた はいしんを さがしてみた ♡"
+          subtitle={<>にた はいしんを さがしてみた <Icon name="heart" size={12} /></>}
           related={related}
           Card={ArchiveCard}
           columns="1 / sm:2 / lg:3"
@@ -186,7 +187,7 @@ function ClipDetail({ memory }: { memory: Memory }) {
       {related.length > 0 && (
         <RelatedSection
           title="ほかの くりっぷ"
-          subtitle="みじかい おもいで ♡"
+          subtitle={<>みじかい おもいで <Icon name="heart" size={12} /></>}
           related={related}
           Card={ClipCard}
           columns="2 / sm:3 / lg:4"
@@ -278,7 +279,7 @@ function VideoHeader({
   const displayTitle = cleanTitle(memory.title);
   return (
     <header style={{ marginBottom: 20 }}>
-      <EyebrowChip>☁ {kindLabel} ☁</EyebrowChip>
+      <EyebrowChip><Icon name="cloud" size={12} /> {kindLabel} <Icon name="cloud" size={12} /></EyebrowChip>
       <h1
         style={{
           fontFamily: FONTS.body,
@@ -318,7 +319,7 @@ function VideoHeader({
               fontFamily: FONTS.mono,
             }}
           >
-            <Emo e="🎮" size={14} /> {memory.game}
+            <Icon name="controller" size={14} /> {memory.game}
           </span>
         )}
         {memory.episode !== null && (
@@ -350,10 +351,10 @@ function VideoHeader({
           letterSpacing: 0.5,
         }}
       >
-        <span><Emo e="📅" size={12} /> {memory.date}</span>
+        <span><Icon name="calendar" size={12} /> {memory.date}</span>
         <span>⏱ {memory.duration}</span>
         <span>👀 {memory.views} views</span>
-        {memory.likeCount !== null && <span>♡ {memory.likeCount}</span>}
+        {memory.likeCount !== null && <span><Icon name="heart" size={12} /> {memory.likeCount}</span>}
         <a
           href={memory.youtubeUrl}
           target="_blank"
@@ -401,7 +402,7 @@ function DescriptionCard({ description }: { description: string }) {
           marginBottom: 8,
         }}
       >
-        ✎ DESCRIPTION
+        <Icon name="pencil" size={12} /> DESCRIPTION
       </div>
       <p
         style={{
@@ -571,7 +572,7 @@ function RelatedSection({
   columns,
 }: {
   title: string;
-  subtitle: string;
+  subtitle: React.ReactNode;
   related: Memory[];
   Card: (props: { memory: Memory }) => React.ReactNode;
   columns: RelatedColumns;
@@ -591,7 +592,7 @@ function RelatedSection({
           marginBottom: 12,
         }}
       >
-        <EyebrowChip>☁ {title} ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> {title} <Icon name="cloud" size={12} /></EyebrowChip>
         <span
           style={{
             fontSize: 11,

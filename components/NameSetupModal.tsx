@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
+import { Icon } from "@/components/Icon";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -154,7 +155,7 @@ export function NameSetupModal() {
               background: `linear-gradient(180deg, transparent 60%, ${PALETTE.cream}cc 60%)`,
             }}
           >
-            なまえを きめてね ♡
+            なまえを きめてね <Icon name="heart" size={14} />
           </span>
         </h2>
         <p

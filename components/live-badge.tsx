@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getStreamState, type StreamState } from "@/lib/archive";
 import { PALETTE } from "@/lib/mochi";
+import { Icon } from "@/components/Icon";
 
 const TICK_MS = 30_000;
 
@@ -48,7 +49,7 @@ export function LiveBadge() {
           animation: "pulse 1.2s ease-in-out infinite",
         }}
       />
-      らいぶちゅう ♡
+      らいぶちゅう <Icon name="heart" size={11} accent="#fff" />
     </Link>
   );
 }

@@ -18,6 +18,7 @@ import {
   CATEGORY_COLORS,
   COLLAB_COLOR,
 } from "@/components/archive-ui";
+import { Icon } from "@/components/Icon";
 import { Emo } from "@/components/emoji";
 
 /** カテゴリチップで選べる値: 個別 Category / "collab"(コラボのみ) / null(ぜんぶ) */
@@ -67,7 +68,7 @@ export default function ArchivePage() {
   return (
     <main className="max-w-[1200px] mx-auto px-5 md:px-10 relative">
       <header className="pt-6 md:pt-8 pb-5 md:pb-6">
-        <EyebrowChip>☁ MEMORY BOX ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> MEMORY BOX <Icon name="cloud" size={12} /></EyebrowChip>
         <h1
           className="text-[40px] md:text-[56px]"
           style={{
@@ -92,7 +93,7 @@ export default function ArchivePage() {
           style={{ color: PALETTE.inkDim, lineHeight: 1.9 }}
         >
           これまでの はいしんや くりっぷ、ぜんぶ ここに。<br />
-          タブで きりかえて、すきなやつを さがしてね ♡
+          タブで きりかえて、すきなやつを さがしてね <Icon name="heart" size={12} />
         </p>
       </header>
 
@@ -433,7 +434,7 @@ function SearchBox({
           pointerEvents: "none",
         }}
       >
-        <Emo e="🔍" size={14} accent={PALETTE.inkDim} />
+        <Icon name="search" size={14} accent={PALETTE.inkDim} />
       </span>
       <input
         type="search"
@@ -576,7 +577,7 @@ function EmptyState() {
         borderRadius: 18,
       }}
     >
-      <div style={{ fontSize: 42, marginBottom: 10 }}>☁</div>
+      <div style={{ marginBottom: 10 }}><Icon name="cloud" size={42} /></div>
       <div
         style={{
           fontSize: 16,
@@ -588,7 +589,7 @@ function EmptyState() {
         みつからなかった
       </div>
       <div style={{ fontSize: 12, color: PALETTE.inkDim }}>
-        べつの しゅるいや けんさくごで ためしてみてね ♡
+        べつの しゅるいや けんさくごで ためしてみてね <Icon name="heart" size={12} />
       </div>
     </div>
   );

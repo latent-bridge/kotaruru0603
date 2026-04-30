@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { ConfirmModal, type ConfirmRequest } from "@/components/ConfirmModal";
+import { Icon } from "@/components/Icon";
 
 const CHAT_API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
@@ -169,12 +170,7 @@ function UserMenu({ user, onLogout }: { user: User; onLogout: () => void }) {
         }}
         aria-expanded={open}
       >
-        <span
-          aria-hidden
-          style={{ fontSize: 12, color: PALETTE.accent, lineHeight: 1 }}
-        >
-          ♡
-        </span>
+        <Icon name="heart" size={12} accent={PALETTE.accent} />
         <span style={{ fontSize: 12, fontWeight: 700, color: PALETTE.ink }}>
           {user.display_name}
         </span>

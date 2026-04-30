@@ -1,6 +1,7 @@
 import { PALETTE, FONTS } from "@/lib/mochi";
 import { EyebrowChip, Kumo, Onigiri } from "@/components/mochi-ui";
 import { FanChat } from "@/components/FanChat";
+import { Icon } from "@/components/Icon";
 
 export default function ChatPage() {
   return (
@@ -34,7 +35,7 @@ export default function ChatPage() {
       <header
         style={{ padding: "18px 0 18px", position: "relative", zIndex: 1 }}
       >
-        <EyebrowChip>☁ ZATSUDAN ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> ZATSUDAN <Icon name="cloud" size={12} /></EyebrowChip>
         <h1
           style={{
             fontFamily: FONTS.body,
@@ -63,7 +64,7 @@ export default function ChatPage() {
             margin: 0,
           }}
         >
-          はいしんが なくても、ここで みんなと はなせるよ ♡
+          はいしんが なくても、ここで みんなと はなせるよ <Icon name="heart" size={12} />
           <br />
           いつきても だれかが いるかも。
         </p>
@@ -112,7 +113,7 @@ function RulesCard() {
       }}
     >
       <div style={{ marginBottom: 10 }}>
-        <EyebrowChip>☁ OKITE ☁</EyebrowChip>
+        <EyebrowChip><Icon name="cloud" size={12} /> OKITE <Icon name="cloud" size={12} /></EyebrowChip>
       </div>
       <h3
         style={{
@@ -153,7 +154,7 @@ function RulesCard() {
                 fontWeight: 900,
               }}
             >
-              ♡
+              <Icon name="heart" size={11} accent={PALETTE.coral} />
             </span>
             {r}
           </li>
