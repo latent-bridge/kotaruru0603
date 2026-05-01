@@ -552,45 +552,22 @@ export function StreamPlayer({
 // /stream ページ用の live chat (現状ライブ中のみ使用)
 // ═══════════════════════════════════════════════════════════════════════
 
-type DocWithStorageAccess = Document & {
-  requestStorageAccessFor?: (origin: string) => Promise<void>;
-};
-
 /**
- * /stream ページでライブ配信中に使うチャット iframe (従来通り)。
+ * /stream ページでライブ配信中に使うチャット iframe。コメントの「閲覧」
+ * のみで、送信は YouTube 本体に誘導する。以前は Storage Access API で
+ * iframe 内ログイン送信を試みていたが、不安定 + 規約面のグレーさから廃止。
  * アーカイブ (was_live) では使わず、ChatReplay を使うこと。
  */
 export function StreamChat({ videoId }: { videoId: string }) {
   const [host, setHost] = useState<string | null>(null);
-  const [reloadKey, setReloadKey] = useState(0);
-  const [supportsAccessFor, setSupportsAccessFor] = useState(false);
-  const [accessState, setAccessState] = useState<"idle" | "granted" | "denied">(
-    "idle",
-  );
 
   useEffect(() => {
     setHost(window.location.hostname);
-    const doc = document as DocWithStorageAccess;
-    setSupportsAccessFor(typeof doc.requestStorageAccessFor === "function");
   }, []);
-
-  const handleEnableLogin = async () => {
-    const doc = document as DocWithStorageAccess;
-    if (!doc.requestStorageAccessFor) return;
-    try {
-      await doc.requestStorageAccessFor("https://www.youtube.com");
-      setAccessState("granted");
-      setReloadKey((k) => k + 1);
-    } catch {
-      setAccessState("denied");
-    }
-  };
 
   const src = host
     ? `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${host}&dark_theme=0`
     : null;
-
-  const showEnableButton = supportsAccessFor && accessState !== "granted";
 
   return (
     <div
@@ -646,7 +623,6 @@ export function StreamChat({ videoId }: { videoId: string }) {
       <div style={{ flex: 1, position: "relative", background: "#fff" }}>
         {src ? (
           <iframe
-            key={reloadKey}
             src={src}
             title="YouTube live chat"
             style={{
@@ -674,64 +650,25 @@ export function StreamChat({ videoId }: { videoId: string }) {
 
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
           padding: "8px 12px",
           borderTop: `2px dashed ${PALETTE.inkSoft}`,
           background: PALETTE.paper,
-          flexWrap: "wrap",
+          fontSize: 10,
+          fontFamily: FONTS.body,
+          color: PALETTE.inkDim,
+          lineHeight: 1.6,
+          textAlign: "center",
         }}
       >
-        <div
-          style={{
-            flex: 1,
-            minWidth: 0,
-            fontSize: 10,
-            fontFamily: FONTS.body,
-            color: PALETTE.inkDim,
-            lineHeight: 1.5,
-          }}
+        コメントを おくるなら{" "}
+        <a
+          href={`https://www.youtube.com/watch?v=${videoId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: PALETTE.accent, fontWeight: 700, textDecoration: "none" }}
         >
-          {accessState === "granted" ? (
-            <>Cookie きょかずみ。YouTube に ログインずみなら ここから おくれるよ <Icon name="heart" size={12} /></>
-          ) : showEnableButton ? (
-            <>サイトの なかから おくれるように するには →</>
-          ) : (
-            <>
-              {accessState === "denied" && "きょかされなかったよ。 "}
-              おくるなら{" "}
-              <a
-                href={`https://www.youtube.com/watch?v=${videoId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: PALETTE.accent, fontWeight: 700 }}
-              >
-                YouTube で ひらく ↗
-              </a>
-            </>
-          )}
-        </div>
-        {showEnableButton && (
-          <button
-            onClick={handleEnableLogin}
-            style={{
-              background: PALETTE.coral,
-              color: "#fff",
-              border: `2px solid ${PALETTE.ink}`,
-              borderRadius: 10,
-              fontSize: 11,
-              fontFamily: FONTS.body,
-              padding: "6px 10px",
-              cursor: "pointer",
-              fontWeight: 900,
-              boxShadow: `2px 2px 0 ${PALETTE.ink}`,
-              whiteSpace: "nowrap",
-            }}
-          >
-            ログインゆうこう
-          </button>
-        )}
+          YouTube で ひらく ↗
+        </a>
       </div>
     </div>
   );
