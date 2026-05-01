@@ -161,6 +161,31 @@ export function ChatComposer({
     syncFromDom();
   }
 
+  // Stamps are atomic — they don't go through the editor. Picker tap
+  // posts directly with body `stamp:NAME`. The current draft text in
+  // the editor is preserved (user can still type + send normally).
+  async function sendStamp(name: string) {
+    if (sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/chat/${siteId}/send`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `stamp:${name}` }),
+      });
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        setError(translateError(payload.error, res.status));
+      }
+    } catch {
+      setError("つうしんに しっぱいしたみたい。もういちど おねがい");
+    } finally {
+      setSending(false);
+    }
+  }
+
   function clearEditor() {
     if (editorRef.current) editorRef.current.innerHTML = "";
     rootsRef.current.forEach((r) => {
@@ -271,7 +296,7 @@ export function ChatComposer({
             flexShrink: 0,
           }}
         >
-          <ChatEmojiPicker onPick={insertEmoji} />
+          <ChatEmojiPicker onPickEmoji={insertEmoji} onPickStamp={sendStamp} />
           <button
             onClick={send}
             disabled={!canSend}
