@@ -211,7 +211,6 @@ export function ChatComposer({
       }}
     >
       <div style={{ display: "flex", alignItems: "flex-end", gap: 8 }}>
-        <ChatEmojiPicker onPick={insertEmoji} />
         <div
           style={{
             position: "relative",
@@ -263,23 +262,33 @@ export function ChatComposer({
             }}
           />
         </div>
-        <button
-          onClick={send}
-          disabled={!canSend}
+        <div
           style={{
-            padding: "8px 14px",
-            border: `2px solid ${PALETTE.ink}`,
-            borderRadius: 12,
-            background: canSend ? PALETTE.accent : PALETTE.inkSoft,
-            color: canSend ? "#fff" : PALETTE.inkDim,
-            fontSize: 12,
-            fontWeight: 900,
-            cursor: canSend ? "pointer" : "not-allowed",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+            alignItems: "flex-end",
             flexShrink: 0,
           }}
         >
-          {sending ? "…" : "おくる"}
-        </button>
+          <ChatEmojiPicker onPick={insertEmoji} />
+          <button
+            onClick={send}
+            disabled={!canSend}
+            style={{
+              padding: "8px 14px",
+              border: `2px solid ${PALETTE.ink}`,
+              borderRadius: 12,
+              background: canSend ? PALETTE.accent : PALETTE.inkSoft,
+              color: canSend ? "#fff" : PALETTE.inkDim,
+              fontSize: 12,
+              fontWeight: 900,
+              cursor: canSend ? "pointer" : "not-allowed",
+            }}
+          >
+            {sending ? "…" : "おくる"}
+          </button>
+        </div>
       </div>
       <div
         style={{
