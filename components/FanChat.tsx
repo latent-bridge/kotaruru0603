@@ -5,6 +5,8 @@ import { PALETTE, FONTS } from "@/lib/mochi";
 import { MochiUsa } from "@/components/mochi-ui";
 import { streamerConfig } from "@/config/streamer.config";
 import { Icon } from "@/components/Icon";
+import { ChatBody } from "@/components/chat-emoji";
+import { ChatEmojiPicker } from "@/components/ChatEmojiPicker";
 
 const STREAMER_TAG = streamerConfig.chatTag;
 
@@ -296,7 +298,7 @@ function MessageBubble({
           wordBreak: "break-word",
         }}
       >
-        {message.content}
+        <ChatBody body={message.content} />
       </div>
     </div>
   );
@@ -408,6 +410,22 @@ function SendForm({ siteId, user }: { siteId: string; user: User }) {
     }
   }
 
+  function insertEmoji(name: string) {
+    const ta = textareaRef.current;
+    const insertion = `emoji:${name} `;
+    const start = ta?.selectionStart ?? message.length;
+    const end = ta?.selectionEnd ?? message.length;
+    const next = message.slice(0, start) + insertion + message.slice(end);
+    setMessage(next);
+    requestAnimationFrame(() => {
+      const el = textareaRef.current;
+      if (!el) return;
+      el.focus();
+      const pos = start + insertion.length;
+      el.setSelectionRange(pos, pos);
+    });
+  }
+
   return (
     <div
       style={{
@@ -420,6 +438,7 @@ function SendForm({ siteId, user }: { siteId: string; user: User }) {
       }}
     >
       <div style={{ display: "flex", alignItems: "flex-end", gap: 8 }}>
+        <ChatEmojiPicker onPick={insertEmoji} />
         <textarea
           ref={textareaRef}
           value={message}

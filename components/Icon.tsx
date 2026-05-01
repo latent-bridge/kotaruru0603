@@ -241,6 +241,21 @@ export function iconAccent(name: string): string {
   return ICON_ACCENTS[name] ?? PALETTE.coral;
 }
 
+// Tab-friendly grouping for the chat emoji picker (chat-inline-emoji.md).
+// Mirrors the comment-based sections in ICON_MAP above. Keep in sync with
+// ICON_MAP when adding new icons.
+export const ICON_CATEGORIES: { label: string; names: string[] }[] = [
+  { label: "はいしん", names: ["controller", "arcade", "disc", "vhs", "tv", "mic", "headphone", "play", "live", "trophy"] },
+  { label: "やりとり", names: ["bubble", "letter", "heart", "star", "bell", "pin", "tag", "camera", "link", "share"] },
+  { label: "くらし", names: ["house", "mug", "book", "pencil", "calendar", "clock", "key", "gift", "bag"] },
+  { label: "たべもの", names: ["onigiri", "cake", "ramen", "candy", "icecream"] },
+  { label: "てんき", names: ["cloud", "sun", "moon", "rain", "flower", "leaf", "sparkle"] },
+  { label: "かざり", names: ["crown", "ribbon", "balloon"] },
+  { label: "みんな", names: ["handshake", "fish", "bow", "usa"] },
+  { label: "さむらい", names: ["katana", "castle", "kabuto", "shuriken", "sensu", "mon", "yumi", "hinawa", "taiko", "nobori", "tank", "jet", "missile", "helmet", "gasmask", "grenade", "boom", "barbed", "radio", "mg"] },
+  { label: "そのた", names: ["search"] },
+];
+
 export function Icon({
   name,
   size = 16,
