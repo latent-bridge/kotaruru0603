@@ -6,7 +6,7 @@ import { MochiUsa } from "@/components/mochi-ui";
 import { streamerConfig } from "@/config/streamer.config";
 import { Icon } from "@/components/Icon";
 import { ChatBody } from "@/components/chat-emoji";
-import { ChatEmojiPicker } from "@/components/ChatEmojiPicker";
+import { ChatComposer } from "@/components/ChatComposer";
 
 const STREAMER_TAG = streamerConfig.chatTag;
 
@@ -42,8 +42,6 @@ type Props = {
 
 const API_BASE =
   process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
-
-const MESSAGE_MAX_LEN = 500;
 
 export function FanChat({ siteId = "kotaruru0603", height = 620 }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -351,7 +349,7 @@ function ComposeArea({ auth, siteId }: { auth: AuthState; siteId: string }) {
       </ComposeShell>
     );
   }
-  return <SendForm siteId={siteId} user={auth.user} />;
+  return <ChatComposer siteId={siteId} user={auth.user} />;
 }
 
 function ComposeShell({ children }: { children: React.ReactNode }) {
@@ -366,159 +364,6 @@ function ComposeShell({ children }: { children: React.ReactNode }) {
       {children}
     </div>
   );
-}
-
-function SendForm({ siteId, user }: { siteId: string; user: User }) {
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  const trimmed = message.trim();
-  const over = message.length > MESSAGE_MAX_LEN;
-  const canSend = !sending && !!trimmed && !over;
-
-  async function send() {
-    if (!canSend) return;
-    setSending(true);
-    setError(null);
-    try {
-      const res = await fetch(`${API_BASE}/chat/${siteId}/send`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
-      });
-      if (res.ok) {
-        setMessage("");
-        textareaRef.current?.focus();
-      } else {
-        const payload = await res.json().catch(() => ({}));
-        setError(translateError(payload.error, res.status));
-      }
-    } catch {
-      setError("つうしんに しっぱいしたみたい。もういちど おねがい");
-    } finally {
-      setSending(false);
-    }
-  }
-
-  function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-      e.preventDefault();
-      send();
-    }
-  }
-
-  function insertEmoji(name: string) {
-    const ta = textareaRef.current;
-    const insertion = `emoji:${name} `;
-    const start = ta?.selectionStart ?? message.length;
-    const end = ta?.selectionEnd ?? message.length;
-    const next = message.slice(0, start) + insertion + message.slice(end);
-    setMessage(next);
-    requestAnimationFrame(() => {
-      const el = textareaRef.current;
-      if (!el) return;
-      el.focus();
-      const pos = start + insertion.length;
-      el.setSelectionRange(pos, pos);
-    });
-  }
-
-  return (
-    <div
-      style={{
-        borderTop: `2px solid ${PALETTE.inkSoft}`,
-        padding: "10px 14px",
-        background: PALETTE.paper,
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "flex-end", gap: 8 }}>
-        <ChatEmojiPicker onPick={insertEmoji} />
-        <textarea
-          ref={textareaRef}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={onKeyDown}
-          placeholder={`${user.display_name} として はつげん…`}
-          rows={2}
-          style={{
-            flex: 1,
-            // Allow shrink below intrinsic textarea width so the send button
-            // doesn't get pushed past the row's right edge on narrow mobiles.
-            minWidth: 0,
-            resize: "none",
-            padding: "8px 10px",
-            border: `2px solid ${PALETTE.ink}`,
-            borderRadius: 12,
-            background: "#fff",
-            fontSize: 13,
-            fontFamily: FONTS.body,
-            color: PALETTE.ink,
-            outline: "none",
-            boxSizing: "border-box",
-          }}
-          disabled={sending}
-        />
-        <button
-          onClick={send}
-          disabled={!canSend}
-          style={{
-            padding: "8px 14px",
-            border: `2px solid ${PALETTE.ink}`,
-            borderRadius: 12,
-            background: canSend ? PALETTE.accent : PALETTE.inkSoft,
-            color: canSend ? "#fff" : PALETTE.inkDim,
-            fontSize: 12,
-            fontWeight: 900,
-            cursor: canSend ? "pointer" : "not-allowed",
-          }}
-        >
-          {sending ? "…" : "おくる"}
-        </button>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontSize: 10,
-          fontFamily: FONTS.mono,
-          color: over ? PALETTE.accent : PALETTE.inkDim,
-        }}
-      >
-        <span>{error ?? "⌘/Ctrl + Enter でそうしん"}</span>
-        <span>
-          {message.length}/{MESSAGE_MAX_LEN}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function translateError(code: string | undefined, status: number): string {
-  switch (code) {
-    case "empty_message":
-      return "なにか かいてね";
-    case "message_too_long":
-      return `${MESSAGE_MAX_LEN}もじ までにしてね`;
-    case "profile_incomplete":
-      return "プロフィールじょうほう が たりません";
-    case "rate_limited":
-      return "ちょっと はやすぎるみたい。少し おちついてね";
-    case "webhook_not_configured":
-      return "いま そうしんを せってい中…もう少し待ってね";
-    case "webhook_post_failed":
-    case "webhook_post_error":
-      return "Discord に とどかなかったみたい";
-    case "not_authenticated":
-      return "ログインの じかんが きれたみたい。もういちど ログインしてね";
-    default:
-      return `そうしん しっぱい (${status})`;
-  }
 }
 
 function linkPill(filled: boolean): React.CSSProperties {
