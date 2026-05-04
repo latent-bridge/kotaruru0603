@@ -2,24 +2,37 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getStreamState, type StreamState } from "@/lib/archive";
 import { PALETTE } from "@/lib/mochi";
 import { Icon } from "@/components/Icon";
 
-const TICK_MS = 30_000;
+const API_BASE =
+  process.env.NEXT_PUBLIC_CHAT_API_BASE ?? "https://chat.latent-bridge.com";
+const SITE_ID = "kotaruru0603";
+
+type LiveStateResponse = {
+  status: "live" | "offline";
+  video_id: string | null;
+};
 
 export function LiveBadge() {
-  const [state, setState] = useState<StreamState>(() =>
-    getStreamState(new Date()),
-  );
+  const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
-    const tick = () => setState(getStreamState(new Date()));
-    const t = setInterval(tick, TICK_MS);
-    return () => clearInterval(t);
+    let cancelled = false;
+    fetch(`${API_BASE}/public/live/${SITE_ID}`)
+      .then((r) => (r.ok ? (r.json() as Promise<LiveStateResponse>) : null))
+      .then((data) => {
+        if (!cancelled && data) setIsLive(data.status === "live");
+      })
+      .catch(() => {
+        /* network down → leave pill hidden */
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  if (state.kind !== "live") return null;
+  if (!isLive) return null;
 
   return (
     <Link

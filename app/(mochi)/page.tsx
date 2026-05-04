@@ -125,7 +125,7 @@ function Hero() {
           {streamer.tagline}
         </p>
         <div className="flex gap-3 mt-6 flex-wrap">
-          <MochiButton href="/schedule">みにいく →</MochiButton>
+          <MochiButton href="/stream">みにいく →</MochiButton>
         </div>
       </div>
 
@@ -143,7 +143,7 @@ function MiniCards() {
     <section className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 py-4 md:py-6">
       {cards.map((card) => {
         const hrefMap: Record<string, string> = {
-          おしゃべり: "/",
+          おしゃべり: "/chat",
           おもいで: "/archive",
         };
         const bgMap = {

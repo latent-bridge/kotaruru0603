@@ -143,7 +143,7 @@ export const MOCHI = {
   },
 
   bottomCards: [
-    { t: "おしゃべり", jp: "らいぶへ", c: "coral" as const, ic: "mic", sub: "いま 4,208 にんがみてるよ" },
+    { t: "おしゃべり", jp: "ざつだん", c: "coral" as const, ic: "bubble", sub: "みんなと はなそう" },
     { t: "おもいで", jp: "あーかいぶ", c: "lilac" as const, ic: "vhs", sub: "みのがしもここで ♡" },
     { t: "おとどけもの", jp: "ぐっず", c: "mint" as const, ic: "gift", sub: "あたらしいの 3つ" },
   ],
