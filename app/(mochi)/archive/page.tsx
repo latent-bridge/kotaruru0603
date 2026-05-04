@@ -91,7 +91,7 @@ export default function ArchivePage() {
           className="text-[13px] md:text-[14px] mt-4 md:mt-5 max-w-[520px]"
           style={{ color: PALETTE.inkDim, lineHeight: 1.9 }}
         >
-          これまでの はいしんや くりっぷ、ぜんぶ ここに。<br />
+          これまでの はいしんや しょーと、ぜんぶ ここに。<br />
           タブで きりかえて、すきなやつを さがしてね <Icon name="heart" size={12} />
         </p>
       </header>
@@ -190,7 +190,7 @@ function KindTabs({
 }) {
   const tabs: { v: Kind; label: string; count: number }[] = [
     { v: "stream", label: "はいしん", count: streamTotal },
-    { v: "clip", label: "くりっぷ", count: clipTotal },
+    { v: "clip", label: "しょーと", count: clipTotal },
   ];
   return (
     <nav

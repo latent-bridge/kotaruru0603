@@ -177,7 +177,7 @@ function ClipDetail({ memory }: { memory: Memory }) {
           padding: "0 4px",
         }}
       >
-        <VideoHeader memory={memory} kindLabel="CLIP" />
+        <VideoHeader memory={memory} kindLabel="SHORT" />
         {memory.description.trim().length > 0 && (
           <DescriptionCard description={memory.description} />
         )}
@@ -185,7 +185,7 @@ function ClipDetail({ memory }: { memory: Memory }) {
 
       {related.length > 0 && (
         <RelatedSection
-          title="ほかの くりっぷ"
+          title="ほかの しょーと"
           subtitle={<>みじかい おもいで <Icon name="heart" size={12} /></>}
           related={related}
           Card={ClipCard}
