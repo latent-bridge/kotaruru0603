@@ -40,14 +40,31 @@ jobs:
         run: pnpm infer:curated
 
       - name: Commit if changed
+        id: commit
         run: |
           git config user.name "latent-bridge[bot]"
           git config user.email "noreply@latent-bridge.com"
           git add data/archive.raw.json data/archive.curated.json
           if git diff --cached --quiet; then
             echo "No archive changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "auto: refresh archive from YouTube"
             git push
-            echo "Pushed archive update — deploy workflow will rebuild on push"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # A push made by GITHUB_TOKEN does NOT fire the deploy.yml `push` trigger
+      # (GitHub Actions doesn't chain workflows from the default token to avoid
+      # loops). Repository dispatch IS exempt from that rule, so we explicitly
+      # nudge deploy.yml via its existing content_updated dispatch listener.
+      - name: Trigger deploy via repository_dispatch
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/dispatches" \
+            -f event_type=content_updated
