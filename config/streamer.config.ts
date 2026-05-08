@@ -6,9 +6,8 @@ export const streamerConfig = {
 
   // 4-char tag (uppercase hex from sha1(user.id)) of ruru's fan-site account.
   // Used by FanChat to single out her messages with a different visual
-  // treatment. Currently a placeholder until ruru actually registers — swap
-  // this when her real tag is known.
-  chatTag: "7E0B",
+  // treatment.
+  chatTag: "8E5B",
 
   platforms: {
     youtube: {
