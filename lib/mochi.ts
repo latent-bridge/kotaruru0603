@@ -172,6 +172,32 @@ export const MOCHI = {
   ],
 };
 
+// 投げ銭(おうえん)ページのデータ。
+// presets の `icon` は Icon コンポーネントのアイコン名 (EntryIcon 経由で描画)、
+// `tone` は PALETTE のパステル名。recent は決済バックエンド未実装のうちは
+// デモ表示 (サイト内の memories / schedule デフォルトと同じ扱い)。
+export const SUPPORT = {
+  tagline:
+    "きょうの はいしん たのしかったら、よかったら 投げ銭で おうえん してね ♡\nきが むいたときだけで だいじょうぶ。",
+  minAmount: 100,
+  presets: [
+    { amount: 300, label: "こーひー", icon: "mug", tone: "cream" as const, blurb: "はいしんまえの いっぱいに" },
+    { amount: 500, label: "おやつ", icon: "candy", tone: "coral" as const, blurb: "しんやはいしんの おとも" },
+    { amount: 1000, label: "ごはん", icon: "ramen", tone: "mint" as const, blurb: "からい らーめん いっぱいぶん" },
+    { amount: 2000, label: "おうえん", icon: "heart", tone: "lilac" as const, blurb: "いつも ありがとう" },
+    { amount: 3000, label: "がちおうえん", icon: "star", tone: "cream" as const, blurb: "あたらしい まうすの たしに" },
+    { amount: 5000, label: "どーん", icon: "crown", tone: "coral" as const, blurb: "ほんとに ありがとうございます" },
+  ],
+  recent: [
+    { name: "こーひーとう", amount: 1000, msg: "レディアントふっき おめでとう🎉" },
+    { name: "りん", amount: 500, msg: "きょうの はいしん たのしかった！" },
+    { name: "あおいぺんぎん", amount: 300, msg: "ないすくらっち でした" },
+    { name: "くろねこ", amount: 3000, msg: "あたらしい まうす かって〜" },
+    { name: "つき", amount: 2000, msg: "おたんじょうび おめでとう🎂" },
+    { name: "しろぺん", amount: 500, msg: "おつるる！" },
+  ],
+} as const;
+
 export const CATEGORY_COLOR: Record<Category, { color: string; bg: string }> = {
   おしゃべり: { color: "#c25470", bg: "#fbe0e4" },
   げーむ: { color: "#7a6bb4", bg: "#e2dff2" },
